@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
 })
 export class AppLoginComponent {
 
-  dark: boolean;
+  dark: boolean 
 
   checked: boolean;
 
