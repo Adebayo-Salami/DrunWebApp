@@ -133,6 +133,7 @@ import {IconService} from './demo/service/iconservice';
 import {BreadcrumbService} from './breadcrumb.service';
 import {MenuService} from './app.menu.service';
 import { AppCodeModule } from './app.code.component';
+import { SpinnerComponentComponent } from './spinner-component/spinner-component.component';
 
 @NgModule({
     imports: [
@@ -253,6 +254,7 @@ import { AppCodeModule } from './app.code.component';
         TypographyComponent,
         TextComponent,
         WidgetsComponent,
+        SpinnerComponentComponent,
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
