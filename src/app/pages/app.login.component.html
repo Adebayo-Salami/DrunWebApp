@@ -1,43 +1,45 @@
 <div class="login-body" [ngClass]="{'layout-dark': dark, 'layout-light': !dark}">
-
-    <div class="login-content">
-        <div class="night-switch">
-            <p-button styleClass="dark-switch"  icon="pi pi-circle-on" (click)="dark = true"></p-button>
-            <p-button styleClass="light-switch"  icon="pi pi-circle-off" (click)="dark = false"></p-button>
-        </div>
-        <div class="login-panel">
-            <div class="login-panel-content">
-                <div class="logo">
-                    <img src="assets/layout/images/logo-mirage@2x.png" alt="mirage-layout" />
-                </div>
-                <h1>Sign in to Mirage</h1>
-                <p>Welcome, please use the form to sign-in Mirage network</p>
-                <div class="forms">
-                    <div class="login-input-wrapper">
-                        <label for="username">Username</label>
-                        <input id="username" pInputText placeholder="Type your username..." />
-                        <i class="pi pi-user"></i>
+    <p-toast></p-toast>
+        <div class="login-content">
+            <div class="night-switch">
+                <p-button styleClass="dark-switch"  icon="pi pi-circle-on" (click)="dark = true"></p-button>
+                <p-button styleClass="light-switch"  icon="pi pi-circle-off"></p-button>
+            </div>
+            <div class="login-panel">
+                <div class="login-panel-content">
+                    <div class="logo">
+                        <img style="width: 250px;" src="assets/layout/images/drunlogo.png" alt="deran" />
                     </div>
-
-                    <div class="login-input-wrapper">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Type your password" pPassword [feedback]="false"/>
-                        <i class="pi pi-lock"></i>
-                    </div>
-
-                    <div class="p-col-12">
-                        <p-checkbox [(ngModel)]="checked" label="Remember me" value="SaveInfo" binary="true"></p-checkbox>
-                    </div>
-
-
-                    <div class="buttons">
-                        <button pButton type="button" [routerLink]="['/']" label="Login"></button>
-                        <a href="#" class="secondary-button">Forget Password?</a>
-                    </div>
+                    <h1>Sign in to Drun Web App</h1>
+                    <p>Welcome, please use the form to sign-in</p>
+                    <form [formGroup]="loginForm" (ngSubmit)="login()">
+                        <div class="forms">
+                            <div class="login-input-wrapper">
+                                <label for="email">Email</label>
+                                <input id="email" name="email" type="email" formControlName="email" pInputText placeholder="Type your Email..." />
+                                <i class="pi pi-user"></i>
+                            </div>
+    
+                            <div class="login-input-wrapper">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" formControlName="password" placeholder="Type your password" pPassword [feedback]="false"/>
+                                <i class="pi pi-lock"></i>
+                            </div>
+    
+                            <div class="p-col-12">
+                                <p-checkbox [(ngModel)]="checked" formControlName="remember" label="Remember me" value="SaveInfo" binary="true"></p-checkbox>
+                            </div>
+    
+                            <div class="buttons">
+                                <button pButton type="submit" label="Login"></button>
+                                <a href="#" class="secondary-button">Forget Password?</a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
+    
+            <div class="desert"></div>
         </div>
-
-        <div class="desert"></div>
     </div>
-</div>
+    

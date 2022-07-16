@@ -1,7 +1,8 @@
+import { MessageService, ConfirmationService } from "primeng/api";
 import { MainComponent } from "./main/main.component";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HashLocationStrategy, LocationStrategy } from "@angular/common";
@@ -142,6 +143,7 @@ import { CreateButtonComponent } from "./components/create-button/create-button.
 import { LoadingComponent } from "./components/loading/loading.component";
 import { StickyNoteComponent } from "./components/sticky-note/sticky-note.component";
 import { TimeoutComponent } from "./components/timeout/timeout.component";
+import { ApiInterceptor } from "./interceptors/api.interceptor";
 
 @NgModule({
   imports: [
@@ -283,7 +285,11 @@ import { TimeoutComponent } from "./components/timeout/timeout.component";
     ProductService,
     MenuService,
     BreadcrumbService,
+    MessageService,
+    ConfirmationService,
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
   ],
+  exports: [ContactComponent, AppTopBarComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
