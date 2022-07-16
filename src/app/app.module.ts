@@ -135,6 +135,7 @@ import { IconService } from "./demo/service/iconservice";
 import { BreadcrumbService } from "./breadcrumb.service";
 import { MenuService } from "./app.menu.service";
 import { AppCodeModule } from "./app.code.component";
+import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { SpinnerComponentComponent } from "./spinner-component/spinner-component.component";
 import { ApiLoadingComponent } from "./components/api-loading/api-loading.component";
 import { ChartWidgetComponent } from "./components/chart-widget/chart-widget.component";
@@ -227,6 +228,7 @@ import { config } from "rxjs";
     AngularFireModule.initializeApp(config),
     AngularFireAuthModule,
     NgIdleKeepaliveModule.forRoot(),
+    ProgressSpinnerModule,
   ],
   declarations: [
     AppComponent,
