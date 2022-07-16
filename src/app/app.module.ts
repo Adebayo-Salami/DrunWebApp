@@ -135,6 +135,12 @@ import {MenuService} from './app.menu.service';
 import { AppCodeModule } from './app.code.component';
 import { SpinnerComponentComponent } from './spinner-component/spinner-component.component';
 import { ApiLoadingComponent } from './components/api-loading/api-loading.component';
+import { ChartWidgetComponent } from './components/chart-widget/chart-widget.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { CreateButtonComponent } from './components/create-button/create-button.component';
+import { LoadingComponent } from './components/loading/loading.component';
+import { StickyNoteComponent } from './components/sticky-note/sticky-note.component';
+import { TimeoutComponent } from './components/timeout/timeout.component';
 
 @NgModule({
     imports: [
@@ -257,6 +263,12 @@ import { ApiLoadingComponent } from './components/api-loading/api-loading.compon
         WidgetsComponent,
         SpinnerComponentComponent,
         ApiLoadingComponent,
+        ChartWidgetComponent,
+        ContactComponent,
+        CreateButtonComponent,
+        LoadingComponent,
+        StickyNoteComponent,
+        TimeoutComponent,
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

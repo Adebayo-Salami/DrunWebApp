@@ -1,0 +1,52 @@
+<form [formGroup]="leadPrimaryContactForm" class="py-5">
+    <div class="row">
+        <div class="col">
+            <div class="col-md-6">
+                <div class="p-fluid">
+                    <div class="p-field p-grid">
+                        <label for="first_name" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0">First Name</label>
+                        <div class="p-col-12 p-md-6">
+                            <input id="first_name" type="text" pInputText placeholder="First Name" formControlName="firstName">
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <label for="last_name" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0">Last Name</label>
+                        <div class="p-col-12 p-md-6">
+                            <input id="last_name" type="text" pInputText placeholder="Last Name" formControlName="lastName">
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <label for="mobile_number" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0">Mobile</label>
+                        <div class="p-col-12 p-md-6">
+                            <input id="mobile_number" type="text" pInputText
+                                   placeholder="Mobile Number" formControlName="mobileNumber">
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <label for="email" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0">Email</label>
+                        <div class="p-col-12 p-md-6">
+                            <input id="email" type="text" pInputText placeholder="Email" formControlName="email">
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <label for="designation" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0">Designation</label>
+                        <div class="p-col-12 p-md-6">
+                            <input id="designation" type="text" pInputText placeholder="Designation" formControlName="designation">
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <label for="Dob" class="p-col-12 p-mb-2 p-md-6 p-mb-md-0">Date of birth</label>
+                        <div class="p-col-12 p-md-6">
+                            <input id="Dob" type="date" pInputText placeholder="dateOfBirth" formControlName="dateOfBirth">
+                        </div>
+                    </div>
+                </div>
+                <div class="py-3 text-right">
+                    <button pButton pRipple type="button" *ngIf="editingContact" label="Edit" class="p-mr-2"></button>
+                    <button pButton pRipple type="button" *ngIf="editingContact" label="Update" class="p-mr-2"></button>
+                    <button pButton pRipple type="button" *ngIf="!editingContact" [disabled]="leadPrimaryContactForm.invalid" (click)="createContact()" label="save" class="mr-2"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,20 @@
+.sticky-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    .note{
+      background-image: url("sticky-note-bg.png");
+      background-size: contain;
+      color: #19228d;
+      min-height: 230px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 369px;
+      height: 100%;
+      padding: 0 45px;
+    }
+  }
+  
