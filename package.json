@@ -3,7 +3,7 @@
     "version": "10.0.0",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
+        "start": "nodemon server.js",
         "build": "ng build",
         "starts": "ng serve",
         "test": "ng test",
