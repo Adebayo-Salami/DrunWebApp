@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     // if (!this.fireBaseAuthService.isLoggedIn) {
-    if (false) {
+    if (true) {
       this.router.navigate(["login"]);
     }
     return true;

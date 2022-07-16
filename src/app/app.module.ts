@@ -1,7 +1,7 @@
+import { MainModule } from "./main/main.module";
 import { MessageService, ConfirmationService } from "primeng/api";
-import { MainComponent } from "./main/main.component";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -140,10 +140,12 @@ import { ApiLoadingComponent } from "./components/api-loading/api-loading.compon
 import { ChartWidgetComponent } from "./components/chart-widget/chart-widget.component";
 import { ContactComponent } from "./components/contact/contact.component";
 import { CreateButtonComponent } from "./components/create-button/create-button.component";
-import { LoadingComponent } from "./components/loading/loading.component";
 import { StickyNoteComponent } from "./components/sticky-note/sticky-note.component";
-import { TimeoutComponent } from "./components/timeout/timeout.component";
 import { ApiInterceptor } from "./interceptors/api.interceptor";
+import { AngularFireModule } from "@angular/fire";
+import { AngularFireAuthModule } from "@angular/fire/auth";
+import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
+import { config } from "rxjs";
 
 @NgModule({
   imports: [
@@ -220,6 +222,11 @@ import { ApiInterceptor } from "./interceptors/api.interceptor";
     TreeModule,
     TreeTableModule,
     VirtualScrollerModule,
+    ReactiveFormsModule,
+    MainModule,
+    AngularFireModule.initializeApp(config),
+    AngularFireAuthModule,
+    NgIdleKeepaliveModule.forRoot(),
   ],
   declarations: [
     AppComponent,
@@ -269,10 +276,7 @@ import { ApiInterceptor } from "./interceptors/api.interceptor";
     ChartWidgetComponent,
     ContactComponent,
     CreateButtonComponent,
-    LoadingComponent,
     StickyNoteComponent,
-    TimeoutComponent,
-    MainComponent,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
