@@ -58,6 +58,8 @@
         "primeng": "^11.2.0",
         "prismjs": "^1.25.0",
         "rxjs": "~6.5.5",
+        "sass": "^1.27.0",
+        "sass-loader": "^10.0.5",
         "tslib": "^2.0.0",
         "web-animations-js": "^2.3.2",
         "xlsx": "^0.18.5",
