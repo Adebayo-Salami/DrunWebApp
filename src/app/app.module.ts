@@ -134,6 +134,7 @@ import {BreadcrumbService} from './breadcrumb.service';
 import {MenuService} from './app.menu.service';
 import { AppCodeModule } from './app.code.component';
 import { SpinnerComponentComponent } from './spinner-component/spinner-component.component';
+import { ApiLoadingComponent } from './components/api-loading/api-loading.component';
 
 @NgModule({
     imports: [
@@ -255,6 +256,7 @@ import { SpinnerComponentComponent } from './spinner-component/spinner-component
         TextComponent,
         WidgetsComponent,
         SpinnerComponentComponent,
+        ApiLoadingComponent,
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
