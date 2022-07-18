@@ -70,6 +70,7 @@ export class AppLoginComponent implements OnInit {
         }
       },
       (error) => {
+        console.log(JSON.stringify(error));
         this.messageService.add({
           severity: "error",
           summary: "Authentication Error",
