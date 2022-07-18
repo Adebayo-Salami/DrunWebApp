@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { AuthenticateUserVM } from "../interfaces/auth";
+import { ResultVM } from "../interfaces/main";
 
 @Injectable({
   providedIn: "root",
@@ -12,7 +13,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  Authenticate(data: AuthenticateUserVM): Observable<any> {
-    return this.http.post<any>(this.baseUrl + "authenticate", data);
+  Authenticate(data: AuthenticateUserVM): Observable<ResultVM> {
+    return this.http.post<ResultVM>(this.baseUrl + "authenticate", data);
   }
 }

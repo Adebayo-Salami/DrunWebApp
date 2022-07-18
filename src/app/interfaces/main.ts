@@ -19,3 +19,9 @@ export interface Designation {
   caption?: string;
   description?: string;
 }
+
+export interface ResultVM {
+  isSuccessful: boolean;
+  message: string;
+  object: object;
+}
