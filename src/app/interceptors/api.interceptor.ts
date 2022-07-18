@@ -1,3 +1,4 @@
+import { AuthService } from "./../services/auth.service";
 import { Injectable } from "@angular/core";
 import {
   HttpHandler,
@@ -8,7 +9,7 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
-// import { ApiLoadingService } from "../services/api-loading.service";
+import { ApiLoadingService } from "../services/api-loading.service";
 import { catchError, map, tap } from "rxjs/operators";
 // import { FireBaseAuthService } from "../services/fire-base-auth.service";
 import { MessageService } from "primeng/api";
@@ -16,7 +17,8 @@ import { MessageService } from "primeng/api";
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
   constructor(
-    // private apiLoadingService: ApiLoadingService,
+    private apiLoadingService: ApiLoadingService,
+    private authService: AuthService,
     // private fireBaseAuthService: FireBaseAuthService,
     private messageService: MessageService
   ) {}
@@ -48,7 +50,7 @@ export class ApiInterceptor implements HttpInterceptor {
     });
 
     if (this.toShowOverlay(request)) {
-      //   Promise.resolve(null).then(() => this.apiLoadingService.show());
+      Promise.resolve(null).then(() => this.apiLoadingService.show());
     }
 
     return next.handle(request).pipe(
@@ -59,7 +61,7 @@ export class ApiInterceptor implements HttpInterceptor {
           if (token) {
             // this.fireBaseAuthService.replaceToken(token);
           }
-          //   this.apiLoadingService.hide();
+          this.apiLoadingService.hide();
         }
 
         return res;
@@ -79,7 +81,7 @@ export class ApiInterceptor implements HttpInterceptor {
           }
         }
 
-        // this.apiLoadingService.hide();
+        this.apiLoadingService.hide();
         // return throwError(errorMsg);
         return throwError(error);
       })
