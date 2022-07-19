@@ -288,6 +288,7 @@ const config = {
     CreateButtonComponent,
     StickyNoteComponent,
   ],
+  entryComponents: [ApiLoadingComponent],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     CountryService,

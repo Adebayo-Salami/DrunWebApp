@@ -31,6 +31,7 @@ export class ApiInterceptor implements HttpInterceptor {
     // const refreshToken = this.fireBaseAuthService.refreshToken;
     const token = this.token ?? "";
     const refreshToken = this.token ?? "";
+
     const headers = {
       Accept: "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -44,6 +45,7 @@ export class ApiInterceptor implements HttpInterceptor {
     if (request.responseType === "json") {
       headers["Content-Type"] = "application/json";
     }
+
     request = request.clone({
       setHeaders: headers,
       responseType: "json",

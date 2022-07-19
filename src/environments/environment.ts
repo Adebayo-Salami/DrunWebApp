@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // baseUrl: "https://localhost:44344/api/v1/",
-  baseUrl: "https://drunbackend.herokuapp.com/api/",
+  baseUrl: "https://localhost:44344/api/v1/",
+  //baseUrl: "https://drunbackend.herokuapp.com/api/",
 };
 
 /*

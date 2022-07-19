@@ -5,6 +5,8 @@ import { Router } from "@angular/router";
 import { MessageService } from "primeng/api";
 import { AuthenticateUserVM, AuthSessionVM } from "../interfaces/auth";
 import { BehaviorSubject } from "rxjs/internal/BehaviorSubject";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { Idle } from "@ng-idle/core";
 
 @Component({
   selector: "app-login",
@@ -20,9 +22,11 @@ export class AppLoginComponent implements OnInit {
   loggingIn$ = this.logginInSubject.asObservable();
 
   constructor(
+    public afAuth: AngularFireAuth,
     private authService: AuthService,
     private messageService: MessageService,
     private router: Router,
+    public idle: Idle,
     private formBuilder: FormBuilder // private fireBaseAuthService: FireBaseAuthService
   ) {}
 
