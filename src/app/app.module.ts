@@ -121,15 +121,17 @@ import { SpacingComponent } from "./utilities/spacing.component";
 import { TypographyComponent } from "./utilities/typography.component";
 import { TextComponent } from "./utilities/text.component";
 import { WidgetsComponent } from "./utilities/widgets.component";
+import { OverlayModule } from "@angular/cdk/overlay";
+import { DragDropModule } from "primeng/dragdrop";
 
 // Demo services
-import { CountryService } from "./demo/service/countryservice";
-import { EventService } from "./demo/service/eventservice";
-import { NodeService } from "./demo/service/nodeservice";
-import { CustomerService } from "./demo/service/customerservice";
-import { PhotoService } from "./demo/service/photoservice";
-import { ProductService } from "./demo/service/productservice";
-import { IconService } from "./demo/service/iconservice";
+// import { CountryService } from "./demo/service/countryservice";
+// import { EventService } from "./demo/service/eventservice";
+// import { NodeService } from "./demo/service/nodeservice";
+// import { CustomerService } from "./demo/service/customerservice";
+// import { PhotoService } from "./demo/service/photoservice";
+// import { ProductService } from "./demo/service/productservice";
+// import { IconService } from "./demo/service/iconservice";
 
 // Application services
 import { BreadcrumbService } from "./breadcrumb.service";
@@ -231,6 +233,11 @@ const config = {
     TreeModule,
     TreeTableModule,
     VirtualScrollerModule,
+    ProgressBarModule,
+    DragDropModule,
+    ReactiveFormsModule,
+    ProgressSpinnerModule,
+    OverlayModule,
     ReactiveFormsModule,
     MainModule,
     AngularFireModule.initializeApp(config),
@@ -291,13 +298,6 @@ const config = {
   entryComponents: [ApiLoadingComponent],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    CountryService,
-    CustomerService,
-    EventService,
-    IconService,
-    NodeService,
-    PhotoService,
-    ProductService,
     MenuService,
     BreadcrumbService,
     MessageService,

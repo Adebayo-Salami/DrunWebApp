@@ -52,7 +52,6 @@ export class ApiInterceptor implements HttpInterceptor {
     });
 
     if (this.toShowOverlay(request)) {
-      console.log("hERE");
       Promise.resolve(null).then(() => this.apiLoadingService.show());
     }
 
