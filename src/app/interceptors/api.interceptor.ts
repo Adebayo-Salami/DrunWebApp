@@ -29,8 +29,8 @@ export class ApiInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     // const token = this.fireBaseAuthService.token;
     // const refreshToken = this.fireBaseAuthService.refreshToken;
-    const token = "Access";
-    const refreshToken = "Access";
+    const token = this.token ?? "";
+    const refreshToken = this.token ?? "";
     const headers = {
       Accept: "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -50,6 +50,7 @@ export class ApiInterceptor implements HttpInterceptor {
     });
 
     if (this.toShowOverlay(request)) {
+      console.log("hERE");
       Promise.resolve(null).then(() => this.apiLoadingService.show());
     }
 
@@ -92,20 +93,23 @@ export class ApiInterceptor implements HttpInterceptor {
     const method = request.method;
 
     if (method === "GET") return false;
-    if (request.url.toLowerCase().indexOf("approve-quote-service") !== -1)
-      return false;
     if (method === "PUT" || method === "POST" || method === "DELETE")
       return true;
 
     const url = request.url.toLowerCase();
-    if (url.indexOf("convertleadtoclient") !== -1) {
-      return true;
-    }
 
-    if (url.indexOf("auth/login") !== -1) {
+    if (url.indexOf("Auth/authenticate") !== -1) {
       return true;
     }
 
     return false;
+  }
+
+  get token() {
+    return this.getSessionStorageItem("token");
+  }
+
+  getSessionStorageItem(key: string): any {
+    return JSON.parse(sessionStorage.getItem(key));
   }
 }

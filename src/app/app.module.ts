@@ -146,7 +146,15 @@ import { ApiInterceptor } from "./interceptors/api.interceptor";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFireAuthModule } from "@angular/fire/auth";
 import { NgIdleKeepaliveModule } from "@ng-idle/keepalive";
-import { config } from "rxjs";
+
+const config = {
+  apiKey: "F1312cd3123123YY1231122I41248o21412894H2G24h41829312312NKA132",
+  authDomain: "drunbackend.herokuapp.com",
+  projectId: "Drun",
+  storageBucket: "drunbackend.herokuapp.com",
+  messagingSenderId: "995912706561",
+  appId: "1:995912706561:web:f7e52139b03e85fa45ae00",
+};
 
 @NgModule({
   imports: [
