@@ -27,8 +27,6 @@ export class ApiInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    // const token = this.fireBaseAuthService.token;
-    // const refreshToken = this.fireBaseAuthService.refreshToken;
     const token = this.token ?? "";
     const refreshToken = this.token ?? "";
 
@@ -69,7 +67,6 @@ export class ApiInterceptor implements HttpInterceptor {
         return res;
       }),
       catchError((error: HttpErrorResponse) => {
-        let errorMsg = "";
         if (error.error instanceof ErrorEvent) {
           this.messageService.add({
             severity: "error",
@@ -78,7 +75,7 @@ export class ApiInterceptor implements HttpInterceptor {
           });
         } else {
           if (error.status == 445) {
-            //we need to login again
+            //login again
             // this.fireBaseAuthService.logout();
           }
         }

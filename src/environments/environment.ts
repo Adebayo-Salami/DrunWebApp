@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: "https://localhost:44344/api/v1/",
+  baseUrl: "https://localhost:44308/api/",
   //baseUrl: "https://drunbackend.herokuapp.com/api/",
 };
 
