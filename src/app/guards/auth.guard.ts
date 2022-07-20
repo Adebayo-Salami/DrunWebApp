@@ -26,10 +26,25 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    // if (!this.fireBaseAuthService.isLoggedIn) {
-    if (true) {
+    if (!this.isLoggedIn) {
       this.router.navigate(["login"]);
     }
-    return true;
+    return this.isLoggedIn;
+  }
+
+  get isLoggedIn(): boolean {
+    return this.token !== null && this.authUserProfile !== null;
+  }
+
+  get token() {
+    return this.getSessionStorageItem("token");
+  }
+
+  getSessionStorageItem(key: string): any {
+    return JSON.parse(sessionStorage.getItem(key));
+  }
+
+  get authUserProfile() {
+    return this.getSessionStorageItem("userProfile");
   }
 }

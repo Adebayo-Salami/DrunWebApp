@@ -20,7 +20,11 @@ export class AppMenuComponent implements OnInit {
 
   ConfigureAppMenu() {
     this.model = [
-      { label: "Dashboard", icon: "pi pi-fw pi-home", routerLink: ["/"] },
+      {
+        label: "Dashboard",
+        icon: "pi pi-fw pi-home",
+        routerLink: ["/main/dashboard"],
+      },
     ];
   }
 }
