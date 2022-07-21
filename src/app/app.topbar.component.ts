@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 import { AppMainComponent } from "./app.main.component";
 
 @Component({
@@ -386,7 +387,7 @@ import { AppMainComponent } from "./app.main.component";
                     <span>Executive</span>
                   </div>
                 </li>
-                <li class="layout-submenu-item">
+                <li class="layout-submenu-item" *ngIf="1 > 2">
                   <i class="pi pi-list icon icon-1"></i>
                   <div class="menu-text">
                     <p>Tasks</p>
@@ -394,7 +395,7 @@ import { AppMainComponent } from "./app.main.component";
                   </div>
                   <i class="pi pi-angle-right"></i>
                 </li>
-                <li class="layout-submenu-item">
+                <li class="layout-submenu-item" *ngIf="1 > 2">
                   <i class="pi pi-shopping-cart icon icon-2"></i>
                   <div class="menu-text">
                     <p>Payments</p>
@@ -411,8 +412,12 @@ import { AppMainComponent } from "./app.main.component";
                   <i class="pi pi-angle-right"></i>
                 </li>
                 <li class="layout-submenu-footer">
-                  <button class="signout-button">Sign Out</button>
-                  <button class="buy-mirage-button">Buy Mirage</button>
+                  <button class="signout-button" (click)="SignOut()">
+                    Sign Out
+                  </button>
+                  <button *ngIf="1 > 2" class="buy-mirage-button">
+                    Buy Mirage
+                  </button>
                 </li>
               </ul>
             </li>
@@ -494,8 +499,12 @@ import { AppMainComponent } from "./app.main.component";
                   <i class="pi pi-angle-right"></i>
                 </li>
                 <li class="layout-submenu-footer">
-                  <button class="signout-button">Sign Out</button>
-                  <button class="buy-mirage-button">Buy Mirage</button>
+                  <button class="signout-button" (click)="SignOut()">
+                    Sign Out
+                  </button>
+                  <button *ngIf="1 > 2" class="buy-mirage-button">
+                    Buy Mirage
+                  </button>
                 </li>
               </ul>
             </li>
@@ -508,10 +517,17 @@ import { AppMainComponent } from "./app.main.component";
 export class AppTopBarComponent {
   activeItem: number;
 
-  constructor(public app: AppMainComponent) {}
+  constructor(public app: AppMainComponent, private router: Router) {}
 
   mobileMegaMenuItemClick(index) {
     this.app.megaMenuMobileClick = true;
     this.activeItem = this.activeItem === index ? null : index;
+  }
+
+  SignOut() {
+    localStorage.clear();
+    sessionStorage.clear();
+
+    this.router.navigate(["/login"]);
   }
 }
