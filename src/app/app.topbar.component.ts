@@ -41,7 +41,7 @@ import { AppMainComponent } from "./app.main.component";
             <i class="pi pi-ellipsis-v"></i>
           </a>
 
-          <div class="layout-megamenu-wrapper">
+          <div class="layout-megamenu-wrapper" hidden="hidden">
             <a
               class="layout-megamenu-button"
               href="#"
@@ -138,6 +138,7 @@ import { AppMainComponent } from "./app.main.component";
         <div class="layout-topbar-right fadeInDown">
           <ul class="layout-topbar-actions">
             <li
+              *ngIf="1 > 2"
               #search
               class="search-item topbar-item"
               [ngClass]="{
@@ -164,6 +165,7 @@ import { AppMainComponent } from "./app.main.component";
               </ul>
             </li>
             <li
+              *ngIf="1 > 2"
               #calendar
               class="topbar-item"
               [ngClass]="{
@@ -250,6 +252,7 @@ import { AppMainComponent } from "./app.main.component";
             </li>
 
             <li
+              *ngIf="1 > 2"
               #gift
               class="topbar-item"
               [ngClass]="{
@@ -413,7 +416,7 @@ import { AppMainComponent } from "./app.main.component";
                 </li>
               </ul>
             </li>
-            <li>
+            <li *ngIf="1 > 2">
               <a
                 href="#"
                 class="layout-rightpanel-button"
