@@ -14,6 +14,8 @@ import {
   redirectUnauthorizedTo,
 } from "@angular/fire/auth-guard";
 
+const redirectLoggedInToHome = () => redirectLoggedInTo(["main"]);
+
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(["login"]);
 
 @NgModule({
