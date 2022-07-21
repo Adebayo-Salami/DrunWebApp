@@ -111,6 +111,7 @@ export class RoleSetupComponent implements OnInit {
             summary: "Failure",
             detail: data.message,
           });
+          this.fetching = false;
           return;
         }
         this.allRoles = data.object as RoleVM[];
@@ -123,7 +124,7 @@ export class RoleSetupComponent implements OnInit {
           summary: "Notice",
           detail:
             "Unable to get all roles at the moment.. Reason: [" +
-            error.error.message +
+            error.message +
             "]",
         });
         this.RunMessageDialogue();
@@ -181,7 +182,7 @@ export class RoleSetupComponent implements OnInit {
           summary: "Notice",
           detail:
             "Unable to create role  at the moment.. Reason: [" +
-            error.error.message +
+            error.message +
             "]",
         });
         this.RunMessageDialogue();
@@ -202,9 +203,11 @@ export class RoleSetupComponent implements OnInit {
   }
 
   GetRolePagesString(item: string[]): string {
-    let strValue: string;
+    let strValue: string = "";
     item.forEach((pageEnumKey) => {
-      strValue + this.GetPageEnumValue(+pageEnumKey) + ";";
+      if (pageEnumKey) {
+        strValue = strValue + this.GetPageEnumValue(+pageEnumKey) + ";";
+      }
     });
     return strValue;
   }

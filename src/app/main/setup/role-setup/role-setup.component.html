@@ -140,7 +140,7 @@
               <p-table
                 #dt
                 [value]="allRoles"
-                [(selection)]="v"
+                [(selection)]="selectedRoles"
                 dataKey="id"
                 styleClass="p-datatable-customers"
                 [rowHover]="true"
@@ -211,8 +211,8 @@
                     <td>
                       <p-tableCheckbox [value]="selected"></p-tableCheckbox>
                     </td>
-                    <td>{{ selected.rolename }}</td>
-                    <td>{{ selected.roledescription }}</td>
+                    <td>{{ selected.roleName }}</td>
+                    <td>{{ selected.roleDescription }}</td>
                     <td>{{ GetRolePagesString(selected.rolePages) }}</td>
                     <td>
                       <p-button

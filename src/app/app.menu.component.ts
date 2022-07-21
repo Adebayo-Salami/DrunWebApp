@@ -14,6 +14,12 @@ export class AppMenuComponent implements OnInit {
 
   ngOnInit() {
     this.ConfigureAppMenu();
+
+    if (!this.authUserProfile.role) {
+      sessionStorage.clear();
+      localStorage.clear();
+      return false;
+    }
   }
 
   onMenuClick() {
@@ -76,12 +82,13 @@ export class AppMenuComponent implements OnInit {
   }
 
   IsPageVisible(pageKey: number): boolean {
-    return true;
     let visible = false;
     let userProfile = this.authUserProfile as ProfileVM;
     let rolePages = userProfile.role.rolePages;
     rolePages.forEach((page) => {
-      if (+page == pageKey) visible = true;
+      if (page) {
+        if (+page == pageKey) visible = true;
+      }
     });
 
     return visible;
