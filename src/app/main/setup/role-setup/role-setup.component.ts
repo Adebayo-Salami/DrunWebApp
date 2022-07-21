@@ -1,10 +1,15 @@
 import { RoleService } from "./../../../services/role.service";
 import { PagesEnum } from "./../../../interfaces/main";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { MessageService, Message, ConfirmationService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
-import { CreateRoleVM, RoleVM } from "src/app/interfaces/role";
+import { CreateRoleVM, RoleVM, UpdateRoleVM } from "src/app/interfaces/role";
 
 @Component({
   selector: "app-role-setup",
@@ -29,6 +34,7 @@ export class RoleSetupComponent implements OnInit {
   fetching: boolean;
   allRoles: RoleVM[];
   selectedRoles: RoleVM[];
+  roleToEdit: RoleVM;
 
   constructor(
     private fb: FormBuilder,
@@ -135,6 +141,7 @@ export class RoleSetupComponent implements OnInit {
 
   CloseEditing() {
     this.editing = false;
+    this.roleToEdit = null;
     this.selectedPages = [];
     this.roleForm.reset();
   }
@@ -212,5 +219,130 @@ export class RoleSetupComponent implements OnInit {
     return strValue;
   }
 
-  UpdateRole() {}
+  EditRole(item: RoleVM) {
+    this.editing = true;
+    this.roleForm.addControl(
+      "ID",
+      new FormControl({ value: "", disabled: true }, Validators.required)
+    );
+    this.roleToEdit = item;
+    this.roleForm.patchValue({
+      ID: item.id,
+      RoleName: item.roleName,
+      RoleDescription: item.roleDescription,
+    });
+    this.selectedPages = this.allPages.filter((x) =>
+      item.rolePages.find((y) => +y == x.key)
+    );
+
+    this.formWrapper.nativeElement.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "start",
+    });
+  }
+
+  UpdateRole() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Updating Role...",
+    });
+    this.RunMessageDialogue();
+
+    const id = this.roleToEdit.id;
+    const postData: UpdateRoleVM = {
+      roleName: this.roleForm.get("RoleName").value,
+      roleDescription: this.roleForm.get("RoleDescription").value,
+      pages: this.selectedPages.map((x) => x.key),
+    };
+
+    this.roleService.UpdateRole(id, postData).subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          return;
+        }
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Notice",
+          detail: "Update Successful!",
+        });
+        this.RunMessageDialogue();
+        this.fetching = true;
+        this.CloseEditing();
+        this.FetchAllRoles();
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to update role at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.RunMessageDialogue();
+      }
+    );
+  }
+
+  DeleteRole(item: RoleVM) {
+    this.confirmationService.confirm({
+      message: "Are you sure you want to remove beat type?",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: "Removing role...",
+        });
+        this.RunMessageDialogue();
+
+        this.roleService.DeleteRole(item.id).subscribe(
+          async (data) => {
+            if (!data.isSuccessful) {
+              this.messageService.add({
+                severity: "error",
+                summary: "Failure",
+                detail: data.message,
+              });
+              return;
+            }
+
+            this.messageService.add({
+              severity: "success",
+              summary: "Removed",
+              detail: "Removed successfully",
+            });
+            this.RunMessageDialogue();
+
+            this.fetching = true;
+            const index = this.allRoles.indexOf(item);
+            if (index > -1) {
+              this.allRoles.splice(index, 1);
+            }
+            this.fetching = false;
+          },
+          (error) => {
+            console.log("Error: " + JSON.stringify(error));
+            this.messageService.add({
+              severity: "error",
+              summary: "Notice",
+              detail:
+                "Unable to remove role at the moment.. Reason: [" +
+                error.message +
+                "]",
+            });
+            this.RunMessageDialogue();
+          }
+        );
+      },
+    });
+  }
 }

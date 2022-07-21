@@ -16,3 +16,9 @@ export interface Role {
   roleDescription: string;
   rolePages: string;
 }
+
+export interface UpdateRoleVM {
+  roleName?: string;
+  roleDescription?: string;
+  pages?: number[];
+}
