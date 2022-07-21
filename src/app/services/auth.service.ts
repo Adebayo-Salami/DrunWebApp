@@ -14,6 +14,6 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   Authenticate(data: AuthenticateUserVM): Observable<ResultVM> {
-    return this.http.post<ResultVM>(this.baseUrl + "authenticate", data);
+    return this.http.post<ResultVM>(this.baseUrl + "Authenticate", data);
   }
 }

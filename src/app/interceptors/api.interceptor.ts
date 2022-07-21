@@ -8,19 +8,24 @@ import {
   HttpErrorResponse,
   HttpRequest,
 } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
+import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { ApiLoadingService } from "../services/api-loading.service";
 import { catchError, map, tap } from "rxjs/operators";
 // import { FireBaseAuthService } from "../services/fire-base-auth.service";
 import { MessageService } from "primeng/api";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class ApiInterceptor implements HttpInterceptor {
+  private logginInSubject = new BehaviorSubject<boolean>(false);
+  loggingIn$ = this.logginInSubject.asObservable();
+
   constructor(
     private apiLoadingService: ApiLoadingService,
     private authService: AuthService,
     // private fireBaseAuthService: FireBaseAuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   intercept(
@@ -74,6 +79,10 @@ export class ApiInterceptor implements HttpInterceptor {
             detail: `Error: ${error.error.message}`,
           });
         } else {
+          if (error.status == 401) {
+            this.logout();
+          }
+
           if (error.status == 445) {
             //login again
             // this.fireBaseAuthService.logout();
@@ -85,6 +94,19 @@ export class ApiInterceptor implements HttpInterceptor {
         return throwError(error);
       })
     );
+  }
+
+  async logout() {
+    this.messageService.add({
+      severity: "error",
+      summary: "Client-side Error",
+      detail: "Session Expired, Kindly login.",
+    });
+
+    this.logginInSubject.next(false);
+    sessionStorage.clear();
+    localStorage.clear();
+    this.router.navigate(["/login"]);
   }
 
   toShowOverlay(request: HttpRequest<any>): boolean {
