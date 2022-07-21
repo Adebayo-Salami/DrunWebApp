@@ -29,7 +29,7 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(["login"]);
             { path: "", redirectTo: "main", pathMatch: "full" },
             {
               path: "main",
-              canActivate: [AuthGuard, AngularFireAuthGuard],
+              canActivate: [AuthGuard],
               data: { authGuardPipe: redirectUnauthorizedToLogin },
               loadChildren: () =>
                 import("./main/main.module").then((m) => m.MainModule),
