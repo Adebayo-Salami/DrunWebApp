@@ -10,3 +10,9 @@ export interface RoleVM {
   roleDescription: string;
   rolePages: string[];
 }
+
+export interface Role {
+  roleName: string;
+  roleDescription: string;
+  rolePages: string;
+}

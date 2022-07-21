@@ -28,7 +28,7 @@ export class RoleSetupComponent implements OnInit {
   editing: boolean;
   fetching: boolean;
   allRoles: RoleVM[];
-  selectedRole: RoleVM;
+  selectedRoles: RoleVM[];
 
   constructor(
     private fb: FormBuilder,
@@ -105,6 +105,14 @@ export class RoleSetupComponent implements OnInit {
     this.fetching = true;
     this.roleService.GetAllRoles().subscribe(
       async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          return;
+        }
         this.allRoles = data.object as RoleVM[];
         this.fetching = false;
       },
@@ -146,6 +154,15 @@ export class RoleSetupComponent implements OnInit {
 
     this.roleService.CreateRole(postData).subscribe(
       async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          return;
+        }
+
         this.messageService.add({
           severity: "success",
           summary: "Completed",
