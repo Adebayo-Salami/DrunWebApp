@@ -54,37 +54,40 @@
                   class="p-col-12 p-mb-2 p-md-3 p-mb-md-0"
                   >Select Page(s) role can see:</label
                 >
-                <p-multiSelect
-                  [options]="allPages"
-                  [(ngModel)]="selectedPages"
-                  defaultLabel="Select Page(s)"
-                  optionLabel="value"
-                  class="multiselect-custom"
-                >
-                  <ng-template let-value pTemplate="selectedPages">
-                    <div
-                      class="country-item country-item-value"
-                      *ngFor="let option of selectedPages"
-                    >
-                      <div>
-                        {{ option.value }}
+                <div class="p-col-12 p-md-9">
+                  <p-multiSelect
+                    [options]="allPages"
+                    [(ngModel)]="selectedPages"
+                    defaultLabel="Select Page(s)"
+                    optionLabel="value"
+                    class="multiselect-custom"
+                    formControlName="RolePages"
+                  >
+                    <ng-template let-value pTemplate="selectedPages">
+                      <div
+                        class="country-item country-item-value"
+                        *ngFor="let option of selectedPages"
+                      >
+                        <div>
+                          {{ option.value }}
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      *ngIf="!selectedPages || selectedPages.length === 0"
-                      class="country-placeholder"
-                    >
-                      Select Page
-                    </div>
-                  </ng-template>
-                  <ng-template let-selected pTemplate="item">
-                    <div class="country-item">
-                      <div>
-                        {{ selected.value }}
+                      <div
+                        *ngIf="!selectedPages || selectedPages.length === 0"
+                        class="country-placeholder"
+                      >
+                        Select Page
                       </div>
-                    </div>
-                  </ng-template>
-                </p-multiSelect>
+                    </ng-template>
+                    <ng-template let-selected pTemplate="item">
+                      <div class="country-item">
+                        <div>
+                          {{ selected.value }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-multiSelect>
+                </div>
               </div>
             </div>
             <div class="p-grid">
@@ -210,7 +213,7 @@
                     </td>
                     <td>{{ selected.rolename }}</td>
                     <td>{{ selected.roledescription }}</td>
-                    <td>{{ selected.rolepages }}</td>
+                    <td>{{ GetRolePagesString(selected.rolePages) }}</td>
                     <td>
                       <p-button
                         label=""

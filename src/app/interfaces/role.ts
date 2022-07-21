@@ -1,5 +1,12 @@
 export interface CreateRoleVM {
   roleName: string;
   roleDescription: string;
-  rages: number[];
+  pages: number[];
+}
+
+export interface RoleVM {
+  id: number;
+  roleName: string;
+  roleDescription: string;
+  rolePages: string[];
 }

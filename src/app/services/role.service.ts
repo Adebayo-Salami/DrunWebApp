@@ -14,6 +14,10 @@ export class RoleService {
   constructor(private http: HttpClient) {}
 
   CreateRole(data: CreateRoleVM): Observable<ResultVM> {
-    return this.http.post<ResultVM>(this.baseUrl + "createrole", data);
+    return this.http.post<ResultVM>(this.baseUrl + "CreateRole", data);
+  }
+
+  GetAllRoles(): Observable<ResultVM> {
+    return this.http.get<ResultVM>(this.baseUrl + "GetAllRoles");
   }
 }
