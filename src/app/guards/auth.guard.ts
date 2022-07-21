@@ -7,16 +7,12 @@ import {
   Router,
 } from "@angular/router";
 import { Observable } from "rxjs";
-// import { FireBaseAuthService } from "../services/fire-base-auth.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthGuard implements CanActivate {
-  constructor(
-    // public fireBaseAuthService: FireBaseAuthService,
-    public router: Router
-  ) {}
+  constructor(public router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,

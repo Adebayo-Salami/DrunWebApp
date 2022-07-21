@@ -1,3 +1,4 @@
+import { DashboardComponent } from "./main/dashboard/dashboard.component";
 import { RouterModule } from "@angular/router";
 import { NgModule } from "@angular/core";
 

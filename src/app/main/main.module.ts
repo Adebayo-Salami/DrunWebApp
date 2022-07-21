@@ -71,7 +71,7 @@ import { ToggleButtonModule } from "primeng/togglebutton";
 import { KnobModule } from "primeng/knob";
 import { FullCalendarModule } from "primeng/fullcalendar";
 import { ToolbarModule } from "primeng/toolbar";
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from "./dashboard/dashboard.component";
 
 @NgModule({
   declarations: [
