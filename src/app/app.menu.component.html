@@ -6,14 +6,17 @@
             <i class="pi pi-lock-open" *ngIf="!app.staticMenuActive"></i>
         </a>
         <a routerLink="/">
-            <img alt="logo" src="assets/layout/images/logo-mirage@2x.png" />
-            <span class="app-name">Deran Energy</span>
+            <img alt="logo" src="assets/layout/images/drunlogo.png" />
+            <span class="app-name">Drun</span>
         </a>
     </div>
 
     <div class="layout-menu-container" (click)="onMenuClick()">
         <ul class="layout-menu">
-            <li app-menuitem *ngFor="let item of model; let i = index;" [item]="item" [index]="i" [root]="true"></li>
+            <!-- <li app-menuitem *ngFor="let item of model; let i = index;" [item]="item" [index]="i" [root]="true"></li> -->
+            <ng-container *ngFor="let item of model; let i = index;">
+                <li app-menuitem *ngIf="item.visible == null || item.visible" [item]="item" [index]="i" [root]="true"></li>
+            </ng-container>
         </ul>
     </div>
 </div>

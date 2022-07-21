@@ -3,4 +3,5 @@ export interface ProfileVM {
   lastname: string;
   othername: string;
   email: string;
+  isApproved: boolean;
 }

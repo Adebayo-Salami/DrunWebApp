@@ -7,6 +7,7 @@ import { AuthenticateUserVM, AuthSessionVM } from "../interfaces/auth";
 import { BehaviorSubject } from "rxjs/internal/BehaviorSubject";
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Idle } from "@ng-idle/core";
+import { ProfileVM } from "../interfaces/user";
 
 @Component({
   selector: "app-login",
@@ -86,12 +87,23 @@ export class AppLoginComponent implements OnInit {
 
   goHome() {
     this.logginInSubject.next(false);
-    this.messageService.add({
-      severity: "success",
-      summary: "Authentication Pass",
-      detail: "You successfully Login, wait while we redirect your connection",
-    });
-    return this.router.navigate(["/main/profile"]);
+
+    if (this.authUserProfile.isApproved) {
+      this.messageService.add({
+        severity: "success",
+        summary: "Authentication Pass",
+        detail:
+          "You successfully Login, wait while we redirect your connection",
+      });
+      return this.router.navigate(["/main/dashboard"]);
+    } else {
+      this.messageService.add({
+        severity: "success",
+        summary: "Account Registration Submitted",
+        detail:
+          "You have successfully been registered, kindly hold on for your system admin to approve your account.",
+      });
+    }
   }
 
   get isLoggedIn(): boolean {

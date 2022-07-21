@@ -71,6 +71,12 @@ import { ToggleButtonModule } from "primeng/togglebutton";
 import { KnobModule } from "primeng/knob";
 import { FullCalendarModule } from "primeng/fullcalendar";
 import { ToolbarModule } from "primeng/toolbar";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { CustomerOnboardingComponent } from './customer/customer-onboarding/customer-onboarding.component';
+import { CustomerOrderingComponent } from './customer/customer-ordering/customer-ordering.component';
+import { CustomerReportingComponent } from './customer/customer-reporting/customer-reporting.component';
+import { ProductSetupComponent } from './setup/product-setup/product-setup.component';
+import { RoleSetupComponent } from './setup/role-setup/role-setup.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +84,12 @@ import { ToolbarModule } from "primeng/toolbar";
     LoadingComponent,
     HumanizePipe,
     TimeoutComponent,
+    DashboardComponent,
+    CustomerOnboardingComponent,
+    CustomerOrderingComponent,
+    CustomerReportingComponent,
+    ProductSetupComponent,
+    RoleSetupComponent,
   ],
   imports: [
     AvatarModule,

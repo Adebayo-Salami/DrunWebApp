@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router";
 import { AppMainComponent } from "./app.main.component";
 
 @Component({
@@ -41,7 +42,7 @@ import { AppMainComponent } from "./app.main.component";
             <i class="pi pi-ellipsis-v"></i>
           </a>
 
-          <div class="layout-megamenu-wrapper">
+          <div class="layout-megamenu-wrapper" hidden="hidden">
             <a
               class="layout-megamenu-button"
               href="#"
@@ -138,6 +139,7 @@ import { AppMainComponent } from "./app.main.component";
         <div class="layout-topbar-right fadeInDown">
           <ul class="layout-topbar-actions">
             <li
+              *ngIf="1 > 2"
               #search
               class="search-item topbar-item"
               [ngClass]="{
@@ -164,6 +166,7 @@ import { AppMainComponent } from "./app.main.component";
               </ul>
             </li>
             <li
+              *ngIf="1 > 2"
               #calendar
               class="topbar-item"
               [ngClass]="{
@@ -250,6 +253,7 @@ import { AppMainComponent } from "./app.main.component";
             </li>
 
             <li
+              *ngIf="1 > 2"
               #gift
               class="topbar-item"
               [ngClass]="{
@@ -360,8 +364,8 @@ import { AppMainComponent } from "./app.main.component";
                   />
                 </span>
                 <span class="profile-info-wrapper">
-                  <h3>Olivia Eklund</h3>
-                  <span>Design</span>
+                  <h3>Adejumo Oluwakemi</h3>
+                  <span>Executive</span>
                 </span>
               </a>
               <ul class="profile-item-submenu fadeInDown">
@@ -379,11 +383,11 @@ import { AppMainComponent } from "./app.main.component";
                       alt="mirage-layout"
                       width="40"
                     />
-                    <h1>Olivia Eklund</h1>
-                    <span>Design</span>
+                    <h3>Adejumo Oluwakemi</h3>
+                    <span>Executive</span>
                   </div>
                 </li>
-                <li class="layout-submenu-item">
+                <li class="layout-submenu-item" *ngIf="1 > 2">
                   <i class="pi pi-list icon icon-1"></i>
                   <div class="menu-text">
                     <p>Tasks</p>
@@ -391,7 +395,7 @@ import { AppMainComponent } from "./app.main.component";
                   </div>
                   <i class="pi pi-angle-right"></i>
                 </li>
-                <li class="layout-submenu-item">
+                <li class="layout-submenu-item" *ngIf="1 > 2">
                   <i class="pi pi-shopping-cart icon icon-2"></i>
                   <div class="menu-text">
                     <p>Payments</p>
@@ -408,12 +412,16 @@ import { AppMainComponent } from "./app.main.component";
                   <i class="pi pi-angle-right"></i>
                 </li>
                 <li class="layout-submenu-footer">
-                  <button class="signout-button">Sign Out</button>
-                  <button class="buy-mirage-button">Buy Mirage</button>
+                  <button class="signout-button" (click)="SignOut()">
+                    Sign Out
+                  </button>
+                  <button *ngIf="1 > 2" class="buy-mirage-button">
+                    Buy Mirage
+                  </button>
                 </li>
               </ul>
             </li>
-            <li>
+            <li *ngIf="1 > 2">
               <a
                 href="#"
                 class="layout-rightpanel-button"
@@ -443,8 +451,8 @@ import { AppMainComponent } from "./app.main.component";
                   />
                 </span>
                 <span class="profile-info-wrapper">
-                  <h3>Olivia Eklund</h3>
-                  <span>Design</span>
+                  <h3>Adejumo Oluwakemi</h3>
+                  <span>Executive</span>
                 </span>
               </a>
               <ul class="fadeInDown">
@@ -462,8 +470,8 @@ import { AppMainComponent } from "./app.main.component";
                       alt="mirage-layout"
                       width="45"
                     />
-                    <h1>Olivia Eklund</h1>
-                    <span>Design</span>
+                    <h1>Adejumo Oluwakemi</h1>
+                    <span>Executive</span>
                   </div>
                 </li>
                 <li>
@@ -491,8 +499,12 @@ import { AppMainComponent } from "./app.main.component";
                   <i class="pi pi-angle-right"></i>
                 </li>
                 <li class="layout-submenu-footer">
-                  <button class="signout-button">Sign Out</button>
-                  <button class="buy-mirage-button">Buy Mirage</button>
+                  <button class="signout-button" (click)="SignOut()">
+                    Sign Out
+                  </button>
+                  <button *ngIf="1 > 2" class="buy-mirage-button">
+                    Buy Mirage
+                  </button>
                 </li>
               </ul>
             </li>
@@ -505,10 +517,17 @@ import { AppMainComponent } from "./app.main.component";
 export class AppTopBarComponent {
   activeItem: number;
 
-  constructor(public app: AppMainComponent) {}
+  constructor(public app: AppMainComponent, private router: Router) {}
 
   mobileMegaMenuItemClick(index) {
     this.app.megaMenuMobileClick = true;
     this.activeItem = this.activeItem === index ? null : index;
+  }
+
+  SignOut() {
+    localStorage.clear();
+    sessionStorage.clear();
+
+    this.router.navigate(["/login"]);
   }
 }
