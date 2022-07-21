@@ -1,10 +1,10 @@
 export const PagesEnum = {
   Dashboard: 1,
-  RoleSetup: 2,
-  ProductSetup: 3,
-  Onboarding: 4,
-  Ordering: 5,
-  Reporting: 6,
+  Setup_Role: 2,
+  Setup_Product: 3,
+  Customer_Onboarding: 4,
+  Customer_Ordering: 5,
+  Customer_Reporting: 6,
 };
 Object.freeze(PagesEnum);
 

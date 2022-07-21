@@ -1,1 +1,132 @@
-<p>role-setup works!</p>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="card">
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4>
+        Role Setup <br />
+        <small><p-messages [value]="msgs"></p-messages> </small>
+      </h4>
+      <hr />
+    </div>
+    <div class="p-card-body mt-4" #formWrapper id="formWrapper">
+      <div class="row">
+        <div class="col-7">
+          <form [formGroup]="roleForm" (ngSubmit)="CreateRole()">
+            <div class="p-fluid">
+              <div class="p-field p-grid">
+                <label
+                  for="isNameLabel"
+                  class="p-col-12 p-mb-2 p-md-3 p-mb-md-0"
+                  >Role Name:
+                </label>
+                <div class="p-col-12 p-md-9">
+                  <input
+                    id="isNameLabel"
+                    type="text"
+                    pInputText
+                    placeholder="Role Name"
+                    formControlName="RoleName"
+                  />
+                </div>
+              </div>
+              <div class="p-field p-grid">
+                <label
+                  for="isDescLabel"
+                  class="p-col-12 p-mb-2 p-md-3 p-mb-md-0"
+                  >Description:
+                </label>
+                <div class="p-col-12 p-md-9">
+                  <textarea
+                    type="text"
+                    rows="4"
+                    cols="14"
+                    pInputTextarea
+                    id="isDescLabel"
+                    placeholder="Role Description"
+                    formControlName="RoleDescription"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="p-field p-grid">
+                <label
+                  for="isPagesLabel"
+                  class="p-col-12 p-mb-2 p-md-3 p-mb-md-0"
+                  >Select Page(s) role can see:</label
+                >
+                <p-multiSelect
+                  [options]="allPages"
+                  [(ngModel)]="selectedPages"
+                  defaultLabel="Select Page(s)"
+                  optionLabel="value"
+                  class="multiselect-custom"
+                >
+                  <ng-template let-value pTemplate="selectedPages">
+                    <div
+                      class="country-item country-item-value"
+                      *ngFor="let option of selectedPages"
+                    >
+                      <div>
+                        {{ option.value }}
+                      </div>
+                    </div>
+                    <div
+                      *ngIf="!selectedPages || selectedPages.length === 0"
+                      class="country-placeholder"
+                    >
+                      Select Page
+                    </div>
+                  </ng-template>
+                  <ng-template let-selected pTemplate="item">
+                    <div class="country-item">
+                      <div>
+                        {{ selected.value }}
+                      </div>
+                    </div>
+                  </ng-template>
+                </p-multiSelect>
+              </div>
+            </div>
+            <div class="p-grid">
+              <div class="p-col-12 p-md-12">
+                <div class="pt-2 text-right">
+                  <button
+                    pButton
+                    pRipple
+                    type="submit"
+                    *ngIf="!editing"
+                    [disabled]="roleForm.invalid || selectedPages.length == 0"
+                    label="Create Role"
+                    icon="pi pi-plus-circle"
+                    class="p-button-raised p-mr-2 p-mb-2"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    type="submit"
+                    *ngIf="editing"
+                    (click)="CloseEditing()"
+                    label="Cancel Editing"
+                    icon="pi pi-times-circle"
+                    class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
+                  ></button>
+                  <button
+                    pButton
+                    pRipple
+                    type="button"
+                    *ngIf="editing"
+                    [disabled]="roleForm.invalid"
+                    (click)="UpdateRole()"
+                    icon="pi pi-save"
+                    label="Save"
+                    class="p-button-raised p-mr-0 p-mb-2"
+                  ></button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
