@@ -91,7 +91,7 @@ export class AppLoginComponent implements OnInit {
       summary: "Authentication Pass",
       detail: "You successfully Login, wait while we redirect your connection",
     });
-    return this.router.navigate(["/main"]);
+    return this.router.navigate(["/main/dashboard"]);
   }
 
   get isLoggedIn(): boolean {
