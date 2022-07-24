@@ -329,4 +329,15 @@ export class CustomerOnboardingComponent implements OnInit {
       },
     });
   }
+
+  GetMeansOfIdentificationString(identifier: number): string {
+    if (identifier == MeansOfIdentificationEnum.NIN) return "NIN";
+    if (identifier == MeansOfIdentificationEnum.BVN) return "BVN";
+    if (identifier == MeansOfIdentificationEnum.Drivers_License)
+      return "Drivers License";
+    if (identifier == MeansOfIdentificationEnum.Voters_Card)
+      return "Voters Card";
+
+    return "N/A";
+  }
 }

@@ -202,6 +202,7 @@
                         Mobile
                         <p-sortIcon field="mobile"></p-sortIcon>
                       </th>
+                      <th>Means Of Identification</th>
                       <th pSortableColumn="identificationNo">
                         Identification No
                         <p-sortIcon field="identificationNo"></p-sortIcon>
@@ -224,6 +225,13 @@
                       </td>
                       <td>{{ selected.name }}</td>
                       <td>{{ selected.mobile }}</td>
+                      <td>
+                        {{
+                          GetMeansOfIdentificationString(
+                            selected.meansOfIdentification
+                          )
+                        }}
+                      </td>
                       <td>{{ selected.identificationNumber }}</td>
                       <td>
                         {{ selected.dateRegistered | date: "yyyy-MM-dd" }}
