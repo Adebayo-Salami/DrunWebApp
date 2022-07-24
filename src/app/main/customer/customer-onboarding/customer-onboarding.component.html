@@ -144,9 +144,9 @@
                   [globalFilterFields]="[
                     'name',
                     'mobile',
-                    'identificationNo',
+                    'identificationNumber',
                     'address',
-                    'dateCreated'
+                    'dateRegistered'
                   ]"
                   [columns]="cols"
                 >
@@ -224,8 +224,10 @@
                       </td>
                       <td>{{ selected.name }}</td>
                       <td>{{ selected.mobile }}</td>
-                      <td>{{ selected.identificationNo }}</td>
-                      <td>{{ selected.dateCreated | date: "yyyy-MM-dd" }}</td>
+                      <td>{{ selected.identificationNumber }}</td>
+                      <td>
+                        {{ selected.dateRegistered | date: "yyyy-MM-dd" }}
+                      </td>
                       <td>{{ selected.address }}</td>
                       <td>
                         <p-button
