@@ -161,7 +161,7 @@ export class ProductSetupComponent implements OnInit {
     );
   }
 
-  EditRProduct(item: ProductVM) {
+  EditProduct(item: ProductVM) {
     this.editing = true;
     this.productForm.addControl(
       "ID",

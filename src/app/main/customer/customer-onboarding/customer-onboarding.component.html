@@ -1,1 +1,258 @@
-<p>customer-onboarding works!</p>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="p-grid card">
+  <div class="p-col-12">
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4>Customer Onboarding</h4>
+      </div>
+      <div class="p-card-body mt-4" #formWrapper id="formWrapper">
+        <div class="row card widget-timeline border p-4 mb-5">
+          <div class="col-7" style="width: 100%">
+            <form [formGroup]="customerForm" (ngSubmit)="RegisterCustomer()">
+              <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label for="cname">Name</label>
+                  <input
+                    id="cname"
+                    type="text"
+                    placeholder="Customer Name"
+                    formControlName="Name"
+                    pInputText
+                  />
+                </div>
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label
+                    for="cident"
+                    pTooltip="pecify Customer Means of Identication."
+                    tooltipPosition="top"
+                    >Select Means of Identification</label
+                  >
+                  <p-dropdown
+                    inputId="cident"
+                    [options]="allMeansOfIdentification"
+                    [(ngModel)]="theMeansOfIdentification"
+                    placeholder="--Select--"
+                    [showClear]="true"
+                    [filter]="true"
+                    optionLabel="value"
+                    formControlName="MID"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label for="cmobile">Mobile</label>
+                  <input
+                    id="cmobile"
+                    type="text"
+                    placeholder="Customer Mobile"
+                    formControlName="Mobile"
+                    pInputText
+                  />
+                </div>
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label
+                    for="cIdentify"
+                    pTooltip="Input Customer Specified Identication here."
+                    tooltipPosition="top"
+                    >BVN or NIN</label
+                  >
+                  <input
+                    id="cIdentify"
+                    type="number"
+                    placeholder="Customer BVN or NIN"
+                    formControlName="Identification"
+                    pInputText
+                  />
+                </div>
+              </div>
+              <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label for="caddr">Address</label>
+                  <textarea
+                    type="text"
+                    rows="4"
+                    cols="14"
+                    pInputTextarea
+                    id="caddr"
+                    placeholder="Customer Address"
+                    formControlName="Address"
+                  ></textarea>
+                </div>
+                <div class="p-field p-col-12 p-md-3" style="width: 50%"></div>
+              </div>
+              <div class="p-grid">
+                <div class="p-col-12 p-md-12">
+                  <div class="pt-2 text-right">
+                    <button
+                      style="width: 20%"
+                      pButton
+                      pRipple
+                      type="submit"
+                      *ngIf="!editing"
+                      [disabled]="customerForm.invalid"
+                      label="Register Customer"
+                      icon="pi pi-plus-circle"
+                      class="p-button-raised p-mr-2 p-mb-2"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      type="submit"
+                      *ngIf="editing"
+                      (click)="CloseEditing()"
+                      label="Cancel Editing"
+                      icon="pi pi-times-circle"
+                      class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      *ngIf="editing"
+                      [disabled]="customerForm.invalid"
+                      (click)="UpdateCustomer()"
+                      icon="pi pi-save"
+                      label="Save"
+                      class="p-button-raised p-mr-0 p-mb-2"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div *ngIf="fetching; else tableData" class="text-center">
+                <p-progressSpinner></p-progressSpinner>
+              </div>
+              <ng-template #tableData>
+                <p-table
+                  #dt
+                  [value]="allCustomers"
+                  [(selection)]="selectedCustomers"
+                  dataKey="id"
+                  styleClass="p-datatable-customers"
+                  [rowHover]="true"
+                  [rows]="10"
+                  [paginator]="true"
+                  [filterDelay]="0"
+                  [globalFilterFields]="[
+                    'name',
+                    'mobile',
+                    'identificationNo',
+                    'address',
+                    'dateCreated'
+                  ]"
+                  [columns]="cols"
+                >
+                  <ng-template pTemplate="caption">
+                    <div>
+                      <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-file-o"
+                        (click)="dt.exportCSV()"
+                        class="p-mr-2"
+                        pTooltip="CSV"
+                        tooltipPosition="bottom"
+                        label="export all"
+                      ></button>
+                      <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-filter"
+                        (click)="dt.exportCSV({ selectionOnly: true })"
+                        class="p-button-info p-ml-auto"
+                        pTooltip="Selection Only"
+                        tooltipPosition="bottom"
+                        label="export selected"
+                      ></button>
+                    </div>
+                    <div class="table-header">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input
+                          pInputText
+                          type="text"
+                          (input)="
+                            dt.filterGlobal($event.target.value, 'contains')
+                          "
+                          placeholder="Global Search"
+                        />
+                      </span>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th>
+                      <th pSortableColumn="name">
+                        Name
+                        <p-sortIcon field="name"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="mobile">
+                        Mobile
+                        <p-sortIcon field="mobile"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="identificationNo">
+                        Identification No
+                        <p-sortIcon field="identificationNo"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="dateCreated">
+                        Date Registered
+                        <p-sortIcon field="dateCreated"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="address">
+                        Addresss
+                        <p-sortIcon field="address"></p-sortIcon>
+                      </th>
+                      <th>Actions</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-selected>
+                    <tr class="p-selectable-row">
+                      <td>
+                        <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+                      </td>
+                      <td>{{ selected.name }}</td>
+                      <td>{{ selected.mobile }}</td>
+                      <td>{{ selected.identificationNo }}</td>
+                      <td>{{ selected.dateCreated | date: "yyyy-MM-dd" }}</td>
+                      <td>{{ selected.address }}</td>
+                      <td>
+                        <p-button
+                          label=""
+                          icon="pi pi-trash"
+                          styleClass="p-mr-2 p-button-danger"
+                          (onClick)="DeleteCustomer(selected)"
+                        ></p-button>
+                        <p-button
+                          label=""
+                          icon="pi pi-pencil"
+                          (onClick)="EditCustomer(selected)"
+                        ></p-button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="8">No Customer Onboarder Yet!</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
