@@ -295,7 +295,7 @@ export class RoleSetupComponent implements OnInit {
 
   DeleteRole(item: RoleVM) {
     this.confirmationService.confirm({
-      message: "Are you sure you want to remove beat type?",
+      message: "Are you sure you want to remove role?",
       accept: () => {
         this.messageService.add({
           severity: "info",
