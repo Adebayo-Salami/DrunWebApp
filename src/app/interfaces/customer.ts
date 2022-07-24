@@ -27,7 +27,7 @@ export interface CustomerVM {
   name: string;
   mobile: string;
   meansOfIdentification: number;
-  identificationNumber: string;
+  identificationNo: string;
   address: string;
   dateRegistered: Date;
 }

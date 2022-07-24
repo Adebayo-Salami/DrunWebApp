@@ -71,7 +71,7 @@ export class CustomerOnboardingComponent implements OnInit {
       { field: "name", header: "Name" },
       { field: "mobile", header: "Mobile" },
       { field: "meansOfIdentification", header: "Means Of Identification" },
-      { field: "identificationNumber", header: "Identification Number" },
+      { field: "identificationNo", header: "Identification Number" },
       { field: "address", header: "Address" },
       { field: "dateRegistered", header: "Date Registered" },
     ];
@@ -158,7 +158,7 @@ export class CustomerOnboardingComponent implements OnInit {
       name: this.customerForm.get("Name").value,
       mobile: this.customerForm.get("Mobile").value,
       meansOfIdentification: this.theMeansOfIdentification.key,
-      identificationNumber: this.customerForm.get("Identification").value,
+      identificationNumber: this.customerForm.get("Identification").value + "",
       address: this.customerForm.get("Address").value,
     };
 
@@ -213,7 +213,7 @@ export class CustomerOnboardingComponent implements OnInit {
       ID: item.id,
       Name: item.name,
       Mobile: item.mobile,
-      Identification: item.identificationNumber,
+      Identification: item.identificationNo,
       Address: item.address,
     });
 
@@ -237,7 +237,7 @@ export class CustomerOnboardingComponent implements OnInit {
       name: this.customerForm.get("Name").value,
       mobile: this.customerForm.get("Mobile").value,
       meansOfIdentification: this.theMeansOfIdentification.key,
-      identificationNumber: this.customerForm.get("Identification").value,
+      identificationNumber: this.customerForm.get("Identification").value + "",
       address: this.customerForm.get("Address").value,
     };
 
