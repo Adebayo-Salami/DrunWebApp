@@ -1,9 +1,17 @@
-import { CreateCustomerOrderVM } from "./../../../interfaces/customerorder";
+import {
+  CreateCustomerOrderVM,
+  UpdateCustomerOrderVM,
+} from "./../../../interfaces/customerorder";
 import { ProductService } from "./../../../services/product.service";
 import { ProductVM } from "./../../../interfaces/product";
 import { CustomerVM } from "./../../../interfaces/customer";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from "@angular/forms";
 import { Message, ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import {
@@ -276,12 +284,143 @@ export class CustomerOrderingComponent implements OnInit {
     );
   }
 
-  UpdateCustomerOrder() {}
+  EditOrder(item: CustomerOrderVM) {
+    this.editing = true;
+    this.customerOrderForm.addControl(
+      "ID",
+      new FormControl({ value: "", disabled: true }, Validators.required)
+    );
+    this.customerOrderToEdit = item;
+    this.theCustomer = this.allCustomers.find((x) => x.id == item.customerId);
+    this.theProduct = this.allProducts.find((x) => x.id == item.productId);
+    this.thePackSize = this.allPackSizes.find((x) => x.key == item.packSize);
+    this.thePaymentModes = this.allPaymentModes.find(
+      (x) => x.key == item.paymentMode
+    );
+    this.customerOrderForm.patchValue({
+      ID: item.id,
+      Quantity: item.quantity,
+      UnitPrice: item.unitPrice,
+      AmountPaid: item.amountPaid,
+      DatePaid: item.datePaid,
+    });
+
+    this.formWrapper.nativeElement.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "start",
+    });
+  }
+
+  UpdateCustomerOrder() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Updating Customer Order...",
+    });
+
+    const id = this.customerOrderToEdit.id;
+    const postData: UpdateCustomerOrderVM = {
+      customerId: this.theCustomer.id,
+      customerName: this.theCustomer.name,
+      productId: this.theProduct.id,
+      productName: this.theProduct.name,
+      quantity: this.customerOrderForm.get("Quantity").value,
+      packSize: this.thePackSize.key,
+      unitPrice: this.customerOrderForm.get("UnitPrice").value,
+      paymentMethod: this.thePaymentModes.key,
+      amountPaid: this.customerOrderForm.get("AmountPaid").value,
+      datePaid: this.customerOrderForm.get("DatePaid").value,
+    };
+
+    this.customerOrderService.UpdateCustomerOrder(id, postData).subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          return;
+        }
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Notice",
+          detail: "Update Successful!",
+        });
+        this.fetching = true;
+        this.CloseEditing();
+        this.FetchAllCustomers();
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to update customer order at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
 
   CloseEditing() {
     this.editing = false;
     this.customerOrderToEdit = null;
     this.customerOrderForm.reset();
+  }
+
+  DeleteOrder(item: CustomerOrderVM) {
+    this.confirmationService.confirm({
+      message: "Are you sure you want to remove customer order?",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: "Removing customer order...",
+        });
+
+        this.customerOrderService.DeleteCustomerOrder(item.id).subscribe(
+          async (data) => {
+            if (!data.isSuccessful) {
+              this.messageService.add({
+                severity: "error",
+                summary: "Failure",
+                detail: data.message,
+              });
+              return;
+            }
+
+            this.messageService.add({
+              severity: "success",
+              summary: "Removed",
+              detail: "Removed successfully",
+            });
+
+            this.fetching = true;
+            const index = this.allCustomerOrders.indexOf(item);
+            if (index > -1) {
+              this.allCustomerOrders.splice(index, 1);
+            }
+            this.fetching = false;
+          },
+          (error) => {
+            console.log("Error: " + JSON.stringify(error));
+            this.messageService.add({
+              severity: "error",
+              summary: "Notice",
+              detail:
+                "Unable to remove customer order at the moment.. Reason: [" +
+                error.message +
+                "]",
+            });
+          }
+        );
+      },
+    });
   }
 
   SubmitOrderBatch() {}
