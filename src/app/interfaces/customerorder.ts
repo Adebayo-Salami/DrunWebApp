@@ -13,6 +13,28 @@ export const PaymentModeEnum = {
 };
 Object.freeze(PaymentModeEnum);
 
-export interface CreateCustomerOrderVM {}
+export interface CreateCustomerOrderVM {
+  customerId: number;
+  customerName: string;
+  productId: number;
+  productName: string;
+  quantity: number;
+  packSize: number;
+  unitPrice: number;
+  paymentMethod: number;
+  amountPaid: number;
+  datePaid: Date;
+}
 
-export interface UpdateCustomerOrderVM {}
+export interface UpdateCustomerOrderVM {
+  customerId?: number;
+  customerName?: string;
+  productId?: number;
+  productName?: string;
+  quantity?: number;
+  packSize?: number;
+  unitPrice?: number;
+  paymentMethod?: number;
+  amountPaid?: number;
+  datePaid?: Date;
+}
