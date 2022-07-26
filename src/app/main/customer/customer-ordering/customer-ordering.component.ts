@@ -43,6 +43,7 @@ export class CustomerOrderingComponent implements OnInit {
     key: number;
     value: string;
   };
+  customerOrderToEdit: any;
 
   constructor(
     private fb: FormBuilder,
@@ -60,6 +61,7 @@ export class CustomerOrderingComponent implements OnInit {
       AmountToPay: [""],
       PaymentMode: ["", Validators.required],
       AmountPaid: ["", Validators.required],
+      DatePaid: ["", Validators.required],
     });
   }
 
@@ -120,6 +122,14 @@ export class CustomerOrderingComponent implements OnInit {
   }
 
   CreateCustomerOrder() {}
+
+  UpdateCustomerOrder() {}
+
+  CloseEditing() {
+    this.editing = false;
+    this.customerOrderToEdit = null;
+    this.customerOrderForm.reset();
+  }
 
   get Quantity(): number {
     let value = 0;
