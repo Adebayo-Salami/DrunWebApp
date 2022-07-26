@@ -1,14 +1,18 @@
+import { CreateCustomerOrderVM } from "./../../../interfaces/customerorder";
+import { ProductService } from "./../../../services/product.service";
 import { ProductVM } from "./../../../interfaces/product";
 import { CustomerVM } from "./../../../interfaces/customer";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Message, ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
-import { CustomerService } from "src/app/services/customer.service";
 import {
+  CustomerOrderVM,
   PackSizeEnum,
   PaymentModeEnum,
 } from "src/app/interfaces/customerorder";
+import { CustomerOrderService } from "src/app/services/customer-order.service";
+import { CustomerService } from "src/app/services/customer.service";
 
 @Component({
   selector: "app-customer-ordering",
@@ -49,6 +53,8 @@ export class CustomerOrderingComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private customerService: CustomerService,
+    private productService: ProductService,
+    private customerOrderService: CustomerOrderService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,
     public messageService: MessageService
@@ -120,9 +126,155 @@ export class CustomerOrderingComponent implements OnInit {
         value: "Card",
       },
     ];
+
+    this.FetchAllCustomers();
+    this.FetchAllProducts();
+    this.GetOngoingOrderBatch();
   }
 
-  CreateCustomerOrder() {}
+  FetchAllCustomers() {
+    this.customerService.GetAllCustomers().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          this.fetching = false;
+          return;
+        }
+        this.allCustomers = data.object as CustomerVM[];
+        this.fetching = false;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all customers at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
+
+  FetchAllProducts() {
+    this.productService.GetAllProducts().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          this.fetching = false;
+          return;
+        }
+        this.allProducts = data.object as ProductVM[];
+        this.fetching = false;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all products at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
+
+  GetOngoingOrderBatch() {
+    this.fetching = true;
+    this.customerOrderService.GetOngoingBatch().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          this.fetching = false;
+          return;
+        }
+        this.allCustomerOrders = data.object as CustomerOrderVM[];
+        this.fetching = false;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get ongoing batch at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.fetching = false;
+      }
+    );
+  }
+
+  CreateCustomerOrder() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Creating Customer Order...",
+    });
+
+    const postData: CreateCustomerOrderVM = {
+      customerId: this.theCustomer.id,
+      customerName: this.theCustomer.name,
+      productId: this.theProduct.id,
+      productName: this.theProduct.name,
+      quantity: this.customerOrderForm.get("Quantity").value,
+      packSize: this.thePackSize.key,
+      unitPrice: this.customerOrderForm.get("UnitPrice").value,
+      paymentMethod: this.thePaymentModes.key,
+      amountPaid: this.customerOrderForm.get("AmountPaid").value,
+      datePaid: this.customerOrderForm.get("DatePaid").value,
+    };
+
+    this.customerOrderService.CreateCustomerOrder(postData).subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          return;
+        }
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Completed",
+          detail: "Customer Order Created Successfully...",
+        });
+
+        this.fetching = true;
+        this.customerOrderForm.reset();
+        this.GetOngoingOrderBatch();
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to create customer order at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
 
   UpdateCustomerOrder() {}
 

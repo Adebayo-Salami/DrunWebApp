@@ -38,3 +38,19 @@ export interface UpdateCustomerOrderVM {
   amountPaid?: number;
   datePaid?: Date;
 }
+
+export interface CustomerOrderVM {
+  id: number;
+  customerId: number;
+  customerName: string;
+  productId: number;
+  productName: string;
+  quantity: number;
+  packSize: number;
+  unitPrice: number;
+  amountToBePaid: number;
+  paymentMode: number;
+  amountPaid: number;
+  datePaid: Date;
+  customerOrderBatchId: number;
+}
