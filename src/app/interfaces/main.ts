@@ -3,8 +3,11 @@ export const PagesEnum = {
   Setup_Role: 2,
   Setup_Product: 3,
   Customer_Onboarding: 4,
-  Customer_Ordering: 5,
-  Customer_Reporting: 6,
+  Customer_Ordering_CreateOrder: 5,
+  Customer_Ordering_ViewOrders: 6,
+  Customer_Reporting_CustomersVolume: 7,
+  Customer_Reporting_DebtAgeAnalysis: 8,
+  Customer_Reporting_ProductMix: 9,
 };
 Object.freeze(PagesEnum);
 

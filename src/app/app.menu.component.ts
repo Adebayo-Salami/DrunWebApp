@@ -66,15 +66,50 @@ export class AppMenuComponent implements OnInit {
           },
           {
             label: "Ordering",
-            icon: "pi pi-fw pi-id-card",
-            visible: this.IsPageVisible(5),
-            routerLink: ["/main/customer/ordering"],
+            icon: "pi pi-fw pi-cog",
+            visible: this.IsPageVisible(5) || this.IsPageVisible(6),
+            items: [
+              {
+                label: "Create Order",
+                icon: "pi pi-fw pi-id-card",
+                visible: this.IsPageVisible(5),
+                routerLink: ["/main/customer/ordering"],
+              },
+              {
+                label: "View Orders",
+                icon: "pi pi-fw pi-id-card",
+                visible: this.IsPageVisible(6),
+                routerLink: ["/main/customer/ordering"],
+              },
+            ],
           },
           {
             label: "Reporting",
-            icon: "pi pi-fw pi-id-card",
-            visible: this.IsPageVisible(6),
-            routerLink: ["/main/customer/reporting"],
+            icon: "pi pi-fw pi-cog",
+            visible:
+              this.IsPageVisible(7) ||
+              this.IsPageVisible(8) ||
+              this.IsPageVisible(9),
+            items: [
+              {
+                label: "Customers Volume",
+                icon: "pi pi-fw pi-id-card",
+                visible: this.IsPageVisible(7),
+                routerLink: ["/main/customer/reporting"],
+              },
+              {
+                label: "Debt Age Analysis",
+                icon: "pi pi-fw pi-id-card",
+                visible: this.IsPageVisible(8),
+                routerLink: ["/main/customer/reporting"],
+              },
+              {
+                label: "Product Mix",
+                icon: "pi pi-fw pi-id-card",
+                visible: this.IsPageVisible(9),
+                routerLink: ["/main/customer/reporting"],
+              },
+            ],
           },
         ],
       },

@@ -85,12 +85,24 @@ export class RoleSetupComponent implements OnInit {
         value: "Customer Onboarding",
       },
       {
-        key: PagesEnum.Customer_Ordering,
-        value: "Customer Ordering",
+        key: PagesEnum.Customer_Ordering_CreateOrder,
+        value: "Customer Ordering (Create Order)",
       },
       {
-        key: PagesEnum.Customer_Reporting,
-        value: "Customer Reporting",
+        key: PagesEnum.Customer_Ordering_ViewOrders,
+        value: "Customer Ordering (View Orders)",
+      },
+      {
+        key: PagesEnum.Customer_Reporting_CustomersVolume,
+        value: "Customer Reporting (Customers Volume)",
+      },
+      {
+        key: PagesEnum.Customer_Reporting_DebtAgeAnalysis,
+        value: "Customer Reporting (Debt Age Analysis)",
+      },
+      {
+        key: PagesEnum.Customer_Reporting_ProductMix,
+        value: "Customer Reporting (Product Mix)",
       },
     ];
 
@@ -203,8 +215,16 @@ export class RoleSetupComponent implements OnInit {
     if (identifier == PagesEnum.Setup_Product) return "Setup Product";
     if (identifier == PagesEnum.Customer_Onboarding)
       return "Customer Onboarding";
-    if (identifier == PagesEnum.Customer_Ordering) return "Customer Ordering";
-    if (identifier == PagesEnum.Customer_Reporting) return "Customer Reporting";
+    if (identifier == PagesEnum.Customer_Ordering_CreateOrder)
+      return "Customer Ordering (Create Order)";
+    if (identifier == PagesEnum.Customer_Ordering_ViewOrders)
+      return "Customer Ordering (View Orders)";
+    if (identifier == PagesEnum.Customer_Reporting_CustomersVolume)
+      return "Customer Reporting (Customers Volume)";
+    if (identifier == PagesEnum.Customer_Reporting_DebtAgeAnalysis)
+      return "Customer Reporting (Debt Age Analysis)";
+    if (identifier == PagesEnum.Customer_Reporting_ProductMix)
+      return "Customer Reporting (Product Mix)";
 
     return "N/A";
   }
