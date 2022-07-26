@@ -12,3 +12,7 @@ export const PaymentModeEnum = {
   Card: 3,
 };
 Object.freeze(PaymentModeEnum);
+
+export interface CreateCustomerOrderVM {}
+
+export interface UpdateCustomerOrderVM {}

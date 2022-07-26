@@ -12,6 +12,13 @@ export const PagesEnum = {
 };
 Object.freeze(PagesEnum);
 
+export const ApprovalStatusEnum = {
+  Pending: 1,
+  Approved: 2,
+  Rejected: 3,
+};
+Object.freeze(ApprovalStatusEnum);
+
 export interface Contact {
   firstName?: string;
   lastName?: string;
