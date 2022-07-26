@@ -45,4 +45,5 @@ export interface ResultVM {
   isSuccessful: boolean;
   message: string;
   object: object;
+  errorStack: string;
 }

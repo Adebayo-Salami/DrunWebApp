@@ -134,6 +134,7 @@ export class RoleSetupComponent implements OnInit {
             detail: data.message,
           });
           this.fetching = false;
+          console.log("Error: " + JSON.stringify(data));
           return;
         }
         this.allRoles = data.object as RoleVM[];
@@ -184,6 +185,7 @@ export class RoleSetupComponent implements OnInit {
             summary: "Failure",
             detail: data.message,
           });
+          console.log("Error: " + JSON.stringify(data));
           return;
         }
 
@@ -289,6 +291,7 @@ export class RoleSetupComponent implements OnInit {
             summary: "Failure",
             detail: data.message,
           });
+          console.log("Error: " + JSON.stringify(data));
           return;
         }
 
@@ -336,6 +339,7 @@ export class RoleSetupComponent implements OnInit {
                 summary: "Failure",
                 detail: data.message,
               });
+              console.log("Error: " + JSON.stringify(data));
               return;
             }
 

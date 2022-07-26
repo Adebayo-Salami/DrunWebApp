@@ -85,6 +85,7 @@ export class ProductSetupComponent implements OnInit {
             detail: data.message,
           });
           this.fetching = false;
+          console.log("Error: " + JSON.stringify(data));
           return;
         }
         this.allProducts = data.object as ProductVM[];
@@ -133,6 +134,7 @@ export class ProductSetupComponent implements OnInit {
             summary: "Failure",
             detail: data.message,
           });
+          console.log("Error: " + JSON.stringify(data));
           return;
         }
 
@@ -204,6 +206,7 @@ export class ProductSetupComponent implements OnInit {
             summary: "Failure",
             detail: data.message,
           });
+          console.log("Error: " + JSON.stringify(data));
           return;
         }
 
@@ -251,6 +254,7 @@ export class ProductSetupComponent implements OnInit {
                 summary: "Failure",
                 detail: data.message,
               });
+              console.log("Error: " + JSON.stringify(data));
               return;
             }
 

@@ -119,6 +119,7 @@ export class CustomerOnboardingComponent implements OnInit {
             detail: data.message,
           });
           this.fetching = false;
+          console.log("Error: " + JSON.stringify(data));
           return;
         }
         this.allCustomers = data.object as CustomerVM[];
@@ -170,6 +171,7 @@ export class CustomerOnboardingComponent implements OnInit {
             summary: "Failure",
             detail: data.message,
           });
+          console.log("Error: " + JSON.stringify(data));
           return;
         }
 
@@ -249,6 +251,7 @@ export class CustomerOnboardingComponent implements OnInit {
             summary: "Failure",
             detail: data.message,
           });
+          console.log("Error: " + JSON.stringify(data));
           return;
         }
 
@@ -296,6 +299,7 @@ export class CustomerOnboardingComponent implements OnInit {
                 summary: "Failure",
                 detail: data.message,
               });
+              console.log("Error: " + JSON.stringify(data));
               return;
             }
 
