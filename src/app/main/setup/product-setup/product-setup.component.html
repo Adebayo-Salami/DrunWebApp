@@ -106,7 +106,7 @@
                 [rows]="10"
                 [paginator]="true"
                 [filterDelay]="0"
-                [globalFilterFields]="['name', 'description']"
+                [globalFilterFields]="['name', 'description', 'dateAdded']"
                 [columns]="cols"
               >
                 <ng-template pTemplate="caption">
@@ -161,6 +161,10 @@
                       Description
                       <p-sortIcon field="description"></p-sortIcon>
                     </th>
+                    <th pSortableColumn="dateAdded">
+                      Date Added
+                      <p-sortIcon field="dateAdded"></p-sortIcon>
+                    </th>
                     <th>Actions</th>
                   </tr>
                 </ng-template>
@@ -171,6 +175,7 @@
                     </td>
                     <td>{{ selected.name }}</td>
                     <td>{{ selected.description }}</td>
+                    <td>{{ selected.dateAdded | date: "yyyy-MM-dd" }}</td>
                     <td>
                       <p-button
                         label=""

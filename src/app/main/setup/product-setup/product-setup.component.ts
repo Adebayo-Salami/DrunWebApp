@@ -58,6 +58,7 @@ export class ProductSetupComponent implements OnInit {
     this.cols = [
       { field: "name", header: "Product Name" },
       { field: "description", header: "Product Description" },
+      { field: "dateAdded", header: "Date Added" },
     ];
 
     this.RunMessageDialogue();

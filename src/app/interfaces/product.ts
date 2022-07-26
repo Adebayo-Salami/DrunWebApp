@@ -7,6 +7,7 @@ export interface ProductVM {
   id: number;
   name: string;
   description: string;
+  dateAdded: Date;
 }
 
 export interface UpdateProductVM {

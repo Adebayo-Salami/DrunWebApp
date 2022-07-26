@@ -1,1 +1,148 @@
-<p>customer-ordering works!</p>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="p-grid card">
+  <div class="p-col-12">
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4>Customer Ordering</h4>
+      </div>
+      <div class="p-card-body mt-4" #formWrapper id="formWrapper">
+        <div class="row card widget-timeline border p-4 mb-5">
+          <div class="col-7" style="width: 100%">
+            <form
+              [formGroup]="customerOrderForm"
+              (ngSubmit)="CreateCustomerOrder()"
+            >
+              <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label
+                    for="ocustom"
+                    pTooltip="Select Customer the order is for."
+                    tooltipPosition="top"
+                    >Select Customer</label
+                  >
+                  <p-dropdown
+                    inputId="ocustom"
+                    [options]="allCustomers"
+                    [(ngModel)]="theCustomer"
+                    placeholder="--Select--"
+                    [showClear]="true"
+                    [filter]="true"
+                    optionLabel="name"
+                    formControlName="Customer"
+                  >
+                  </p-dropdown>
+                </div>
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label
+                    for="oprod"
+                    pTooltip="Select Product the customer is ordering."
+                    tooltipPosition="top"
+                    >Select Product</label
+                  >
+                  <p-dropdown
+                    inputId="oprod"
+                    [options]="allProducts"
+                    [(ngModel)]="theProduct"
+                    placeholder="--Select--"
+                    [showClear]="true"
+                    [filter]="true"
+                    optionLabel="name"
+                    formControlName="Product"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label for="oqty">Quantity</label>
+                  <input
+                    id="oqty"
+                    type="number"
+                    placeholder="Order Quantity"
+                    formControlName="Quantity"
+                    pInputText
+                  />
+                </div>
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label
+                    for="cpack"
+                    pTooltip="Specify Order Pack Size."
+                    tooltipPosition="top"
+                    >Select Pack Size</label
+                  >
+                  <p-dropdown
+                    inputId="cpack"
+                    [options]="allPackSizes"
+                    [(ngModel)]="thePackSize"
+                    placeholder="--Select--"
+                    [showClear]="true"
+                    [filter]="true"
+                    optionLabel="value"
+                    formControlName="PackSize"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label for="cunit">Unit Price</label>
+                  <input
+                    id="cunit"
+                    type="number"
+                    placeholder="Unit Price"
+                    formControlName="UnitPrice"
+                    pInputText
+                  />
+                </div>
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label for="cpay">Amount To Be Paid</label>
+                  <input
+                    id="cpay"
+                    type="text"
+                    placeholder="Amount To Be Paid"
+                    formControlName="AmountToPay"
+                    pInputText
+                    disabled="disabled"
+                    value="{{ Quantity * UnitPrice }}"
+                  />
+                </div>
+              </div>
+              <div class="p-fluid p-formgrid p-grid">
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label
+                    for="cpaym"
+                    pTooltip="Specify Payment Mode Customer Used."
+                    tooltipPosition="top"
+                    >Select Payment Mode</label
+                  >
+                  <p-dropdown
+                    inputId="cpaym"
+                    [options]="allPaymentModes"
+                    [(ngModel)]="thePaymentModes"
+                    placeholder="--Select--"
+                    [showClear]="true"
+                    [filter]="true"
+                    optionLabel="value"
+                    formControlName="PaymentMode"
+                  >
+                  </p-dropdown>
+                </div>
+                <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                  <label for="cpaid">Amount Paid</label>
+                  <input
+                    id="cpaid"
+                    type="text"
+                    placeholder="Amount Paid"
+                    formControlName="AmountPaid"
+                    pInputText
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
