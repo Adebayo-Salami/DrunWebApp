@@ -34,8 +34,8 @@ export class CustomerOrderingComponent implements OnInit {
   customerOrderForm: FormGroup;
   editing: boolean;
   fetching: boolean;
-  allCustomerOrders: any[] = [];
-  selectedCustomerOrders: any[];
+  allCustomerOrders: CustomerOrderVM[] = [];
+  selectedCustomerOrders: CustomerOrderVM[];
   allCustomers: CustomerVM[];
   theCustomer: CustomerVM;
   allProducts: ProductVM[];
@@ -95,7 +95,9 @@ export class CustomerOrderingComponent implements OnInit {
     this.cols = [
       { field: "customerName", header: "Customer" },
       { field: "productName", header: "Product" },
+      { field: "packSize", header: "Pack Size" },
       { field: "unitPrice", header: "Unit Price" },
+      { field: "quantity", header: "Quantity" },
       { field: "amountPaid", header: "Amount Paid" },
       { field: "modeOfPayment", header: "Mode of Payment" },
       { field: "amountToBePaid", header: "Amount To Be Paid" },
@@ -427,6 +429,23 @@ export class CustomerOrderingComponent implements OnInit {
         );
       },
     });
+  }
+
+  GetPackSizeEnumString(enumValue: number): string {
+    if (enumValue == PackSizeEnum.One_Litre) return "1 Litre(s)";
+    if (enumValue == PackSizeEnum.Four_Litre) return "4 Litre(s)";
+    if (enumValue == PackSizeEnum.TwentyFive_Litre) return "25 Litre(s)";
+    if (enumValue == PackSizeEnum.TwoHundred_Litre) return "200 Litre(s)";
+
+    return "N/A";
+  }
+
+  GetPaymentModeEnumString(enumValue: number): string {
+    if (enumValue == PaymentModeEnum.Cash) return "Cash";
+    if (enumValue == PaymentModeEnum.Transfer) return "Transfer";
+    if (enumValue == PaymentModeEnum.Card) return "Card";
+
+    return "N/A";
   }
 
   SubmitOrderBatch() {}

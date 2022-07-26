@@ -216,6 +216,8 @@
                   [globalFilterFields]="[
                     'customerName',
                     'productName',
+                    'packSize',
+                    'quantity',
                     'unitPrice',
                     'amountPaid',
                     'modeOfPayment',
@@ -291,10 +293,14 @@
                       </td>
                       <td>{{ selected.customerName }}</td>
                       <td>{{ selected.productName }}</td>
-                      <td>{{ selected.unitPrice }}</td>
-                      <td>{{ selected.amountPaid }}</td>
-                      <td>{{ selected.modeOfPayment }}</td>
-                      <td>{{ selected.amountToBePaid }}</td>
+                      <td>{{ GetPackSizeEnumString(selected.packSize) }}</td>
+                      <td>{{ selected.quantity }}</td>
+                      <td>{{ "N" + (selected.unitPrice | number) }}</td>
+                      <td>{{ "N" + (selected.amountPaid | number) }}</td>
+                      <td>
+                        {{ GetPaymentModeEnumString(selected.paymentMode) }}
+                      </td>
+                      <td>{{ "N" + selected.amountToBePaid }}</td>
                       <td>
                         <p-button
                           label=""
