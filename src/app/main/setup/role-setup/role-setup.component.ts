@@ -89,6 +89,10 @@ export class RoleSetupComponent implements OnInit {
         value: "Customer Ordering (Create Order)",
       },
       {
+        key: PagesEnum.Customer_Ordering_ApproveOrder,
+        value: "Customer Ordering (Approve Order)",
+      },
+      {
         key: PagesEnum.Customer_Ordering_ViewOrders,
         value: "Customer Ordering (View Orders)",
       },

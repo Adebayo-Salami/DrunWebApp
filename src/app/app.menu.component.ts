@@ -67,12 +67,21 @@ export class AppMenuComponent implements OnInit {
           {
             label: "Ordering",
             icon: "pi pi-fw pi-cog",
-            visible: this.IsPageVisible(5) || this.IsPageVisible(6),
+            visible:
+              this.IsPageVisible(5) ||
+              this.IsPageVisible(6) ||
+              this.IsPageVisible(10),
             items: [
               {
                 label: "Create Order",
                 icon: "pi pi-fw pi-id-card",
                 visible: this.IsPageVisible(5),
+                routerLink: ["/main/customer/ordering"],
+              },
+              {
+                label: "Approve Order",
+                icon: "pi pi-fw pi-id-card",
+                visible: this.IsPageVisible(10),
                 routerLink: ["/main/customer/ordering"],
               },
               {

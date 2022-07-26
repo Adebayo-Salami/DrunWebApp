@@ -3,194 +3,337 @@
 <div class="p-grid card">
   <div class="p-col-12">
     <div class="card mb-4">
-      <div class="card-header">
+      <!-- <div class="card-header">
         <h4>Create Customer Order</h4>
-      </div>
+      </div> -->
       <div class="p-card-body mt-4" #formWrapper id="formWrapper">
-        <div class="row card widget-timeline border p-4 mb-5">
-          <div class="col-7" style="width: 100%">
-            <form
-              [formGroup]="customerOrderForm"
-              (ngSubmit)="CreateCustomerOrder()"
-            >
-              <div class="p-fluid p-formgrid p-grid">
-                <div class="p-field p-col-12 p-md-3" style="width: 50%">
-                  <label
-                    for="ocustom"
-                    pTooltip="Select Customer the order is for."
-                    tooltipPosition="top"
-                    >Select Customer</label
-                  >
-                  <p-dropdown
-                    inputId="ocustom"
-                    [options]="allCustomers"
-                    [(ngModel)]="theCustomer"
-                    placeholder="--Select--"
-                    [showClear]="true"
-                    [filter]="true"
-                    optionLabel="name"
-                    formControlName="Customer"
-                  >
-                  </p-dropdown>
-                </div>
-                <div class="p-field p-col-12 p-md-3" style="width: 50%">
-                  <label
-                    for="oprod"
-                    pTooltip="Select Product the customer is ordering."
-                    tooltipPosition="top"
-                    >Select Product</label
-                  >
-                  <p-dropdown
-                    inputId="oprod"
-                    [options]="allProducts"
-                    [(ngModel)]="theProduct"
-                    placeholder="--Select--"
-                    [showClear]="true"
-                    [filter]="true"
-                    optionLabel="name"
-                    formControlName="Product"
-                  >
-                  </p-dropdown>
-                </div>
-              </div>
-              <div class="p-fluid p-formgrid p-grid">
-                <div class="p-field p-col-12 p-md-3" style="width: 50%">
-                  <label for="oqty">Quantity</label>
-                  <input
-                    id="oqty"
-                    type="number"
-                    placeholder="Order Quantity"
-                    formControlName="Quantity"
-                    pInputText
-                  />
-                </div>
-                <div class="p-field p-col-12 p-md-3" style="width: 50%">
-                  <label
-                    for="cpack"
-                    pTooltip="Specify Order Pack Size."
-                    tooltipPosition="top"
-                    >Select Pack Size</label
-                  >
-                  <p-dropdown
-                    inputId="cpack"
-                    [options]="allPackSizes"
-                    [(ngModel)]="thePackSize"
-                    placeholder="--Select--"
-                    [showClear]="true"
-                    [filter]="true"
-                    optionLabel="value"
-                    formControlName="PackSize"
-                  >
-                  </p-dropdown>
-                </div>
-              </div>
-              <div class="p-fluid p-formgrid p-grid">
-                <div class="p-field p-col-12 p-md-3" style="width: 50%">
-                  <label for="cunit">Unit Price</label>
-                  <input
-                    id="cunit"
-                    type="number"
-                    placeholder="Unit Price"
-                    formControlName="UnitPrice"
-                    pInputText
-                  />
-                </div>
-                <div class="p-field p-col-12 p-md-3" style="width: 50%">
-                  <label for="cpay">Amount To Be Paid</label>
-                  <input
-                    id="cpay"
-                    type="text"
-                    placeholder="Amount To Be Paid"
-                    formControlName="AmountToPay"
-                    pInputText
-                    disabled="disabled"
-                    value="{{ Quantity * UnitPrice }}"
-                  />
-                </div>
-              </div>
-              <div class="p-fluid p-formgrid p-grid">
-                <div class="p-field p-col-12 p-md-3" style="width: 50%">
-                  <label
-                    for="cpaym"
-                    pTooltip="Specify Payment Mode Customer Used."
-                    tooltipPosition="top"
-                    >Select Payment Mode</label
-                  >
-                  <p-dropdown
-                    inputId="cpaym"
-                    [options]="allPaymentModes"
-                    [(ngModel)]="thePaymentModes"
-                    placeholder="--Select--"
-                    [showClear]="true"
-                    [filter]="true"
-                    optionLabel="value"
-                    formControlName="PaymentMode"
-                  >
-                  </p-dropdown>
-                </div>
-                <div class="p-field p-col-12 p-md-3" style="width: 50%">
-                  <label for="cpaid">Amount Paid</label>
-                  <input
-                    id="cpaid"
-                    type="text"
-                    placeholder="Amount Paid"
-                    formControlName="AmountPaid"
-                    pInputText
-                  />
-                </div>
-              </div>
-              <div class="p-fluid p-formgrid p-grid">
-                <div class="p-field p-col-12 p-md-3" style="width: 50%">
-                  <label for="cpaiddate">Date Paid</label>
-                  <input
-                    id="cpaiddate"
-                    type="date"
-                    placeholder="Date Paid"
-                    formControlName="DatePaid"
-                    pInputText
-                  />
-                </div>
-                <div class="p-field p-col-12 p-md-3" style="width: 50%"></div>
-              </div>
-              <div class="p-grid">
-                <div class="p-col-12 p-md-12">
-                  <div class="pt-2 text-right">
-                    <button
-                      style="width: 20%"
-                      pButton
-                      pRipple
-                      type="submit"
-                      *ngIf="!editing"
-                      [disabled]="customerOrderForm.invalid"
-                      label="Log Customer Order"
-                      icon="pi pi-money-bill"
-                      class="p-button-raised p-mr-2 p-mb-2"
-                    ></button>
-                    <button
-                      pButton
-                      pRipple
-                      type="submit"
-                      *ngIf="editing"
-                      (click)="CloseEditing()"
-                      label="Cancel Editing"
-                      icon="pi pi-times-circle"
-                      class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
-                    ></button>
-                    <button
-                      pButton
-                      pRipple
-                      type="button"
-                      *ngIf="editing"
-                      [disabled]="customerOrderForm.invalid"
-                      (click)="UpdateCustomerOrder()"
-                      icon="pi pi-save"
-                      label="Save"
-                      class="p-button-raised p-mr-0 p-mb-2"
-                    ></button>
+        <p-fieldset legend="Create Customer Order" toggleable="true">
+          <div class="row card widget-timeline border p-4 mb-5">
+            <div class="col-7" style="width: 100%">
+              <form
+                [formGroup]="customerOrderForm"
+                (ngSubmit)="CreateCustomerOrder()"
+              >
+                <div class="p-fluid p-formgrid p-grid">
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                    <label
+                      for="ocustom"
+                      pTooltip="Select Customer the order is for."
+                      tooltipPosition="top"
+                      >Select Customer</label
+                    >
+                    <p-dropdown
+                      inputId="ocustom"
+                      [options]="allCustomers"
+                      [(ngModel)]="theCustomer"
+                      placeholder="--Select--"
+                      [showClear]="true"
+                      [filter]="true"
+                      optionLabel="name"
+                      formControlName="Customer"
+                    >
+                    </p-dropdown>
+                  </div>
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                    <label
+                      for="oprod"
+                      pTooltip="Select Product the customer is ordering."
+                      tooltipPosition="top"
+                      >Select Product</label
+                    >
+                    <p-dropdown
+                      inputId="oprod"
+                      [options]="allProducts"
+                      [(ngModel)]="theProduct"
+                      placeholder="--Select--"
+                      [showClear]="true"
+                      [filter]="true"
+                      optionLabel="name"
+                      formControlName="Product"
+                    >
+                    </p-dropdown>
                   </div>
                 </div>
+                <div class="p-fluid p-formgrid p-grid">
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                    <label for="oqty">Quantity</label>
+                    <input
+                      id="oqty"
+                      type="number"
+                      placeholder="Order Quantity"
+                      formControlName="Quantity"
+                      pInputText
+                    />
+                  </div>
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                    <label
+                      for="cpack"
+                      pTooltip="Specify Order Pack Size."
+                      tooltipPosition="top"
+                      >Select Pack Size</label
+                    >
+                    <p-dropdown
+                      inputId="cpack"
+                      [options]="allPackSizes"
+                      [(ngModel)]="thePackSize"
+                      placeholder="--Select--"
+                      [showClear]="true"
+                      [filter]="true"
+                      optionLabel="value"
+                      formControlName="PackSize"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                    <label for="cunit">Unit Price</label>
+                    <input
+                      id="cunit"
+                      type="number"
+                      placeholder="Unit Price"
+                      formControlName="UnitPrice"
+                      pInputText
+                    />
+                  </div>
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                    <label for="cpay">Amount To Be Paid</label>
+                    <input
+                      id="cpay"
+                      type="text"
+                      placeholder="Amount To Be Paid"
+                      formControlName="AmountToPay"
+                      pInputText
+                      disabled="disabled"
+                      value="{{ Quantity * UnitPrice }}"
+                    />
+                  </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                    <label
+                      for="cpaym"
+                      pTooltip="Specify Payment Mode Customer Used."
+                      tooltipPosition="top"
+                      >Select Payment Mode</label
+                    >
+                    <p-dropdown
+                      inputId="cpaym"
+                      [options]="allPaymentModes"
+                      [(ngModel)]="thePaymentModes"
+                      placeholder="--Select--"
+                      [showClear]="true"
+                      [filter]="true"
+                      optionLabel="value"
+                      formControlName="PaymentMode"
+                    >
+                    </p-dropdown>
+                  </div>
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                    <label for="cpaid">Amount Paid</label>
+                    <input
+                      id="cpaid"
+                      type="text"
+                      placeholder="Amount Paid"
+                      formControlName="AmountPaid"
+                      pInputText
+                    />
+                  </div>
+                </div>
+                <div class="p-fluid p-formgrid p-grid">
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                    <label for="cpaiddate">Date Paid</label>
+                    <input
+                      id="cpaiddate"
+                      type="date"
+                      placeholder="Date Paid"
+                      formControlName="DatePaid"
+                      pInputText
+                    />
+                  </div>
+                  <div class="p-field p-col-12 p-md-3" style="width: 50%"></div>
+                </div>
+                <div class="p-grid">
+                  <div class="p-col-12 p-md-12">
+                    <div class="pt-2 text-right">
+                      <button
+                        style="width: 20%"
+                        pButton
+                        pRipple
+                        type="submit"
+                        *ngIf="!editing"
+                        [disabled]="customerOrderForm.invalid"
+                        label="Log Customer Order"
+                        icon="pi pi-money-bill"
+                        class="p-button-raised p-mr-2 p-mb-2"
+                      ></button>
+                      <button
+                        pButton
+                        pRipple
+                        type="submit"
+                        *ngIf="editing"
+                        (click)="CloseEditing()"
+                        label="Cancel Editing"
+                        icon="pi pi-times-circle"
+                        class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
+                      ></button>
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        *ngIf="editing"
+                        [disabled]="customerOrderForm.invalid"
+                        (click)="UpdateCustomerOrder()"
+                        icon="pi pi-save"
+                        label="Save"
+                        class="p-button-raised p-mr-0 p-mb-2"
+                      ></button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </p-fieldset>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <h5>Batch #00001002 ~ Batch Name</h5>
+              <div *ngIf="fetching; else tableData" class="text-center">
+                <p-progressSpinner></p-progressSpinner>
               </div>
-            </form>
+              <ng-template #tableData>
+                <p-table
+                  #dt
+                  [value]="allCustomerOrders"
+                  [(selection)]="selectedCustomerOrders"
+                  dataKey="id"
+                  styleClass="p-datatable-customers"
+                  [rowHover]="true"
+                  [rows]="10"
+                  [paginator]="true"
+                  [filterDelay]="0"
+                  [globalFilterFields]="[
+                    'customerName',
+                    'productName',
+                    'unitPrice',
+                    'amountPaid',
+                    'modeOfPayment',
+                    'amountToBePaid'
+                  ]"
+                  [columns]="cols"
+                >
+                  <ng-template pTemplate="caption">
+                    <div>
+                      <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-file-o"
+                        (click)="dt.exportCSV()"
+                        class="p-mr-2"
+                        pTooltip="CSV"
+                        tooltipPosition="bottom"
+                        label="export all"
+                      ></button>
+                      <button
+                        type="button"
+                        pButton
+                        pRipple
+                        icon="pi pi-filter"
+                        (click)="dt.exportCSV({ selectionOnly: true })"
+                        class="p-button-info p-ml-auto"
+                        pTooltip="Selection Only"
+                        tooltipPosition="bottom"
+                        label="export selected"
+                      ></button>
+                    </div>
+                    <div class="table-header">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input
+                          pInputText
+                          type="text"
+                          (input)="
+                            dt.filterGlobal($event.target.value, 'contains')
+                          "
+                          placeholder="Global Search"
+                        />
+                      </span>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th style="width: 3rem">
+                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                      </th>
+                      <th pSortableColumn="customerName">
+                        Customer
+                        <p-sortIcon field="customerName"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="productName">
+                        Product
+                        <p-sortIcon field="productName"></p-sortIcon>
+                      </th>
+                      <th>Pack Size</th>
+                      <th>Quantity</th>
+                      <th>Unit Price</th>
+                      <th>Amount Paid</th>
+                      <th>Mode Of Payment</th>
+                      <th>Amount To Be Paid</th>
+                      <th>Actions</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-selected>
+                    <tr class="p-selectable-row">
+                      <td>
+                        <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+                      </td>
+                      <td>{{ selected.customerName }}</td>
+                      <td>{{ selected.productName }}</td>
+                      <td>{{ selected.unitPrice }}</td>
+                      <td>{{ selected.amountPaid }}</td>
+                      <td>{{ selected.modeOfPayment }}</td>
+                      <td>{{ selected.amountToBePaid }}</td>
+                      <td>
+                        <p-button
+                          label=""
+                          icon="pi pi-trash"
+                          styleClass="p-mr-2 p-button-danger"
+                          (onClick)="DeleteOrder(selected)"
+                        ></p-button>
+                        <p-button
+                          label=""
+                          icon="pi pi-pencil"
+                          (onClick)="EditOrder(selected)"
+                        ></p-button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="8">No Batch Order Yet!</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <div class="p-grid">
+                  <div class="p-col-12 p-md-12">
+                    <div class="pt-2 text-right">
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        [disabled]="allCustomerOrders.length == 0"
+                        (click)="SubmitOrderBatch()"
+                        icon="pi pi-caret-right"
+                        label="Submit For Approval"
+                        class="p-button-raised p-mr-0 p-mb-2"
+                      ></button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
           </div>
         </div>
       </div>

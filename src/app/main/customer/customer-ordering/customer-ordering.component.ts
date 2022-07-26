@@ -22,7 +22,8 @@ export class CustomerOrderingComponent implements OnInit {
   customerOrderForm: FormGroup;
   editing: boolean;
   fetching: boolean;
-  allCustomerOrders: any[];
+  allCustomerOrders: any[] = [];
+  selectedCustomerOrders: any[];
   allCustomers: CustomerVM[];
   theCustomer: CustomerVM;
   allProducts: ProductVM[];
@@ -78,12 +79,12 @@ export class CustomerOrderingComponent implements OnInit {
     ]);
 
     this.cols = [
-      { field: "name", header: "Name" },
-      { field: "mobile", header: "Mobile" },
-      { field: "meansOfIdentification", header: "Means Of Identification" },
-      { field: "identificationNo", header: "Identification Number" },
-      { field: "address", header: "Address" },
-      { field: "dateRegistered", header: "Date Registered" },
+      { field: "customerName", header: "Customer" },
+      { field: "productName", header: "Product" },
+      { field: "unitPrice", header: "Unit Price" },
+      { field: "amountPaid", header: "Amount Paid" },
+      { field: "modeOfPayment", header: "Mode of Payment" },
+      { field: "amountToBePaid", header: "Amount To Be Paid" },
     ];
 
     this.allPackSizes = [
@@ -130,6 +131,8 @@ export class CustomerOrderingComponent implements OnInit {
     this.customerOrderToEdit = null;
     this.customerOrderForm.reset();
   }
+
+  SubmitOrderBatch() {}
 
   get Quantity(): number {
     let value = 0;

@@ -8,6 +8,7 @@ export const PagesEnum = {
   Customer_Reporting_CustomersVolume: 7,
   Customer_Reporting_DebtAgeAnalysis: 8,
   Customer_Reporting_ProductMix: 9,
+  Customer_Ordering_ApproveOrder: 10,
 };
 Object.freeze(PagesEnum);
 
