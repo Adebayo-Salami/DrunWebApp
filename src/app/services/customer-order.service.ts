@@ -1,5 +1,6 @@
 import {
   CreateCustomerOrderVM,
+  CustomerOrderBatchVM,
   LogCustomerOrderBatchVM,
   UpdateCustomerOrderVM,
 } from "./../interfaces/customerorder";
@@ -45,6 +46,12 @@ export class CustomerOrderService {
     return this.http.post<ResultVM>(
       this.baseUrl + "LogCustomerOrderBatch",
       data
+    );
+  }
+
+  GetAllBatchPendingApproval(): Observable<ResultVM<CustomerOrderBatchVM>> {
+    return this.http.get<ResultVM<CustomerOrderBatchVM>>(
+      this.baseUrl + "GetAllBatchPendingApproval"
     );
   }
 }

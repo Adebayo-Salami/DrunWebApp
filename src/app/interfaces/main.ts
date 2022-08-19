@@ -41,9 +41,9 @@ export interface Designation {
   description?: string;
 }
 
-export interface ResultVM {
+export interface ResultVM<T = object> {
   isSuccessful: boolean;
   message: string;
-  object: object;
+  object: T;
   errorStack: string;
 }

@@ -59,3 +59,13 @@ export interface LogCustomerOrderBatchVM {
   batchName: string;
   batchDescription: string;
 }
+
+export interface CustomerOrderBatchVM {
+  id: number;
+  name: string;
+  description: string;
+  code: string;
+  approvalStatus: number;
+  customerOrders: CustomerOrderVM[];
+  isSubmittedForApproval: boolean;
+}
