@@ -4,101 +4,120 @@
   <div class="row">
     <div class="card p-grid p-col-12 mb-3">
       <p-fieldset legend="Pending Approval" toggleable="true">
-        <p-table
-          #dtPendApproval
-          [value]="allPendingApprovals"
-          [(selection)]="selectedPendingApprovals"
-          dataKey="id"
-          styleClass="p-datatable-customers"
-          [rowHover]="true"
-          [rows]="5"
-          [paginator]="true"
-          [filterDelay]="0"
-          [globalFilterFields]="['batchName', 'batchDescription']"
-          [columns]="pendingApprovalCols"
+        <div
+          *ngIf="fetchingPendingApprovals; else tableDataPendApproval"
+          class="text-center"
         >
-          <ng-template pTemplate="caption">
-            <div>
-              <button
-                type="button"
-                pButton
-                pRipple
-                icon="pi pi-file-o"
-                (click)="dtPendApproval.exportCSV()"
-                class="p-mr-2"
-                pTooltip="CSV"
-                tooltipPosition="bottom"
-                label="export all"
-              ></button>
-              <button
-                type="button"
-                pButton
-                pRipple
-                icon="pi pi-filter"
-                (click)="dtPendApproval.exportCSV({ selectionOnly: true })"
-                class="p-button-info p-ml-auto"
-                pTooltip="Selection Only"
-                tooltipPosition="bottom"
-                label="export selected"
-              ></button>
-            </div>
-            <div class="table-header">
-              <span class="p-input-icon-left">
-                <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="
-                    dtPendApproval.filterGlobal($event.target.value, 'contains')
-                  "
-                  placeholder="Global Search"
-                />
-              </span>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-            <tr>
-              <th style="width: 3rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-              </th>
-              <th>Date Requested</th>
-              <th>Requested By</th>
-              <th>Batch Name</th>
-              <th>Batch Description</th>
-              <th>Total Quantity</th>
-              <th>Total Amount Paid</th>
-              <th>Total Amount To Be Paid</th>
-              <th>Action</th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-selected>
-            <tr class="p-selectable-row">
-              <td>
-                <p-tableCheckbox [value]="selected"></p-tableCheckbox>
-              </td>
-              <td>{{ selected.requestedDate | date: "yyyy-MM-dd" }}</td>
-              <td>{{ selected.requestedBy }}</td>
-              <td>{{ selected.batchName }}</td>
-              <td>{{ selected.batchDescription }}</td>
-              <td>{{ selected.PackSize }}</td>
-              <td>{{ selected.totalQuantity }}</td>
-              <td>{{ "N" + (selected.totalAmountPaid | number) }}</td>
-              <td>{{ "N" + (selected.totalAmountToPay | number) }}</td>
-              <td>
-                <p-button
-                  label="View"
-                  icon="pi pi-chevron-down"
-                  (onClick)="ViewRequest(selected)"
-                ></p-button>
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage">
-            <tr>
-              <td colspan="8">No Pending Approval(s) found.</td>
-            </tr>
-          </ng-template>
-        </p-table>
+          <p-progressSpinner></p-progressSpinner>
+        </div>
+        <ng-template #tableDataPendApproval>
+          <p-table
+            #dtPendApproval
+            [value]="allPendingApprovals"
+            [(selection)]="selectedPendingApprovals"
+            dataKey="id"
+            styleClass="p-datatable-customers"
+            [rowHover]="true"
+            [rows]="5"
+            [paginator]="true"
+            [filterDelay]="0"
+            [globalFilterFields]="['batchName', 'batchDescription']"
+            [columns]="pendingApprovalCols"
+          >
+            <ng-template pTemplate="caption">
+              <div>
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-o"
+                  (click)="dtPendApproval.exportCSV()"
+                  class="p-mr-2"
+                  pTooltip="CSV"
+                  tooltipPosition="bottom"
+                  label="export all"
+                ></button>
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-filter"
+                  (click)="dtPendApproval.exportCSV({ selectionOnly: true })"
+                  class="p-button-info p-ml-auto"
+                  pTooltip="Selection Only"
+                  tooltipPosition="bottom"
+                  label="export selected"
+                ></button>
+              </div>
+              <div class="table-header">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dtPendApproval.filterGlobal(
+                        $event.target.value,
+                        'contains'
+                      )
+                    "
+                    placeholder="Global Search"
+                  />
+                </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>Date Requested</th>
+                <th>Requested By</th>
+                <th>Batch Name</th>
+                <th>Batch Description</th>
+                <th>Total Quantity</th>
+                <th>Total Amount Paid</th>
+                <th>Total Amount To Be Paid</th>
+                <th>Action</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-selected>
+              <tr class="p-selectable-row">
+                <td>
+                  <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+                </td>
+                <td>{{ selected.dateCreated | date: "yyyy-MM-dd" }}</td>
+                <td>{{ selected.CreatedBy }}</td>
+                <td>{{ selected.name }}</td>
+                <td>{{ selected.description }}</td>
+                <td>{{ GetTotalQuantity(selected.customerOrders) }}</td>
+                <td>
+                  {{
+                    "N" + (GetTotalAmountPaid(selected.customerOrders) | number)
+                  }}
+                </td>
+                <td>
+                  {{
+                    "N" +
+                      (GetTotalAmountToBePaid(selected.customerOrders) | number)
+                  }}
+                </td>
+                <td>
+                  <p-button
+                    label="View Batch Details"
+                    icon="pi pi-chevron-down"
+                    (onClick)="ViewRequest(selected)"
+                  ></p-button>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="8">No Pending Approval(s) found.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </ng-template>
       </p-fieldset>
     </div>
   </div>

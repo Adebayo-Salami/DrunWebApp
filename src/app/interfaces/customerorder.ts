@@ -68,4 +68,6 @@ export interface CustomerOrderBatchVM {
   approvalStatus: number;
   customerOrders: CustomerOrderVM[];
   isSubmittedForApproval: boolean;
+  CreatedBy: string;
+  dateCreated: Date;
 }

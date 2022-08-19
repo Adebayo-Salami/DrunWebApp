@@ -49,8 +49,8 @@ export class CustomerOrderService {
     );
   }
 
-  GetAllBatchPendingApproval(): Observable<ResultVM<CustomerOrderBatchVM>> {
-    return this.http.get<ResultVM<CustomerOrderBatchVM>>(
+  GetAllBatchPendingApproval(): Observable<ResultVM<CustomerOrderBatchVM[]>> {
+    return this.http.get<ResultVM<CustomerOrderBatchVM[]>>(
       this.baseUrl + "GetAllBatchPendingApproval"
     );
   }

@@ -1,3 +1,7 @@
+import {
+  CustomerOrderBatchVM,
+  CustomerOrderVM,
+} from "./../../../../interfaces/customerorder";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
@@ -14,13 +18,14 @@ export class CustomerOrderApprovalComponent implements OnInit {
   formAccept: FormGroup;
   formDecline: FormGroup;
   batchInView: any;
-  allPendingApprovals: any[];
-  selectedPendingApprovals: any[];
+  allPendingApprovals: CustomerOrderBatchVM[];
+  selectedPendingApprovals: CustomerOrderBatchVM[];
   pendingApprovalCols: any[];
   approvalInViewDits: any[] = [];
   selectedApprovalDits: any[];
   approvalInViewCols: any[];
   openDeclineDialogue: boolean;
+  fetchingPendingApprovals: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -62,6 +67,40 @@ export class CustomerOrderApprovalComponent implements OnInit {
       { field: "batchName", header: "Batch Name" },
       { field: "batchDescription", header: "Batch Desc" },
     ];
+
+    this.GetAllBatchPendingApprovals();
+  }
+
+  GetAllBatchPendingApprovals() {
+    this.fetchingPendingApprovals = true;
+    this.customerOrderService.GetAllBatchPendingApproval().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          this.fetchingPendingApprovals = false;
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.allPendingApprovals = data.object;
+        this.fetchingPendingApprovals = false;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all pending approvals at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
   }
 
   RemoveBatchItem(item: any) {}
@@ -92,5 +131,23 @@ export class CustomerOrderApprovalComponent implements OnInit {
       });
       return;
     }
+  }
+
+  GetTotalQuantity(data: CustomerOrderVM[]): number {
+    let totalQty: number = 0;
+    data.forEach((order) => (totalQty += order.quantity));
+    return totalQty;
+  }
+
+  GetTotalAmountPaid(data: CustomerOrderVM[]): number {
+    let totalAmt: number = 0;
+    data.forEach((order) => (totalAmt += order.amountPaid));
+    return totalAmt;
+  }
+
+  GetTotalAmountToBePaid(data: CustomerOrderVM[]): number {
+    let totalAmt: number = 0;
+    data.forEach((order) => (totalAmt += order.amountToBePaid));
+    return totalAmt;
   }
 }
