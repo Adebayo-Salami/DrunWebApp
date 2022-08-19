@@ -1,5 +1,6 @@
 import {
   CreateCustomerOrderVM,
+  LogCustomerOrderBatchVM,
   UpdateCustomerOrderVM,
 } from "./../../../interfaces/customerorder";
 import { ProductService } from "./../../../services/product.service";
@@ -29,6 +30,7 @@ import { CustomerService } from "src/app/services/customer.service";
 })
 export class CustomerOrderingComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
+  batchForm: FormGroup;
   msgs: Message[] = [];
   cols: any[];
   customerOrderForm: FormGroup;
@@ -57,6 +59,7 @@ export class CustomerOrderingComponent implements OnInit {
     value: string;
   };
   customerOrderToEdit: any;
+  openCreateBatchDialogue: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -77,6 +80,11 @@ export class CustomerOrderingComponent implements OnInit {
       PaymentMode: ["", Validators.required],
       AmountPaid: ["", Validators.required],
       DatePaid: ["", Validators.required],
+    });
+
+    this.batchForm = fb.group({
+      BatchName: ["", Validators.required],
+      BatchDescription: ["", Validators.required],
     });
   }
 
@@ -448,7 +456,9 @@ export class CustomerOrderingComponent implements OnInit {
     return "N/A";
   }
 
-  SubmitOrderBatch() {}
+  SubmitOrderBatch() {
+    this.openCreateBatchDialogue = true;
+  }
 
   get Quantity(): number {
     let value = 0;
@@ -462,5 +472,59 @@ export class CustomerOrderingComponent implements OnInit {
     if (this.customerOrderForm.get("UnitPrice").value)
       value = +this.customerOrderForm.get("UnitPrice").value;
     return value;
+  }
+
+  HideBatchDialogue() {
+    this.openCreateBatchDialogue = false;
+    this.batchForm.reset();
+  }
+
+  SubmitBatchApproval() {
+    this.openCreateBatchDialogue = false;
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Submitting Batch For Approval...",
+    });
+
+    const postData: LogCustomerOrderBatchVM = {
+      batchName: this.batchForm.get("BatchName").value,
+      batchDescription: this.batchForm.get("BatchDescription").value,
+    };
+
+    this.customerOrderService.LogCustomerOrderBatch(postData).subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Completed",
+          detail: "Product Created Successfully...",
+        });
+
+        this.fetching = true;
+        this.batchForm.reset();
+        this.GetOngoingOrderBatch();
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to log customer order batch  at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
   }
 }

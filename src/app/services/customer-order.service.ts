@@ -1,5 +1,6 @@
 import {
   CreateCustomerOrderVM,
+  LogCustomerOrderBatchVM,
   UpdateCustomerOrderVM,
 } from "./../interfaces/customerorder";
 import { HttpClient } from "@angular/common/http";
@@ -37,6 +38,13 @@ export class CustomerOrderService {
   DeleteCustomerOrder(id: number): Observable<ResultVM> {
     return this.http.delete<ResultVM>(
       this.baseUrl + "DeleteCustomerOrder/" + id
+    );
+  }
+
+  LogCustomerOrderBatch(data: LogCustomerOrderBatchVM): Observable<ResultVM> {
+    return this.http.post<ResultVM>(
+      this.baseUrl + "LogCustomerOrderBatch",
+      data
     );
   }
 }

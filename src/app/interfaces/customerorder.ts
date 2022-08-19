@@ -54,3 +54,8 @@ export interface CustomerOrderVM {
   datePaid: Date;
   customerOrderBatchId: number;
 }
+
+export interface LogCustomerOrderBatchVM {
+  batchName: string;
+  batchDescription: string;
+}
