@@ -200,10 +200,10 @@
             <td>{{ selected.productName }}</td>
             <td>{{ selected.packSize }}</td>
             <td>{{ selected.quantity }}</td>
-            <td>{{ selected.unitPrice }}</td>
-            <td>{{ selected.amountPaid }}</td>
-            <td>{{ selected.modeOfPayment }}</td>
-            <td>{{ selected.amountToBePaid }}</td>
+            <td>{{ "N" + (selected.unitPrice | number) }}</td>
+            <td>{{ "N" + (selected.amountPaid | number) }}</td>
+            <td>{{ GetPaymentModeLabel(selected.paymentMode) }}</td>
+            <td>{{ "N" + (selected.amountToBePaid | number) }}</td>
             <td>
               <p-button
                 label=""
@@ -220,7 +220,7 @@
           </tr>
         </ng-template>
       </p-table>
-      <div class="p-grid">
+      <div class="p-grid" style="width: 100%">
         <div class="p-col-12 p-md-12">
           <div class="pt-2 text-right">
             <button

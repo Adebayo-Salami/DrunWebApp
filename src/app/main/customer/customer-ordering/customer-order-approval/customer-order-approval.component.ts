@@ -1,6 +1,7 @@
 import {
   CustomerOrderBatchVM,
   CustomerOrderVM,
+  PaymentModeEnum,
 } from "./../../../../interfaces/customerorder";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -17,12 +18,12 @@ export class CustomerOrderApprovalComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
   formAccept: FormGroup;
   formDecline: FormGroup;
-  batchInView: any;
+  batchInView: CustomerOrderBatchVM;
   allPendingApprovals: CustomerOrderBatchVM[];
   selectedPendingApprovals: CustomerOrderBatchVM[];
   pendingApprovalCols: any[];
-  approvalInViewDits: any[] = [];
-  selectedApprovalDits: any[];
+  approvalInViewDits: CustomerOrderVM[] = [];
+  selectedApprovalDits: CustomerOrderVM[];
   approvalInViewCols: any[];
   openDeclineDialogue: boolean;
   fetchingPendingApprovals: boolean;
@@ -103,7 +104,7 @@ export class CustomerOrderApprovalComponent implements OnInit {
     );
   }
 
-  RemoveBatchItem(item: any) {}
+  RemoveBatchItem(item: CustomerOrderVM) {}
 
   ShowDeclineBatch() {
     this.openDeclineDialogue = true;
@@ -117,7 +118,7 @@ export class CustomerOrderApprovalComponent implements OnInit {
     this.messageService.add({
       severity: "info",
       summary: "Notice",
-      detail: "Declining Request" + this.batchInView.name + "...",
+      detail: "Declining Request " + this.batchInView.name + "...",
     });
   }
 
@@ -149,5 +150,18 @@ export class CustomerOrderApprovalComponent implements OnInit {
     let totalAmt: number = 0;
     data.forEach((order) => (totalAmt += order.amountToBePaid));
     return totalAmt;
+  }
+
+  ViewRequest(item: CustomerOrderBatchVM) {
+    this.batchInView = item;
+    this.approvalInViewDits = item.customerOrders;
+  }
+
+  GetPaymentModeLabel(mode: number): string {
+    if (mode == PaymentModeEnum.Card) return "Card";
+    if (mode == PaymentModeEnum.Cash) return "Cash";
+    if (mode == PaymentModeEnum.Transfer) return "Transfer";
+
+    return "N/A";
   }
 }
