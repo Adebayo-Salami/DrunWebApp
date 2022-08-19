@@ -1,0 +1,275 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="p-grid">
+  <div class="row">
+    <div class="card p-grid p-col-12 mb-3">
+      <p-fieldset legend="Pending Approval" toggleable="true">
+        <p-table
+          #dtPendApproval
+          [value]="allPendingApprovals"
+          [(selection)]="selectedPendingApprovals"
+          dataKey="id"
+          styleClass="p-datatable-customers"
+          [rowHover]="true"
+          [rows]="5"
+          [paginator]="true"
+          [filterDelay]="0"
+          [globalFilterFields]="['batchName', 'batchDescription']"
+          [columns]="pendingApprovalCols"
+        >
+          <ng-template pTemplate="caption">
+            <div>
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-file-o"
+                (click)="dtPendApproval.exportCSV()"
+                class="p-mr-2"
+                pTooltip="CSV"
+                tooltipPosition="bottom"
+                label="export all"
+              ></button>
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-filter"
+                (click)="dtPendApproval.exportCSV({ selectionOnly: true })"
+                class="p-button-info p-ml-auto"
+                pTooltip="Selection Only"
+                tooltipPosition="bottom"
+                label="export selected"
+              ></button>
+            </div>
+            <div class="table-header">
+              <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                  pInputText
+                  type="text"
+                  (input)="
+                    dtPendApproval.filterGlobal($event.target.value, 'contains')
+                  "
+                  placeholder="Global Search"
+                />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th>Date Requested</th>
+              <th>Requested By</th>
+              <th>Batch Name</th>
+              <th>Batch Description</th>
+              <th>Total Quantity</th>
+              <th>Total Amount Paid</th>
+              <th>Total Amount To Be Paid</th>
+              <th>Action</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-selected>
+            <tr class="p-selectable-row">
+              <td>
+                <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+              </td>
+              <td>{{ selected.requestedDate | date: "yyyy-MM-dd" }}</td>
+              <td>{{ selected.requestedBy }}</td>
+              <td>{{ selected.batchName }}</td>
+              <td>{{ selected.batchDescription }}</td>
+              <td>{{ selected.PackSize }}</td>
+              <td>{{ selected.totalQuantity }}</td>
+              <td>{{ "N" + (selected.totalAmountPaid | number) }}</td>
+              <td>{{ "N" + (selected.totalAmountToPay | number) }}</td>
+              <td>
+                <p-button
+                  label="View"
+                  icon="pi pi-chevron-down"
+                  (onClick)="ViewRequest(selected)"
+                ></p-button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8">No Pending Approval(s) found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-fieldset>
+    </div>
+  </div>
+  <div class="row" *ngIf="batchInView">
+    <div class="card p-grid p-col-12 mb-3">
+      <p-table
+        #dtBatchDits
+        [value]="approvalInViewDits"
+        [(selection)]="selectedApprovalDits"
+        dataKey="id"
+        styleClass="p-datatable-customers"
+        [rowHover]="true"
+        [rows]="5"
+        [paginator]="true"
+        [filterDelay]="0"
+        [globalFilterFields]="['batchName']"
+        [columns]="approvalInViewCols"
+      >
+        <ng-template pTemplate="caption">
+          <div>
+            <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-file-o"
+              (click)="dtBatchDits.exportCSV()"
+              class="p-mr-2"
+              pTooltip="CSV"
+              tooltipPosition="bottom"
+              label="export all"
+            ></button>
+            <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-filter"
+              (click)="dtBatchDits.exportCSV({ selectionOnly: true })"
+              class="p-button-info p-ml-auto"
+              pTooltip="Selection Only"
+              tooltipPosition="bottom"
+              label="export selected"
+            ></button>
+          </div>
+          <div class="table-header">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  dtBatchDits.filterGlobal($event.target.value, 'contains')
+                "
+                placeholder="Global Search"
+              />
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Pack Size</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Amount Paid</th>
+            <th>Mode Of Payment</th>
+            <th>Amount To Be Paid</th>
+            <th>Action</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-selected>
+          <tr class="p-selectable-row">
+            <td>
+              <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+            </td>
+            <td>{{ selected.customerName }}</td>
+            <td>{{ selected.productName }}</td>
+            <td>{{ selected.packSize }}</td>
+            <td>{{ selected.quantity }}</td>
+            <td>{{ selected.unitPrice }}</td>
+            <td>{{ selected.amountPaid }}</td>
+            <td>{{ selected.modeOfPayment }}</td>
+            <td>{{ selected.amountToBePaid }}</td>
+            <td>
+              <p-button
+                label=""
+                icon="pi pi-trash"
+                styleClass="p-mr-2 p-button-danger"
+                (onClick)="RemoveBatchItem(selected)"
+              ></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">No Pending Approval Dit(s) found.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+          <div class="pt-2 text-right">
+            <button
+              pButton
+              pRipple
+              type="button"
+              (click)="ShowDeclineBatch()"
+              label="Decline Batch"
+              icon="pi pi-times"
+              class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              [disabled]="approvalInViewDits.length == 0"
+              (click)="ApproveBatch()"
+              icon="pi pi-check"
+              label="Approve Batch"
+              class="p-button-raised p-mr-0 p-mb-2"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog
+  [(visible)]="openDeclineDialogue"
+  [style]="{ width: '450px' }"
+  header="Decline Batch Request"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <form [formGroup]="formDecline" (ngSubmit)="DeclineBatch()">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="commentLabel">Comment:</label>
+        <textarea
+          type="text"
+          rows="4"
+          cols="14"
+          pInputTextarea
+          id="commentLabel"
+          placeholder="Comment"
+          formControlName="Comment"
+        ></textarea>
+      </div>
+    </div>
+    <div class="text-right">
+      <button
+        pButton
+        pRipple
+        type="button"
+        (click)="HideDeclineBatchDialogue()"
+        icon="pi pi-times-circle"
+        label="Cancel"
+        class="p-button-raised p-mr-0 p-mb-2"
+      ></button>
+      <button
+        pButton
+        pRipple
+        type="submit"
+        [disabled]="form.invalid"
+        label="Decline"
+        icon="pi pi-times-circle"
+        class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
+      ></button>
+    </div>
+  </form>
+</p-dialog>

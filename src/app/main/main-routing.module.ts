@@ -1,3 +1,5 @@
+import { CustomerOrderViewComponent } from "./customer/customer-ordering/customer-order-view/customer-order-view.component";
+import { CustomerOrderApprovalComponent } from "./customer/customer-ordering/customer-order-approval/customer-order-approval.component";
 import { ProductSetupComponent } from "./setup/product-setup/product-setup.component";
 import { RoleSetupComponent } from "./setup/role-setup/role-setup.component";
 import { CustomerReportingComponent } from "./customer/customer-reporting/customer-reporting.component";
@@ -19,6 +21,14 @@ const routes: Routes = [
       { path: "setup/product", component: ProductSetupComponent },
       { path: "customer/onboarding", component: CustomerOnboardingComponent },
       { path: "customer/ordering", component: CustomerOrderingComponent },
+      {
+        path: "customer/ordering/approval",
+        component: CustomerOrderApprovalComponent,
+      },
+      {
+        path: "customer/ordering/view",
+        component: CustomerOrderViewComponent,
+      },
       { path: "customer/reporting", component: CustomerReportingComponent },
     ],
   },
