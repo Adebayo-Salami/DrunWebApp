@@ -67,6 +67,12 @@ export class RoleSetupComponent implements OnInit {
       { field: "roledescription", header: "Role Description" },
     ];
 
+    this.PopulatePagesDropdownList();
+    this.RunMessageDialogue();
+    this.FetchAllRoles();
+  }
+
+  PopulatePagesDropdownList() {
     this.allPages = [
       {
         key: PagesEnum.Dashboard,
@@ -75,6 +81,10 @@ export class RoleSetupComponent implements OnInit {
       {
         key: PagesEnum.Setup_Role,
         value: "Setup Role",
+      },
+      {
+        key: PagesEnum.Setup_UserRole,
+        value: "Setup User Role",
       },
       {
         key: PagesEnum.Setup_Product,
@@ -109,9 +119,6 @@ export class RoleSetupComponent implements OnInit {
         value: "Customer Reporting (Product Mix)",
       },
     ];
-
-    this.RunMessageDialogue();
-    this.FetchAllRoles();
   }
 
   RunMessageDialogue() {

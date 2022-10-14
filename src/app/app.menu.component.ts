@@ -37,12 +37,18 @@ export class AppMenuComponent implements OnInit {
       {
         label: "Setups",
         icon: "pi pi-fw pi-cog",
-        visible: this.IsPageVisible(2) || this.IsPageVisible(3),
+        visible: this.IsParentPageVisible([2, 3, 11]),
         items: [
           {
             label: "Role Setup",
             icon: "pi pi-fw pi-id-card",
             visible: this.IsPageVisible(2),
+            routerLink: ["/main/setup/role"],
+          },
+          {
+            label: "User Role Setup",
+            icon: "pi pi-fw pi-id-card",
+            visible: this.IsPageVisible(11),
             routerLink: ["/main/setup/role"],
           },
           {
@@ -56,7 +62,7 @@ export class AppMenuComponent implements OnInit {
       {
         label: "Customer Service",
         icon: "pi pi-fw pi-cog",
-        visible: this.IsPageVisible(4) || this.IsPageVisible(5),
+        visible: this.IsParentPageVisible([4, 5, 6, 10]),
         items: [
           {
             label: "Onboarding",
@@ -67,10 +73,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: "Ordering",
             icon: "pi pi-fw pi-cog",
-            visible:
-              this.IsPageVisible(5) ||
-              this.IsPageVisible(6) ||
-              this.IsPageVisible(10),
+            visible: this.IsParentPageVisible([5, 6, 10]),
             items: [
               {
                 label: "Create Order",
@@ -95,10 +98,7 @@ export class AppMenuComponent implements OnInit {
           {
             label: "Reporting",
             icon: "pi pi-fw pi-cog",
-            visible:
-              this.IsPageVisible(7) ||
-              this.IsPageVisible(8) ||
-              this.IsPageVisible(9),
+            visible: this.IsParentPageVisible([7, 8, 9]),
             items: [
               {
                 label: "Customers Volume",
@@ -136,6 +136,14 @@ export class AppMenuComponent implements OnInit {
     });
 
     return visible;
+  }
+
+  IsParentPageVisible(pageKeys: number[]): boolean {
+    let userProfile = this.authUserProfile as ProfileVM;
+    let rolePages = userProfile.role.rolePages;
+    let permission = rolePages.find((x) => pageKeys.find((y) => y == +x));
+
+    return permission ? true : false;
   }
 
   get authUserProfile() {

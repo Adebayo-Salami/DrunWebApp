@@ -9,6 +9,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { MainComponent } from "./main.component";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { UserRoleSetupComponent } from "./setup/user-role-setup/user-role-setup.component";
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: "", redirectTo: "dashboard", pathMatch: "full" },
       { path: "dashboard", component: DashboardComponent },
       { path: "setup/role", component: RoleSetupComponent },
+      { path: "setup/user-role", component: UserRoleSetupComponent },
       { path: "setup/product", component: ProductSetupComponent },
       { path: "customer/onboarding", component: CustomerOnboardingComponent },
       { path: "customer/ordering", component: CustomerOrderingComponent },
