@@ -10,8 +10,9 @@ export const PagesEnum = {
   Customer_Reporting_ProductMix: 9,
   Customer_Ordering_ApproveOrder: 10,
   Setup_UserRole: 11,
+  Setup_User: 12,
 };
-Object.freeze(PagesEnum);
+Object.freeze(PagesEnum); // Do Not Change Arrangement of this enum
 
 export const ApprovalStatusEnum = {
   Pending: 1,

@@ -32,29 +32,46 @@ export class AppMenuComponent implements OnInit {
         label: "Dashboard",
         icon: "pi pi-fw pi-home",
         routerLink: ["main/dashboard"],
-        visible: this.IsPageVisible(1),
+        visible: this.IsPageVisible(PagesEnum.Dashboard),
+      },
+      {
+        label: "Profile",
+        icon: "pi pi-fw pi-home",
+        routerLink: ["main/profile"],
+        visible: true,
       },
       {
         label: "Setups",
         icon: "pi pi-fw pi-cog",
-        visible: this.IsParentPageVisible([2, 3, 11]),
+        visible: this.IsParentPageVisible([
+          PagesEnum.Setup_Role,
+          PagesEnum.Setup_Product,
+          PagesEnum.Setup_UserRole,
+          PagesEnum.Setup_User,
+        ]),
         items: [
           {
             label: "Role Setup",
             icon: "pi pi-fw pi-id-card",
-            visible: this.IsPageVisible(2),
+            visible: this.IsPageVisible(PagesEnum.Setup_Role),
             routerLink: ["/main/setup/role"],
           },
           {
             label: "User Role Setup",
             icon: "pi pi-fw pi-id-card",
-            visible: this.IsPageVisible(11),
-            routerLink: ["/main/setup/role"],
+            visible: this.IsPageVisible(PagesEnum.Setup_UserRole),
+            routerLink: ["/main/setup/user-role"],
+          },
+          {
+            label: "User Setup",
+            icon: "pi pi-fw pi-id-card",
+            visible: this.IsPageVisible(PagesEnum.Setup_User),
+            routerLink: ["/main/setup/user"],
           },
           {
             label: "Product Setup",
             icon: "pi pi-fw pi-id-card",
-            visible: this.IsPageVisible(3),
+            visible: this.IsPageVisible(PagesEnum.Setup_Product),
             routerLink: ["/main/setup/product"],
           },
         ],
@@ -62,35 +79,50 @@ export class AppMenuComponent implements OnInit {
       {
         label: "Customer Service",
         icon: "pi pi-fw pi-cog",
-        visible: this.IsParentPageVisible([4, 5, 6, 10]),
+        visible: this.IsParentPageVisible([
+          PagesEnum.Customer_Onboarding,
+          PagesEnum.Customer_Ordering_CreateOrder,
+          PagesEnum.Customer_Ordering_ViewOrders,
+          PagesEnum.Customer_Ordering_ApproveOrder,
+        ]),
         items: [
           {
             label: "Onboarding",
             icon: "pi pi-fw pi-id-card",
-            visible: this.IsPageVisible(4),
+            visible: this.IsPageVisible(PagesEnum.Customer_Onboarding),
             routerLink: ["/main/customer/onboarding"],
           },
           {
             label: "Ordering",
             icon: "pi pi-fw pi-cog",
-            visible: this.IsParentPageVisible([5, 6, 10]),
+            visible: this.IsParentPageVisible([
+              PagesEnum.Customer_Ordering_CreateOrder,
+              PagesEnum.Customer_Ordering_ViewOrders,
+              PagesEnum.Customer_Ordering_ApproveOrder,
+            ]),
             items: [
               {
                 label: "Create Order",
                 icon: "pi pi-fw pi-id-card",
-                visible: this.IsPageVisible(5),
+                visible: this.IsPageVisible(
+                  PagesEnum.Customer_Ordering_CreateOrder
+                ),
                 routerLink: ["/main/customer/ordering"],
               },
               {
                 label: "Approve Order",
                 icon: "pi pi-fw pi-id-card",
-                visible: this.IsPageVisible(10),
+                visible: this.IsPageVisible(
+                  PagesEnum.Customer_Ordering_ApproveOrder
+                ),
                 routerLink: ["/main/customer/ordering/approval"],
               },
               {
                 label: "View Orders",
                 icon: "pi pi-fw pi-id-card",
-                visible: this.IsPageVisible(6),
+                visible: this.IsPageVisible(
+                  PagesEnum.Customer_Ordering_ViewOrders
+                ),
                 routerLink: ["/main/customer/ordering/view"],
               },
             ],
@@ -98,24 +130,34 @@ export class AppMenuComponent implements OnInit {
           {
             label: "Reporting",
             icon: "pi pi-fw pi-cog",
-            visible: this.IsParentPageVisible([7, 8, 9]),
+            visible: this.IsParentPageVisible([
+              PagesEnum.Customer_Reporting_CustomersVolume,
+              PagesEnum.Customer_Reporting_DebtAgeAnalysis,
+              PagesEnum.Customer_Reporting_ProductMix,
+            ]),
             items: [
               {
                 label: "Customers Volume",
                 icon: "pi pi-fw pi-id-card",
-                visible: this.IsPageVisible(7),
+                visible: this.IsPageVisible(
+                  PagesEnum.Customer_Reporting_CustomersVolume
+                ),
                 routerLink: ["/main/customer/reporting"],
               },
               {
                 label: "Debt Age Analysis",
                 icon: "pi pi-fw pi-id-card",
-                visible: this.IsPageVisible(8),
+                visible: this.IsPageVisible(
+                  PagesEnum.Customer_Reporting_DebtAgeAnalysis
+                ),
                 routerLink: ["/main/customer/reporting"],
               },
               {
                 label: "Product Mix",
                 icon: "pi pi-fw pi-id-card",
-                visible: this.IsPageVisible(9),
+                visible: this.IsPageVisible(
+                  PagesEnum.Customer_Reporting_ProductMix
+                ),
                 routerLink: ["/main/customer/reporting"],
               },
             ],

@@ -83,6 +83,10 @@ export class RoleSetupComponent implements OnInit {
         value: "Setup Role",
       },
       {
+        key: PagesEnum.Setup_User,
+        value: "Setup User",
+      },
+      {
         key: PagesEnum.Setup_UserRole,
         value: "Setup User Role",
       },

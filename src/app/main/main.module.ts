@@ -80,6 +80,8 @@ import { RoleSetupComponent } from './setup/role-setup/role-setup.component';
 import { CustomerOrderApprovalComponent } from './customer/customer-ordering/customer-order-approval/customer-order-approval.component';
 import { CustomerOrderViewComponent } from './customer/customer-ordering/customer-order-view/customer-order-view.component';
 import { UserRoleSetupComponent } from './setup/user-role-setup/user-role-setup.component';
+import { ProfileComponent } from './profile/profile.component';
+import { UserSetupComponent } from './setup/user-setup/user-setup.component';
 
 @NgModule({
   declarations: [
@@ -96,6 +98,8 @@ import { UserRoleSetupComponent } from './setup/user-role-setup/user-role-setup.
     CustomerOrderApprovalComponent,
     CustomerOrderViewComponent,
     UserRoleSetupComponent,
+    ProfileComponent,
+    UserSetupComponent,
   ],
   imports: [
     AvatarModule,

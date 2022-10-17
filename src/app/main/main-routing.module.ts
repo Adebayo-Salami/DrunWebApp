@@ -1,3 +1,4 @@
+import { ProfileComponent } from "./profile/profile.component";
 import { CustomerOrderViewComponent } from "./customer/customer-ordering/customer-order-view/customer-order-view.component";
 import { CustomerOrderApprovalComponent } from "./customer/customer-ordering/customer-order-approval/customer-order-approval.component";
 import { ProductSetupComponent } from "./setup/product-setup/product-setup.component";
@@ -10,6 +11,7 @@ import { MainComponent } from "./main.component";
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { UserRoleSetupComponent } from "./setup/user-role-setup/user-role-setup.component";
+import { UserSetupComponent } from "./setup/user-setup/user-setup.component";
 
 const routes: Routes = [
   {
@@ -18,7 +20,9 @@ const routes: Routes = [
     children: [
       { path: "", redirectTo: "dashboard", pathMatch: "full" },
       { path: "dashboard", component: DashboardComponent },
+      { path: "profile", component: ProfileComponent },
       { path: "setup/role", component: RoleSetupComponent },
+      { path: "setup/user", component: UserSetupComponent },
       { path: "setup/user-role", component: UserRoleSetupComponent },
       { path: "setup/product", component: ProductSetupComponent },
       { path: "customer/onboarding", component: CustomerOnboardingComponent },
