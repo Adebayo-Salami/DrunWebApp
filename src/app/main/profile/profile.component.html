@@ -139,6 +139,400 @@
             (change)="onFileSelect($event)"
             #hiddenfileinput
           />
+          <div class="card">
+            <p-tabView orientation="left" [(activeIndex)]="activeTabIndex">
+              <p-tabPanel header="Personal Information" leftIcon="pi pi-user">
+                <div class="row no-gutters">
+                  <div class="col-md-8">
+                    <div class="p-fluid">
+                      <div class="p-field p-grid">
+                        <label
+                          for="firstName"
+                          class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                          >First Name</label
+                        >
+                        <div class="p-col-12 p-md-10">
+                          <span class="p-input-icon-left">
+                            <i class="pi pi-user"></i>
+                            <input
+                              id="firstName"
+                              type="text"
+                              pInputText
+                              placeholder="First Name"
+                              formControlName="firstName"
+                              aria-readonly="true"
+                              readonly
+                              required
+                            />
+                          </span>
+                          <div
+                            class="text-danger pt-2"
+                            *ngIf="ProfileForm.get('firstName').invalid"
+                          >
+                            Provide a valid First Name
+                          </div>
+                        </div>
+                      </div>
+                      <div class="p-field p-grid">
+                        <label
+                          for="lastName"
+                          class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                          >Last Name</label
+                        >
+                        <div class="p-col-12 p-md-10">
+                          <span class="p-input-icon-left">
+                            <i class="pi pi-user"></i>
+                            <input
+                              id="lastName"
+                              type="text"
+                              pInputText
+                              placeholder="Last Name"
+                              formControlName="lastName"
+                              readonly
+                              aria-readonly="true"
+                            />
+                          </span>
+                        </div>
+                      </div>
+                      <div class="p-field p-grid">
+                        <label
+                          for="middleName"
+                          class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                          >Other Name</label
+                        >
+                        <div class="p-col-12 p-md-10">
+                          <span class="p-input-icon-left">
+                            <i class="pi pi-user"></i>
+                            <input
+                              id="middleName"
+                              type="text"
+                              pInputText
+                              placeholder="Other Name"
+                              formControlName="otherName"
+                            />
+                          </span>
+                          <div
+                            class="text-danger pt-2"
+                            *ngIf="ProfileForm.get('otherName').invalid"
+                          >
+                            Provide a valid Other Name
+                          </div>
+                        </div>
+                      </div>
+                      <div class="p-field p-grid">
+                        <label
+                          for="codeName"
+                          class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                          >Code Name</label
+                        >
+                        <div class="p-col-12 p-md-10">
+                          <span class="p-input-icon-left">
+                            <i class="pi pi-user"></i>
+                            <input
+                              id="codeName"
+                              type="text"
+                              pInputText
+                              placeholder="Code Name"
+                              formControlName="codeName"
+                            />
+                          </span>
+                        </div>
+                      </div>
+                      <div class="p-field p-grid">
+                        <label
+                          for="dob"
+                          class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                          >D.O.B</label
+                        >
+                        <div class="p-col-12 p-md-10">
+                          <span class="p-input-icon-left">
+                            <i class="pi pi-calendar-times"></i>
+                            <input
+                              id="dob"
+                              type="date"
+                              pInputText
+                              formControlName="dateOfBirth"
+                              required
+                              value="{{ authUser?.dateOfBirth }}"
+                            />
+                          </span>
+                          <div
+                            *ngIf="ProfileForm.get('dateOfBirth').invalid"
+                            class="alert alert-danger"
+                          >
+                            <div>Date Of birth is not valid</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Contact information" leftIcon="pi pi-mobile">
+                <div class="p-fluid">
+                  <div class="p-field p-grid">
+                    <label for="phone" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                      >Mobile Number</label
+                    >
+                    <div class="p-col-12 p-md-6">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-mobile"></i>
+                        <input
+                          id="phone"
+                          type="text"
+                          pInputText
+                          placeholder="Mobile Number"
+                          formControlName="mobileNumber"
+                          required
+                        />
+                      </span>
+                      <div
+                        class="text-danger pt-2"
+                        *ngIf="ProfileForm.get('mobileNumber').invalid"
+                      >
+                        Provide a valid Mobile Number
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-field p-grid">
+                    <label for="xphone" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                      >Alt Phone</label
+                    >
+                    <div class="p-col-12 p-md-6">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-mobile"></i>
+                        <input
+                          id="xphone"
+                          type="text"
+                          pInputText
+                          placeholder="alternate Mobile Number"
+                          formControlName="altMobileNumber"
+                        />
+                        <div
+                          class="text-danger pt-2"
+                          *ngIf="
+                            ifSame(
+                              ProfileForm?.get('mobileNumber'),
+                              ProfileForm?.get('altMobileNumber')
+                            )
+                          "
+                        >
+                          Alt Mobile Number cannot be same as Mobile Number
+                        </div>
+                        <div
+                          class="text-danger pt-2"
+                          *ngIf="ProfileForm.get('altMobileNumber').invalid"
+                        >
+                          Provide a valid Alternate Mobile Number
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="p-field p-grid">
+                    <label for="email" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                      >Email</label
+                    >
+                    <div class="p-col-12 p-md-6">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-envelope"></i>
+                        <input
+                          id="email"
+                          type="text"
+                          pInputText
+                          placeholder="Email Address"
+                          formControlName="email"
+                          readonly
+                          required
+                        />
+                      </span>
+                      <div
+                        class="text-danger pt-2"
+                        *ngIf="ProfileForm.get('email').invalid"
+                      >
+                        Provide a valid Email Address
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-field p-grid">
+                    <label for="email" class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                      >Alternate Email</label
+                    >
+                    <div class="p-col-12 p-md-6">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-envelope"></i>
+                        <input
+                          id="email"
+                          type="text"
+                          pInputText
+                          placeholder="Alternate Email Address"
+                          formControlName="altEmail"
+                        />
+                      </span>
+                      <div
+                        class="text-danger pt-2"
+                        *ngIf="
+                          ifSame(
+                            ProfileForm?.get('email'),
+                            ProfileForm?.get('altEmail')
+                          )
+                        "
+                      >
+                        Alt Email Address cannot be same as Email
+                      </div>
+                      <div
+                        class="text-danger pt-2"
+                        *ngIf="ProfileForm.get('altEmail').invalid"
+                      >
+                        Provide valid Alternate Email
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-field p-grid">
+                    <label
+                      for="residential"
+                      class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                      >Current residential Address</label
+                    >
+                    <div class="p-col-12 p-md-6">
+                      <span class="p-input-icon-left">
+                        <i class="pi pi-map-marker"></i>
+                        <input
+                          id="residential"
+                          type="text"
+                          pInputText
+                          placeholder="Residential Address"
+                          formControlName="address"
+                          required
+                        />
+                      </span>
+                      <div
+                        class="text-danger pt-2"
+                        *ngIf="ProfileForm.get('address').invalid"
+                      >
+                        Provide valid Residential Address
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Password Change" leftIcon="pi pi-gear">
+                <div class="p-fluid">
+                  <div class="p-field p-grid">
+                    <label
+                      for="linkedIn"
+                      class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                      >Password</label
+                    >
+                    <div class="p-col-12 p-md-6">
+                      <input
+                        id="password"
+                        type="password"
+                        pInputText
+                        placeholder="Enter password"
+                        formControlName="password"
+                      />
+                    </div>
+                  </div>
+                  <div class="p-field p-grid">
+                    <label
+                      for="twitter"
+                      class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                      >Confirm Password</label
+                    >
+                    <div class="p-col-12 p-md-6">
+                      <input
+                        id="confirmpassword"
+                        type="password"
+                        pInputText
+                        placeholder="Confirm the password"
+                        formControlName="confirmPassword"
+                      />
+                      <div
+                        class="text-danger pt-2"
+                        *ngIf="
+                          ProfileForm.get('confirmPassword').hasError(
+                            'pwd-mismatch'
+                          )
+                        "
+                      >
+                        Confirm password must match password
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-field p-grid" *ngIf="hasPasswordSet">
+                    <label
+                      for="facebook"
+                      class="p-col-12 p-mb-2 p-md-2 p-mb-md-0"
+                      >Currrent Password</label
+                    >
+                    <div class="p-col-12 p-md-6">
+                      <input
+                        id="cpassword"
+                        type="password"
+                        pInputText
+                        placeholder="Current password"
+                        formControlName="currentPassword"
+                      />
+                      <div
+                        class="text-danger pt-2"
+                        *ngIf="
+                          ProfileForm.get('currentPassword').hasError(
+                            'need-current-password'
+                          )
+                        "
+                      >
+                        Please enter current password
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+            </p-tabView>
+            <div class="p-card-footer">
+              <div class="p-grid">
+                <div class="p-col-12 p-md-8">
+                  <div class="pt-4 text-right">
+                    <hr />
+                    <p-progressBar
+                      mode="indeterminate"
+                      *ngIf="displayLoading; else buttons"
+                    ></p-progressBar>
+                    <ng-template #buttons>
+                      <button
+                        pButton
+                        pRipple
+                        type="button"
+                        [disabled]="isEditing"
+                        label="Edit"
+                        (click)="ToggleEdit()"
+                        icon="pi pi-edit"
+                        class="p-button-raised p-mr-2 p-mb-2"
+                      ></button>
+                      <button
+                        pButton
+                        pRipple
+                        type="submit"
+                        [disabled]="
+                          !isEditing ||
+                          IfSame(
+                            ProfileForm?.get('email'),
+                            ProfileForm?.get('altEmail')
+                          ) ||
+                          ifSame(
+                            ProfileForm?.get('mobileNumber'),
+                            ProfileForm?.get('altMobileNumber')
+                          )
+                        "
+                        icon="pi pi-save"
+                        label="Save All Changes"
+                        class="p-button-raised p-mr-0 p-mb-2"
+                      ></button>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     </div>

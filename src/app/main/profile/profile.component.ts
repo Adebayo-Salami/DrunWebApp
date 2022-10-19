@@ -1,5 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { EventInput } from "@fullcalendar/core";
@@ -17,6 +22,8 @@ export class ProfileComponent implements OnInit {
   uploadingNewPicture: boolean;
   file: any;
   isEditing: boolean;
+  activeTabIndex: number = 0;
+  displayLoading: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -121,4 +128,20 @@ export class ProfileComponent implements OnInit {
   }
 
   async UpdateProfile() {}
+
+  IfSame(string1: FormControl, string2: FormControl): boolean {
+    if (
+      string1.value == null ||
+      string2.value == null ||
+      string1.value.trim() === ""
+    ) {
+      return false;
+    }
+    return string1.value.toLowerCase() === string2.value.toLowerCase();
+  }
+
+  ToggleEdit() {
+    this.isEditing = true;
+    this.ProfileForm.enable();
+  }
 }
