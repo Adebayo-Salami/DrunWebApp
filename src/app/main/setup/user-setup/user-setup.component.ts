@@ -1,12 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ConfirmationService, MessageService } from "primeng/api";
+import { ConfirmationService, Message, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 
 @Component({
   selector: "app-user-setup",
   templateUrl: "./user-setup.component.html",
   styleUrls: ["./user-setup.component.scss"],
+  providers: [MessageService],
 })
 export class UserSetupComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
@@ -14,6 +15,9 @@ export class UserSetupComponent implements OnInit {
   allRoles: any[];
   theRole: any;
   editingUser: boolean;
+  fetchingUsers: boolean;
+  summaryMsg: Message[] = [];
+  allUsers: any[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -45,9 +49,33 @@ export class UserSetupComponent implements OnInit {
         routerLink: ["/main/setup/user"],
       },
     ]);
+
+    this.ResetMessageToasters();
+  }
+
+  ResetMessageToasters() {
+    this.summaryMsg = [];
+    this.summaryMsg.push({
+      severity: "info",
+      summary: "Notice:",
+      detail:
+        "There are currently " +
+        this.allUsers.length +
+        " users onboarded on the system.",
+    });
   }
 
   CreateUser() {}
 
   UpdateUser() {}
+
+  GetUserFullName(userId): string {
+    return "N/A";
+  }
+
+  SwitchUserStatus(item: any) {}
+
+  EditUser(item: any) {}
+
+  DeleteUser(item: any) {}
 }
