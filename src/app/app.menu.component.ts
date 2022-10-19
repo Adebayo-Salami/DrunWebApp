@@ -56,12 +56,12 @@ export class AppMenuComponent implements OnInit {
             visible: this.IsPageVisible(PagesEnum.Setup_Role),
             routerLink: ["/main/setup/role"],
           },
-          {
-            label: "User Role Setup",
-            icon: "pi pi-fw pi-id-card",
-            visible: this.IsPageVisible(PagesEnum.Setup_UserRole),
-            routerLink: ["/main/setup/user-role"],
-          },
+          // {
+          //   label: "User Role Setup",
+          //   icon: "pi pi-fw pi-id-card",
+          //   visible: this.IsPageVisible(PagesEnum.Setup_UserRole),
+          //   routerLink: ["/main/setup/user-role"],
+          // },
           {
             label: "User Setup",
             icon: "pi pi-fw pi-id-card",
