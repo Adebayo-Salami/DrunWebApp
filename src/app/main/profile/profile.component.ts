@@ -22,7 +22,6 @@ export class ProfileComponent implements OnInit {
   uploadingNewPicture: boolean;
   file: any;
   isEditing: boolean;
-  activeTabIndex: number = 0;
   displayLoading: boolean;
 
   constructor(

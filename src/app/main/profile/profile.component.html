@@ -140,7 +140,7 @@
             #hiddenfileinput
           />
           <div class="card">
-            <p-tabView orientation="left" [(activeIndex)]="activeTabIndex">
+            <p-tabView orientation="left">
               <p-tabPanel header="Personal Information" leftIcon="pi pi-user">
                 <div class="row no-gutters">
                   <div class="col-md-8">
@@ -311,7 +311,7 @@
                         <div
                           class="text-danger pt-2"
                           *ngIf="
-                            ifSame(
+                            IfSame(
                               ProfileForm?.get('mobileNumber'),
                               ProfileForm?.get('altMobileNumber')
                             )
@@ -371,7 +371,7 @@
                       <div
                         class="text-danger pt-2"
                         *ngIf="
-                          ifSame(
+                          IfSame(
                             ProfileForm?.get('email'),
                             ProfileForm?.get('altEmail')
                           )
@@ -518,7 +518,7 @@
                             ProfileForm?.get('email'),
                             ProfileForm?.get('altEmail')
                           ) ||
-                          ifSame(
+                          IfSame(
                             ProfileForm?.get('mobileNumber'),
                             ProfileForm?.get('altMobileNumber')
                           )
