@@ -1,1 +1,173 @@
-<p>user-setup works!</p>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="card" id="formFields" tabindex="1">
+  <p-tabView orientation="left">
+    <p-tabPanel header="Setup User" leftIcon="pi pi-home">
+      <div class="p-grid card" style="width: 100%">
+        <div class="p-col-12" style="width: 100%">
+          <div class="card mb-4">
+            <div class="p-card-body mt-4" #formWrapper id="formWrapper">
+              <div class="row card widget-timeline border p-4 mb-5">
+                <div class="col-7" style="width: 100%">
+                  <form [formGroup]="userForm" (ngSubmit)="CreateUser()">
+                    <div class="p-fluid p-formgrid p-grid">
+                      <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                        <label for="lnameCapt">Last Name</label>
+                        <input
+                          id="lnameCapt"
+                          type="text"
+                          placeholder="LastName"
+                          formControlName="LastName"
+                          pInputText
+                        />
+                      </div>
+                      <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                        <label for="fnameLabel">First Name</label>
+                        <input
+                          id="fnameLabel"
+                          type="text"
+                          placeholder="FirstName"
+                          formControlName="FirstName"
+                          pInputText
+                        />
+                      </div>
+                    </div>
+                    <div class="p-fluid p-formgrid p-grid">
+                      <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                        <label for="onameCapt">Other Name</label>
+                        <input
+                          id="onameCapt"
+                          type="text"
+                          placeholder="OtherName"
+                          formControlName="OtherName"
+                          pInputText
+                        />
+                      </div>
+                      <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                        <label for="cnameLabel">Code Name</label>
+                        <input
+                          id="cnameLabel"
+                          type="text"
+                          placeholder="CodeName"
+                          formControlName="CodeName"
+                          pInputText
+                        />
+                      </div>
+                    </div>
+                    <div class="p-fluid p-formgrid p-grid">
+                      <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                        <label for="mobileLabel">Phone Number</label>
+                        <input
+                          id="mobileLabel"
+                          type="text"
+                          placeholder="Mobile"
+                          formControlName="Mobile"
+                          pInputText
+                        />
+                      </div>
+                      <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                        <label for="emailLabel">Email</label>
+                        <input
+                          id="emailLabel"
+                          type="text"
+                          placeholder="Email"
+                          formControlName="Email"
+                          pInputText
+                        />
+                      </div>
+                    </div>
+                    <div class="p-fluid p-formgrid p-grid">
+                      <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                        <label for="pswLabel">Default Password</label>
+                        <input
+                          id="pswLabel"
+                          type="password"
+                          placeholder="Default Password"
+                          formControlName="DefaultPassword"
+                          pInputText
+                        />
+                      </div>
+                      <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                        <label for="roleLabel">Assigned Role</label>
+                        <p-dropdown
+                          inputId="roleLabel"
+                          [options]="allRoles"
+                          [(ngModel)]="theRole"
+                          placeholder="--Select--"
+                          [showClear]="true"
+                          [filter]="true"
+                          optionLabel="name"
+                          formControlName="AssignedRole"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+                    <div class="p-fluid p-formgrid p-grid">
+                      <div class="p-field p-col-12 p-md-3" style="width: 50%">
+                        <label for="adressLabel">Address</label>
+                        <textarea
+                          type="text"
+                          rows="4"
+                          cols="14"
+                          pInputTextarea
+                          id="adressLabel"
+                          placeholder="Address"
+                          formControlName="Address"
+                        ></textarea>
+                      </div>
+                      <div
+                        class="p-field p-col-12 p-md-3"
+                        style="width: 50%"
+                      ></div>
+                    </div>
+                    <div class="p-grid">
+                      <div class="p-col-12 p-md-12">
+                        <div class="pt-2 text-right">
+                          <button
+                            style="width: 20%"
+                            pButton
+                            pRipple
+                            type="submit"
+                            *ngIf="!editingUser"
+                            [disabled]="userForm.invalid"
+                            label="Create User Account"
+                            icon="pi pi-plus-circle"
+                            class="p-button-raised p-mr-2 p-mb-2"
+                          ></button>
+                          <button
+                            pButton
+                            pRipple
+                            type="submit"
+                            *ngIf="editingUser"
+                            (click)="CloseEditing()"
+                            label="Cancel Editing"
+                            icon="pi pi-times-circle"
+                            class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
+                          ></button>
+                          <button
+                            pButton
+                            pRipple
+                            type="button"
+                            *ngIf="editingUser"
+                            [disabled]="userForm.invalid"
+                            (click)="UpdateUser()"
+                            icon="pi pi-save"
+                            label="Update User Account"
+                            class="p-button-raised p-mr-0 p-mb-2"
+                          ></button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel
+      header="Review User Creation"
+      leftIcon="pi pi-home"
+    ></p-tabPanel>
+  </p-tabView>
+</div>
