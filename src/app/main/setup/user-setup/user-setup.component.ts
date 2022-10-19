@@ -18,6 +18,10 @@ export class UserSetupComponent implements OnInit {
   fetchingUsers: boolean;
   summaryMsg: Message[] = [];
   allUsers: any[] = [];
+  fetchingUserCreationRequests: boolean;
+  allUserCreationRequests: any[];
+  selectedUserCreationRequests: any[];
+  userRequestApprovalCols: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +54,11 @@ export class UserSetupComponent implements OnInit {
       },
     ]);
 
+    this.userRequestApprovalCols = [
+      { field: "email", header: "Email" },
+      { field: "dateRegistered", header: "Date Registered" },
+    ];
+
     this.ResetMessageToasters();
   }
 
@@ -78,4 +87,6 @@ export class UserSetupComponent implements OnInit {
   EditUser(item: any) {}
 
   DeleteUser(item: any) {}
+
+  ActOnUserCreationRequest(item: any, approved: boolean) {}
 }

@@ -400,9 +400,140 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel
-      header="Review User Creation"
-      leftIcon="pi pi-home"
-    ></p-tabPanel>
+    <p-tabPanel header="Review System User Creation" leftIcon="pi pi-home">
+      <div class="row">
+        <div class="col-12">
+          <div class="col-12">
+            <div
+              *ngIf="fetchingUserCreationRequests; else tableDataUserRequests"
+              class="text-center"
+            >
+              <p-progressSpinner></p-progressSpinner>
+            </div>
+            <ng-template #tableDataUserRequests>
+              <p-table
+                #dtUserCreationRequests
+                [value]="allUserCreationRequests"
+                [(selection)]="selectedUserCreationRequests"
+                dataKey="id"
+                styleClass="p-datatable-customers"
+                [rowHover]="true"
+                [rows]="10"
+                [paginator]="true"
+                [filterDelay]="0"
+                [globalFilterFields]="['email', 'dateRegistered']"
+                [columns]="userRequestApprovalCols"
+              >
+                <ng-template pTemplate="caption">
+                  <div>
+                    <button
+                      type="button"
+                      pButton
+                      pRipple
+                      icon="pi pi-file-o"
+                      (click)="dtUserCreationRequests.exportCSV()"
+                      class="p-mr-2"
+                      pTooltip="CSV"
+                      tooltipPosition="bottom"
+                      label="export all"
+                    ></button>
+                    <button
+                      type="button"
+                      pButton
+                      pRipple
+                      icon="pi pi-filter"
+                      (click)="
+                        dtUserCreationRequests.exportCSV({
+                          selectionOnly: true
+                        })
+                      "
+                      class="p-button-info p-ml-auto"
+                      pTooltip="Selection Only"
+                      tooltipPosition="bottom"
+                      label="export selected"
+                    ></button>
+                  </div>
+                  <div class="table-header">
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input
+                        pInputText
+                        type="text"
+                        (input)="
+                          dtUserCreationRequests.filterGlobal(
+                            $event.target.value,
+                            'contains'
+                          )
+                        "
+                        placeholder="Global Search"
+                      />
+                    </span>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 3rem">
+                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="email">
+                      Email
+                      <p-sortIcon field="email"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="dateRegistered">
+                      Date Registered
+                      <p-sortIcon field="dateRegistered"></p-sortIcon>
+                    </th>
+                    <th>Role To Assigne</th>
+                    <th>Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-selected>
+                  <tr class="p-selectable-row">
+                    <td>
+                      <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+                    </td>
+                    <td>{{ selected.email }}</td>
+                    <td>{{ selected.dateRegistered | date: "yyyy-MM-dd" }}</td>
+                    <td>
+                      <p-dropdown
+                        [options]="allRoles"
+                        [(ngModel)]="selected.role"
+                        placeholder="--Select Assigned Role--"
+                        [showClear]="true"
+                        [filter]="true"
+                        optionLabel="name"
+                      >
+                      </p-dropdown>
+                    </td>
+                    <td>
+                      <p-button
+                        label="Reject"
+                        icon="pi pi-times"
+                        styleClass="p-mr-2 p-button-danger"
+                        [disabled]="!selected.role"
+                        (onClick)="ActOnUserCreationRequest(selected, false)"
+                      ></p-button>
+                      <p-button
+                        label="Approve"
+                        icon="pi pi-check"
+                        styleClass="p-mr-2 p-button-success"
+                        (onClick)="ActOnUserCreationRequest(selected, true)"
+                      ></p-button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="3">
+                      No Pending System User Creation Requests.
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
   </p-tabView>
 </div>
