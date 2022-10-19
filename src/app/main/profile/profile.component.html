@@ -1,1 +1,146 @@
-<p>profile works!</p>
+<p-toast></p-toast>
+<p-progressSpinner *ngIf="pageLoading"></p-progressSpinner>
+<ng-template [ngIf]="!pageLoading">
+  <div class="p-grid">
+    <div class="p-col-12 p-xl-3 p-md-6">
+      <div class="p-grid p-nogutter widget-overview-box overview-box-1">
+        <div class="p-col-3 overview-box-icon">
+          <img
+            src="assets/layout/images/dashboard/icon-messages.svg"
+            alt="mirage-layout"
+          />
+        </div>
+        <div class="p-col-6 overview-box-text">
+          <h5>Total <br />Sales</h5>
+        </div>
+        <div class="p-col-3 overview-box-status">0</div>
+      </div>
+    </div>
+    <div class="p-col-12 p-xl-3 p-md-6">
+      <div class="p-grid p-nogutter widget-overview-box overview-box-3">
+        <div class="p-col-3 overview-box-icon">
+          <img
+            src="assets/layout/images/dashboard/icon-checkins.svg"
+            alt="mirage-layout"
+          />
+        </div>
+        <div class="p-col-6 overview-box-text">
+          <h5>New Customers <br />Brought</h5>
+        </div>
+        <div class="p-col-3 overview-box-status">0</div>
+      </div>
+    </div>
+    <div class="p-col-12 p-xl-3 p-md-6">
+      <div class="p-grid p-nogutter widget-overview-box overview-box-2">
+        <div class="p-col-3 overview-box-icon">
+          <img
+            src="assets/layout/images/dashboard/icon-filessynced.svg"
+            alt="mirage-layout"
+          />
+        </div>
+        <div class="p-col-6 overview-box-text">
+          <h5>Outstanding <br />Task</h5>
+        </div>
+        <div class="p-col-3 overview-box-status">0</div>
+      </div>
+    </div>
+    <div class="p-col-12 p-xl-3 p-md-6">
+      <div class="p-grid p-nogutter widget-overview-box bg-danger">
+        <div class="p-col-3 overview-box-icon">
+          <img
+            src="assets/layout/images/dashboard/icon-usersonline.png"
+            alt="mirage-layout"
+          />
+        </div>
+        <div class="p-col-6 overview-box-text">
+          <h5>
+            Query <br />
+            Count
+          </h5>
+        </div>
+        <div class="p-col-3 overview-box-status">0</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="row">
+      <div class="col-md-4 col-lg-3">
+        <div class="card">
+          <div class="p-card-content">
+            <div class="border">
+              <div class="p-5 bg-primary"></div>
+              <div
+                class="text-center"
+                style="margin-top: -26px; margin-bottom: 12px"
+              >
+                <img
+                  class="rounded-circle img-fluid"
+                  [src]="imageSrc"
+                  width="80px"
+                  (click)="hiddenfileinput.click()"
+                />
+              </div>
+              <h5 class="text-center text-uppercase">Adejumo Oluwakemi</h5>
+              <div class="pb-4">
+                <div
+                  class="row no-gutters border-top border-bottom text-center align-items-center"
+                >
+                  <div class="col-6">
+                    <div class="border-bottom py-2 bg-dark text-white">
+                      <h5 class="m-0">Staff ID</h5>
+                    </div>
+                    <div class="py-3 border-right">
+                      <h6 class="m-0">10001</h6>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="border-bottom py-2 bg-dark text-white">
+                      <h5 class="m-0">Role</h5>
+                    </div>
+                    <div class="py-3 border-left">
+                      <h6 class="m-0">Execuive</h6>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center">
+                <button
+                  pButton
+                  pRipple
+                  type="button"
+                  (click)="hiddenfileinput.click()"
+                  label="Select Image"
+                  class="p-button-raised p-mr-2 p-mb-2"
+                ></button>
+              </div>
+              <div class="text-center">
+                <small>
+                  <span style="color: red">* </span> Click Save All Changes to
+                  Upload Profile Image</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <form
+          [formGroup]="ProfileForm"
+          (ngSubmit)="UpdateProfile()"
+          #profileFormGroup
+        >
+          <input
+            class="d-none"
+            type="file"
+            name="profileImage"
+            id="profileImage"
+            formControlName="imageUrl"
+            [required]="!imageSrc"
+            (change)="onFileSelect($event)"
+            #hiddenfileinput
+          />
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
