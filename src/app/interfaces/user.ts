@@ -28,3 +28,28 @@ export interface User {
   roleId?: number;
   role?: Role;
 }
+
+export interface CreateUserVM{
+  lastname: string,
+  othernames: string,
+  phoneNumber: string,
+  email: string,
+  occupation: string,
+  houseAddress: string,
+  userType: number,
+  password: string
+}
+
+export interface UpdateProfileVM{
+  othername: string,
+  location: string,
+  mobile: string,
+  profileSummary: string,
+  company: string,
+  facebookUrl: string,
+  instagramUrl: string,
+  tweeterUrl: string,
+  occupation: string,
+  userId: number,
+  dOB: Date
+}
