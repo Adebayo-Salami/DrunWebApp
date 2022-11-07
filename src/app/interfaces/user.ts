@@ -12,6 +12,7 @@ export interface ProfileVM {
 
 export interface User {
   id: number;
+  profilePic: string;
   lastName: string;
   othername: string;
   mobile: string;
@@ -21,7 +22,7 @@ export interface User {
   dateRegistered?: Date;
   lastLoginDate?: Date;
   isApproved: boolean;
-  isDeactivated?: boolean
+  isDeactivated?: boolean;
   dateApproved?: Date;
   approvedById?: number;
   approvedBy?: User;
@@ -31,28 +32,28 @@ export interface User {
   role?: Role;
 }
 
-export interface CreateUserVM{
-  lastname: string,
-  firstname: string
-  othername: string,
-  codeName: string
-  phoneNumber: string,
-  email: string,
-  defaultPassword: string
-  assignedRoleId: number
-  address: string
+export interface CreateUserVM {
+  lastname: string;
+  firstname: string;
+  othername: string;
+  codeName: string;
+  phoneNumber: string;
+  email: string;
+  defaultPassword: string;
+  assignedRoleId: number;
+  address: string;
 }
 
-export interface UpdateProfileVM{
-  othername: string,
-  location: string,
-  mobile: string,
-  profileSummary: string,
-  company: string,
-  facebookUrl: string,
-  instagramUrl: string,
-  tweeterUrl: string,
-  occupation: string,
-  userId: number,
-  dOB: Date
+export interface UpdateProfileVM {
+  othername: string;
+  location: string;
+  mobile: string;
+  profileSummary: string;
+  company: string;
+  facebookUrl: string;
+  instagramUrl: string;
+  tweeterUrl: string;
+  occupation: string;
+  userId: number;
+  dOB: Date;
 }
