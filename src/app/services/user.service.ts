@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ResultVM } from "../interfaces/main";
-import { CreateUserVM, UpdateProfileVM } from "../interfaces/user";
+import { CreateUserVM, UpdateProfileVM, User } from "../interfaces/user";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,10 @@ export class UserService {
   baseUrl = environment.BaseUrl + "User/";
 
   constructor(private http: HttpClient) {}
+
+  GetAllUserAccounts(): Observable<ResultVM<User>> {
+    return this.http.get<ResultVM<User>>(this.baseUrl + "GetAllUserAccounts");
+  }
 
   CreateAccount(data: CreateUserVM): Observable<ResultVM> {
     return this.http.post<ResultVM>(this.baseUrl + "CreateAccount", data);

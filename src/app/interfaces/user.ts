@@ -1,5 +1,6 @@
 import { RoleVM } from "src/app/interfaces/role";
 import { Role } from "./role";
+
 export interface ProfileVM {
   id: number;
   lastname: string;
@@ -20,6 +21,7 @@ export interface User {
   dateRegistered?: Date;
   lastLoginDate?: Date;
   isApproved: boolean;
+  isDeactivated?: boolean
   dateApproved?: Date;
   approvedById?: number;
   approvedBy?: User;

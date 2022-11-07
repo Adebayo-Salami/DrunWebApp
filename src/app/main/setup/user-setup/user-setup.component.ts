@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, Message, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
+import { CreateUserVM } from "src/app/interfaces/user";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
   selector: "app-user-setup",
@@ -25,6 +27,7 @@ export class UserSetupComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    public userService: UserService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,
     public messageService: MessageService
@@ -59,7 +62,7 @@ export class UserSetupComponent implements OnInit {
       { field: "dateRegistered", header: "Date Registered" },
     ];
 
-    this.ResetMessageToasters();
+    this.FetchAllUsers()
   }
 
   ResetMessageToasters() {
@@ -74,7 +77,87 @@ export class UserSetupComponent implements OnInit {
     });
   }
 
-  CreateUser() {}
+  FetchAllUsers(){
+this.fetchingUsers = true;
+    this.userService.GetAllUserAccounts().subscribe(async(data) => {
+  if(data.isSuccessful){
+
+    this.ResetMessageToasters()
+    this.FetchAllUsers()
+  }
+  else{
+    this.messageService.add({
+      severity: "error",
+      summary: "Notice",
+      detail:data.message,
+    });
+    this.ResetMessageToasters()
+  }
+},(error) => {
+  console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to fetch all users at the moment.. Reason: [" +
+            (error ? error.error.message : "request failed - permission") +
+            "]",
+        });
+        this.fetchingUsers = false;
+})
+  }
+
+  CreateUser() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Creating new user account...",
+    });
+    this.ResetMessageToasters()
+
+    const postData: CreateUserVM = {
+      lastname: this.userForm.get("LastName").value,
+      firstname: this.userForm.get("FirstName").value,
+      othername: this.userForm.get("OtherName").value,
+      codeName: this.userForm.get("CodeName").value,
+      phoneNumber: this.userForm.get("Mobile").value,
+      email: this.userForm.get("Email").value,
+      defaultPassword: this.userForm.get("DefaultPassword").value,
+      assignedRoleId: this.theRole.id,
+      address: this.userForm.get("Address").value,
+    };
+
+    this.userService.CreateAccount(postData).subscribe(async(data) => {
+      if(data.isSuccessful){
+        this.messageService.add({
+          severity: "success",
+          summary: "Completed",
+          detail: "Account Created Successfully!",
+        });
+        this.ResetMessageToasters()
+        this.FetchAllUsers()
+      }
+      else{
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:data.message,
+        });
+        this.ResetMessageToasters()
+      }
+    },(error) => {
+      console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to create benefit at the moment.. Reason: [" +
+            (error ? error.error.message : "request failed - permission") +
+            "]",
+        });
+        this.ResetMessageToasters()
+    })
+  }
 
   UpdateUser() {}
 
