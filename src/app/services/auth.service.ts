@@ -9,11 +9,12 @@ import { ResultVM } from "../interfaces/main";
   providedIn: "root",
 })
 export class AuthService {
-  baseUrl = environment.baseUrl + "Auth/";
+  baseUrl = environment.BaseUrl + "Auth/";
 
   constructor(private http: HttpClient) {}
 
   Authenticate(data: AuthenticateUserVM): Observable<ResultVM> {
+    data.companyId = environment.CompanyId
     return this.http.post<ResultVM>(this.baseUrl + "Authenticate", data);
   }
 }

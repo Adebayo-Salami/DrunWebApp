@@ -9,7 +9,7 @@ import { CreateUserVM, UpdateProfileVM } from "../interfaces/user";
   providedIn: 'root'
 })
 export class UserService {
-  baseUrl = environment.baseUrl + "User/";
+  baseUrl = environment.BaseUrl + "User/";
 
   constructor(private http: HttpClient) {}
 

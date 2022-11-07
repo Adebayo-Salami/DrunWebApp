@@ -9,7 +9,7 @@ import { ResultVM } from "../interfaces/main";
   providedIn: "root",
 })
 export class CustomerService {
-  baseUrl = environment.baseUrl + "Customer/";
+  baseUrl = environment.BaseUrl + "Customer/";
 
   constructor(private http: HttpClient) {}
 

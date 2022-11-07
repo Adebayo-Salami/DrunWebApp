@@ -9,7 +9,7 @@ import { CreateProductVM, UpdateProductVM } from "../interfaces/product";
   providedIn: "root",
 })
 export class ProductService {
-  baseUrl = environment.baseUrl + "Product/";
+  baseUrl = environment.BaseUrl + "Product/";
 
   constructor(private http: HttpClient) {}
 

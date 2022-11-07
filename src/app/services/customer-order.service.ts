@@ -14,7 +14,7 @@ import { ResultVM } from "../interfaces/main";
   providedIn: "root",
 })
 export class CustomerOrderService {
-  baseUrl = environment.baseUrl + "CustomerOrder/";
+  baseUrl = environment.BaseUrl + "CustomerOrder/";
 
   constructor(private http: HttpClient) {}
 

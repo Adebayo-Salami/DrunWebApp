@@ -9,7 +9,7 @@ import { CreateRoleVM, UpdateRoleVM } from "../interfaces/role";
   providedIn: "root",
 })
 export class RoleService {
-  baseUrl = environment.baseUrl + "Role/";
+  baseUrl = environment.BaseUrl + "Role/";
 
   constructor(private http: HttpClient) {}
 

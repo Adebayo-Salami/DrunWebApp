@@ -31,13 +31,14 @@ export interface User {
 
 export interface CreateUserVM{
   lastname: string,
-  othernames: string,
+  firstname: string
+  othername: string,
+  codeName: string
   phoneNumber: string,
   email: string,
-  occupation: string,
-  houseAddress: string,
-  userType: number,
-  password: string
+  defaultPassword: string
+  assignedRoleId: number
+  address: string
 }
 
 export interface UpdateProfileVM{
