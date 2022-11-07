@@ -2,7 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, Message, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
-import { CreateUserVM } from "src/app/interfaces/user";
+import { Role } from "src/app/interfaces/role";
+import { CreateUserVM, User } from "src/app/interfaces/user";
 import { UserService } from "src/app/services/user.service";
 
 @Component({
@@ -14,12 +15,12 @@ import { UserService } from "src/app/services/user.service";
 export class UserSetupComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
   userForm: FormGroup;
-  allRoles: any[];
-  theRole: any;
+  allRoles: Role[];
+  theRole: Role;
   editingUser: boolean;
   fetchingUsers: boolean;
   summaryMsg: Message[] = [];
-  allUsers: any[] = [];
+  allUsers: User[] = [];
   fetchingUserCreationRequests: boolean;
   allUserCreationRequests: any[];
   selectedUserCreationRequests: any[];
@@ -62,7 +63,7 @@ export class UserSetupComponent implements OnInit {
       { field: "dateRegistered", header: "Date Registered" },
     ];
 
-    this.FetchAllUsers()
+    this.FetchAllUsers();
   }
 
   ResetMessageToasters() {
@@ -77,24 +78,25 @@ export class UserSetupComponent implements OnInit {
     });
   }
 
-  FetchAllUsers(){
-this.fetchingUsers = true;
-    this.userService.GetAllUserAccounts().subscribe(async(data) => {
-  if(data.isSuccessful){
-
-    this.ResetMessageToasters()
-    this.FetchAllUsers()
-  }
-  else{
-    this.messageService.add({
-      severity: "error",
-      summary: "Notice",
-      detail:data.message,
-    });
-    this.ResetMessageToasters()
-  }
-},(error) => {
-  console.log("Error: " + JSON.stringify(error));
+  FetchAllUsers() {
+    this.fetchingUsers = true;
+    this.userService.GetAllUserAccounts().subscribe(
+      async (data) => {
+        if (data.isSuccessful) {
+          this.allUsers = data.object;
+          this.fetchingUsers = false;
+        } else {
+          this.messageService.add({
+            severity: "error",
+            summary: "Notice",
+            detail: data.message,
+          });
+          this.ResetMessageToasters();
+          this.fetchingUsers = false;
+        }
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
         this.messageService.add({
           severity: "error",
           summary: "Notice",
@@ -104,7 +106,8 @@ this.fetchingUsers = true;
             "]",
         });
         this.fetchingUsers = false;
-})
+      }
+    );
   }
 
   CreateUser() {
@@ -113,7 +116,7 @@ this.fetchingUsers = true;
       summary: "Notice",
       detail: "Creating new user account...",
     });
-    this.ResetMessageToasters()
+    this.ResetMessageToasters();
 
     const postData: CreateUserVM = {
       lastname: this.userForm.get("LastName").value,
@@ -127,26 +130,27 @@ this.fetchingUsers = true;
       address: this.userForm.get("Address").value,
     };
 
-    this.userService.CreateAccount(postData).subscribe(async(data) => {
-      if(data.isSuccessful){
-        this.messageService.add({
-          severity: "success",
-          summary: "Completed",
-          detail: "Account Created Successfully!",
-        });
-        this.ResetMessageToasters()
-        this.FetchAllUsers()
-      }
-      else{
-        this.messageService.add({
-          severity: "error",
-          summary: "Notice",
-          detail:data.message,
-        });
-        this.ResetMessageToasters()
-      }
-    },(error) => {
-      console.log("Error: " + JSON.stringify(error));
+    this.userService.CreateAccount(postData).subscribe(
+      async (data) => {
+        if (data.isSuccessful) {
+          this.messageService.add({
+            severity: "success",
+            summary: "Completed",
+            detail: "Account Created Successfully!",
+          });
+          this.ResetMessageToasters();
+          this.FetchAllUsers();
+        } else {
+          this.messageService.add({
+            severity: "error",
+            summary: "Notice",
+            detail: data.message,
+          });
+          this.ResetMessageToasters();
+        }
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
         this.messageService.add({
           severity: "error",
           summary: "Notice",
@@ -155,8 +159,9 @@ this.fetchingUsers = true;
             (error ? error.error.message : "request failed - permission") +
             "]",
         });
-        this.ResetMessageToasters()
-    })
+        this.ResetMessageToasters();
+      }
+    );
   }
 
   UpdateUser() {}

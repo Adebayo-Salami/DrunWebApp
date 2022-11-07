@@ -12,6 +12,7 @@ export interface RoleVM {
 }
 
 export interface Role {
+  id: number;
   roleName: string;
   roleDescription: string;
   rolePages: string;

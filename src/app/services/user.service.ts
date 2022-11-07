@@ -6,15 +6,15 @@ import { ResultVM } from "../interfaces/main";
 import { CreateUserVM, UpdateProfileVM, User } from "../interfaces/user";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UserService {
   baseUrl = environment.BaseUrl + "User/";
 
   constructor(private http: HttpClient) {}
 
-  GetAllUserAccounts(): Observable<ResultVM<User>> {
-    return this.http.get<ResultVM<User>>(this.baseUrl + "GetAllUserAccounts");
+  GetAllUserAccounts(): Observable<ResultVM<User[]>> {
+    return this.http.get<ResultVM<User[]>>(this.baseUrl + "GetAllUserAccounts");
   }
 
   CreateAccount(data: CreateUserVM): Observable<ResultVM> {
@@ -30,6 +30,9 @@ export class UserService {
   }
 
   UpdateUserProfile(id: number, data: UpdateProfileVM): Observable<ResultVM> {
-    return this.http.put<ResultVM>(this.baseUrl + "UpdateUserProfile/" + id, data);
+    return this.http.put<ResultVM>(
+      this.baseUrl + "UpdateUserProfile/" + id,
+      data
+    );
   }
 }
