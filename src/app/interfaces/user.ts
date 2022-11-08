@@ -13,7 +13,8 @@ export interface ProfileVM {
 export interface User {
   id: number;
   profilePic: string;
-  lastName: string;
+  lastname: string;
+  firstname: string;
   othername: string;
   mobile: string;
   email: string;
@@ -30,6 +31,7 @@ export interface User {
   company?: any;
   roleId?: number;
   role?: Role;
+  registeredById?: number;
 }
 
 export interface CreateUserVM {

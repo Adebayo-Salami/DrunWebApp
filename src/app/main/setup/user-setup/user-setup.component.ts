@@ -167,7 +167,9 @@ export class UserSetupComponent implements OnInit {
   UpdateUser() {}
 
   GetUserFullName(userId): string {
-    return "N/A";
+    let user = this.allUsers.find((x) => x.id == userId);
+    if (user) return user.lastname + " " + user.firstname;
+    return "System";
   }
 
   SwitchUserStatus(item: any) {}
