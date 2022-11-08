@@ -144,11 +144,11 @@ export class RoleSetupComponent implements OnInit {
             summary: "Failure",
             detail: data.message,
           });
+          this.RunMessageDialogue();
           this.fetching = false;
-          console.log("Error: " + JSON.stringify(data));
           return;
         }
-        this.allRoles = data.object as RoleVM[];
+        this.allRoles = data.object;
         this.fetching = false;
       },
       (error) => {

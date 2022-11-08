@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ResultVM } from "../interfaces/main";
-import { CreateRoleVM, UpdateRoleVM } from "../interfaces/role";
+import { CreateRoleVM, RoleVM, UpdateRoleVM } from "../interfaces/role";
 
 @Injectable({
   providedIn: "root",
@@ -17,8 +17,8 @@ export class RoleService {
     return this.http.post<ResultVM>(this.baseUrl + "CreateRole", data);
   }
 
-  GetAllRoles(): Observable<ResultVM> {
-    return this.http.get<ResultVM>(this.baseUrl + "GetAllRoles");
+  GetAllRoles(): Observable<ResultVM<RoleVM[]>> {
+    return this.http.get<ResultVM<RoleVM[]>>(this.baseUrl + "GetAllRoles");
   }
 
   UpdateRole(id: number, data: UpdateRoleVM): Observable<ResultVM> {

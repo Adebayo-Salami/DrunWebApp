@@ -2,8 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, Message, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
-import { Role } from "src/app/interfaces/role";
+import { RoleVM } from "src/app/interfaces/role";
 import { CreateUserVM, User } from "src/app/interfaces/user";
+import { RoleService } from "src/app/services/role.service";
 import { UserService } from "src/app/services/user.service";
 
 @Component({
@@ -15,8 +16,8 @@ import { UserService } from "src/app/services/user.service";
 export class UserSetupComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
   userForm: FormGroup;
-  allRoles: Role[];
-  theRole: Role;
+  allRoles: RoleVM[];
+  theRole: RoleVM;
   editingUser: boolean;
   fetchingUsers: boolean;
   summaryMsg: Message[] = [];
@@ -28,6 +29,7 @@ export class UserSetupComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private roleService: RoleService,
     public userService: UserService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,
@@ -63,6 +65,7 @@ export class UserSetupComponent implements OnInit {
       { field: "dateRegistered", header: "Date Registered" },
     ];
 
+    this.FetchAllRoles();
     this.FetchAllUsers();
   }
 
@@ -106,6 +109,34 @@ export class UserSetupComponent implements OnInit {
             "]",
         });
         this.fetchingUsers = false;
+      }
+    );
+  }
+
+  FetchAllRoles() {
+    this.roleService.GetAllRoles().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          return;
+        }
+        this.allRoles = data.object;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all roles at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.ResetMessageToasters();
       }
     );
   }
