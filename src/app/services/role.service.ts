@@ -18,7 +18,7 @@ export class RoleService {
   }
 
   GetAllRoles(): Observable<ResultVM<Role[]>> {
-    return this.http.get<ResultVM<RoleVM[]>>(this.baseUrl + "GetAllRoles");
+    return this.http.get<ResultVM<Role[]>>(this.baseUrl + "GetAllRoles");
   }
 
   UpdateRole(id: number, data: UpdateRoleVM): Observable<ResultVM> {
