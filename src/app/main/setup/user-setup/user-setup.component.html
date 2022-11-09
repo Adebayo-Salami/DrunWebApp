@@ -68,10 +68,20 @@
                       <div class="p-field p-col-12 p-md-3" style="width: 50%">
                         <label for="emailLabel">Email</label>
                         <input
+                          *ngIf="!editingUser"
                           id="emailLabel"
                           type="text"
                           placeholder="Email"
                           formControlName="Email"
+                          pInputText
+                        />
+                        <input
+                          *ngIf="editingUser"
+                          id="emailLabel"
+                          type="text"
+                          placeholder="Email"
+                          formControlName="Email"
+                          disabled="disabled"
                           pInputText
                         />
                       </div>
@@ -80,11 +90,21 @@
                       <div class="p-field p-col-12 p-md-3" style="width: 50%">
                         <label for="pswLabel">Default Password</label>
                         <input
+                          *ngIf="!editingUser"
                           id="pswLabel"
                           type="password"
                           placeholder="Default Password"
                           formControlName="DefaultPassword"
                           pInputText
+                        />
+                        <input
+                          *ngIf="editingUser"
+                          id="pswLabel"
+                          type="password"
+                          placeholder="Default Password"
+                          formControlName="DefaultPassword"
+                          pInputText
+                          disabled="disabled"
                         />
                       </div>
                       <div class="p-field p-col-12 p-md-3" style="width: 50%">
@@ -136,7 +156,7 @@
                           <button
                             pButton
                             pRipple
-                            type="submit"
+                            type="button"
                             *ngIf="editingUser"
                             (click)="CloseEditing()"
                             label="Cancel Editing"

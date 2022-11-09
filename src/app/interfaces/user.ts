@@ -26,20 +26,12 @@ export interface User {
   othername: string;
   mobile: string;
   email: string;
-  password: string;
-  authenticationToken: string;
-  dateRegistered?: Date;
-  lastLoginDate?: Date;
   isApproved: boolean;
   isDeactivated?: boolean;
-  dateApproved?: Date;
-  approvedById?: number;
-  approvedBy?: User;
-  companyId?: number;
-  company?: any;
-  roleId?: number;
-  role?: Role;
+  userRoles: UserRole[];
+  dateRegistered?: Date;
   registeredById?: number;
+  address: string;
 }
 
 export interface CreateUserVM {
@@ -55,15 +47,11 @@ export interface CreateUserVM {
 }
 
 export interface UpdateProfileVM {
-  othername: string;
-  location: string;
-  mobile: string;
-  profileSummary: string;
-  company: string;
-  facebookUrl: string;
-  instagramUrl: string;
-  tweeterUrl: string;
-  occupation: string;
-  userId: number;
-  dOB: Date;
+  lastName?: string;
+  firstName?: string;
+  othername?: string;
+  codeName?: string;
+  mobile?: string;
+  roleIds?: number[];
+  address?: string;
 }

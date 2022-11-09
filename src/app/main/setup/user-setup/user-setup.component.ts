@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, Message, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { RoleVM } from "src/app/interfaces/role";
-import { CreateUserVM, User } from "src/app/interfaces/user";
+import { CreateUserVM, UpdateProfileVM, User } from "src/app/interfaces/user";
 import { RoleService } from "src/app/services/role.service";
 import { UserService } from "src/app/services/user.service";
 
@@ -26,6 +26,7 @@ export class UserSetupComponent implements OnInit {
   allUserCreationRequests: any[];
   selectedUserCreationRequests: any[];
   userRequestApprovalCols: any[];
+  userToEdit: User;
 
   constructor(
     private fb: FormBuilder,
@@ -195,7 +196,58 @@ export class UserSetupComponent implements OnInit {
     );
   }
 
-  UpdateUser() {}
+  UpdateUser() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Updating User...",
+    });
+    this.ResetMessageToasters();
+
+    const id = this.userToEdit.id;
+    const postData: UpdateProfileVM = {
+      lastName: this.userForm.get("LastName").value,
+      firstName: this.userForm.get("FirstName").value,
+      othername: this.userForm.get("OtherName").value,
+      codeName: this.userForm.get("CodeName").value,
+      mobile: this.userForm.get("Mobile").value,
+      address: this.userForm.get("Address").value,
+    };
+
+    this.userService.UpdateUserProfile(id, postData).subscribe(
+      async (data) => {
+        if (data.isSuccessful) {
+          this.messageService.add({
+            severity: "success",
+            summary: "Completed",
+            detail: "Account Updated Successfully!",
+          });
+          this.CloseEditing();
+          this.ResetMessageToasters();
+          this.FetchAllUsers();
+        } else {
+          this.messageService.add({
+            severity: "error",
+            summary: "Notice",
+            detail: data.message,
+          });
+          this.ResetMessageToasters();
+        }
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to update user profile at the moment.. Reason: [" +
+            (error ? error.error.message : "request failed - permission") +
+            "]",
+        });
+        this.ResetMessageToasters();
+      }
+    );
+  }
 
   GetUserFullName(userId): string {
     let user = this.allUsers.find((x) => x.id == userId);
@@ -205,7 +257,37 @@ export class UserSetupComponent implements OnInit {
 
   SwitchUserStatus(item: any) {}
 
-  EditUser(item: any) {}
+  EditUser(item: User) {
+    this.editingUser = true;
+    this.userForm.patchValue({
+      LastName: item.lastname,
+      FirstName: item.firstname,
+      OtherName: item.othername,
+      CodeName: item.othername,
+      Mobile: item.mobile,
+      Email: item.email,
+      Address: item.address,
+      DefaultPassword: "XXXXXXXXXX",
+    });
+    if (item.userRoles.length > 0)
+      this.theRole = this.allRoles.find(
+        (x) => (x.id = item.userRoles[0].roleId)
+      );
+    this.userToEdit = item;
+
+    this.formWrapper.nativeElement.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "start",
+    });
+  }
+
+  CloseEditing() {
+    this.editingUser = false;
+    this.userToEdit = null;
+    this.theRole = null;
+    this.userForm.reset();
+  }
 
   DeleteUser(item: any) {}
 
