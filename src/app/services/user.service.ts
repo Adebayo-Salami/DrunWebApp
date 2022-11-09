@@ -42,4 +42,21 @@ export class UserService {
       null
     );
   }
+
+  ActOnUserAccountCreationRequest(
+    userId: number,
+    roleId: number,
+    action: boolean
+  ): Observable<ResultVM> {
+    return this.http.put<ResultVM>(
+      this.baseUrl +
+        "ActOnUserAccountCreationRequest/" +
+        userId +
+        "/" +
+        roleId +
+        "/" +
+        action,
+      null
+    );
+  }
 }

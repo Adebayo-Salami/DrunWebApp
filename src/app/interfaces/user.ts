@@ -31,6 +31,7 @@ export interface User {
   dateRegistered?: Date;
   registeredById?: number;
   address: string;
+  role?: Role;
 }
 
 export interface CreateUserVM {

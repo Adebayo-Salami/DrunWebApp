@@ -22,9 +22,8 @@ export class UserSetupComponent implements OnInit {
   fetchingUsers: boolean;
   summaryMsg: Message[] = [];
   allUsers: User[] = [];
-  fetchingUserCreationRequests: boolean;
-  allUserCreationRequests: any[];
-  selectedUserCreationRequests: any[];
+  allUserCreationRequests: User[];
+  selectedUserCreationRequests: User[];
   userRequestApprovalCols: any[];
   userToEdit: User;
 
@@ -88,6 +87,9 @@ export class UserSetupComponent implements OnInit {
       async (data) => {
         if (data.isSuccessful) {
           this.allUsers = data.object;
+          this.allUserCreationRequests = this.allUsers.filter(
+            (x) => x.isApproved == false
+          );
           this.fetchingUsers = false;
         } else {
           this.messageService.add({
@@ -345,5 +347,60 @@ export class UserSetupComponent implements OnInit {
 
   DeleteUser(item: User) {}
 
-  ActOnUserCreationRequest(item: any, approved: boolean) {}
+  ActOnUserCreationRequest(item: User, approved: boolean) {
+    this.confirmationService.confirm({
+      message: approved
+        ? "You are about to approve this user account request and give user access to the system. Do you still wish to proceed?"
+        : "You are about to decline this user account request and remove request from the system. Do you still wish to proceed?",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: approved
+            ? "Approving user account request..."
+            : "Declining user account request...",
+        });
+        this.ResetMessageToasters();
+
+        this.userService
+          .ActOnUserAccountCreationRequest(item.id, item.role.id, approved)
+          .subscribe(
+            async (data) => {
+              if (data.isSuccessful) {
+                this.messageService.add({
+                  severity: "success",
+                  summary: "Completed",
+                  detail: approved
+                    ? "Account Request Approved Successfully!"
+                    : "Account Request Declined Successfully!",
+                });
+                this.CloseEditing();
+                this.ResetMessageToasters();
+                this.FetchAllUsers();
+              } else {
+                this.messageService.add({
+                  severity: "error",
+                  summary: "Notice",
+                  detail: data.message,
+                });
+                this.ResetMessageToasters();
+              }
+            },
+            (error) => {
+              console.log("Error: " + JSON.stringify(error));
+              this.messageService.add({
+                severity: "error",
+                summary: "Notice",
+                detail:
+                  "Unable to perform action on user account request at the moment.. Reason: [" +
+                  error
+                    ? error.error.message
+                    : "request failed - permission" + "]",
+              });
+              this.ResetMessageToasters();
+            }
+          );
+      },
+    });
+  }
 }
