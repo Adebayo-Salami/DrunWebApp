@@ -86,8 +86,8 @@ export class UserSetupComponent implements OnInit {
     this.userService.GetAllUserAccounts().subscribe(
       async (data) => {
         if (data.isSuccessful) {
-          this.allUsers = data.object;
-          this.allUserCreationRequests = this.allUsers.filter(
+          this.allUsers = data.object.filter((x) => x.isApproved == true);
+          this.allUserCreationRequests = data.object.filter(
             (x) => x.isApproved == false
           );
           this.fetchingUsers = false;
@@ -362,8 +362,9 @@ export class UserSetupComponent implements OnInit {
         });
         this.ResetMessageToasters();
 
+        let roleId = approved ? item.role.id : 0;
         this.userService
-          .ActOnUserAccountCreationRequest(item.id, item.role.id, approved)
+          .ActOnUserAccountCreationRequest(item.id, roleId, approved)
           .subscribe(
             async (data) => {
               if (data.isSuccessful) {
