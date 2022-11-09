@@ -1,7 +1,7 @@
-import { ProfileVM } from "./user";
+import { ProfileVM, UserRole } from "./user";
 
 export interface AuthenticateUserVM {
-  companyId?: number
+  companyId?: number;
   username: string;
   password: string;
 }
@@ -9,4 +9,5 @@ export interface AuthenticateUserVM {
 export interface AuthSessionVM {
   token: string;
   userProfile: ProfileVM;
+  userRoles: UserRole[];
 }

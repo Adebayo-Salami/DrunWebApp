@@ -1,4 +1,4 @@
-import { ProfileVM } from "./interfaces/user";
+import { ProfileVM, User, UserRole } from "./interfaces/user";
 import { Component, OnInit } from "@angular/core";
 import { AppMainComponent } from "./app.main.component";
 import { PagesEnum } from "./interfaces/main";
@@ -170,8 +170,7 @@ export class AppMenuComponent implements OnInit {
   }
 
   LoadLoggedInUserRolePages() {
-    let userProfile = this.authUserProfile as ProfileVM;
-    let userRoles = userProfile.userRoles;
+    let userRoles = this.authUserRoles as UserRole[];
     this.rolePages = [];
     userRoles.forEach((userRole) => {
       let pages = userRole.role.rolePages.split(";");
@@ -180,7 +179,6 @@ export class AppMenuComponent implements OnInit {
   }
 
   IsPageVisible(pageKey: number): boolean {
-    return true;
     let visible = false;
     this.rolePages.forEach((page) => {
       if (page) {
@@ -192,7 +190,6 @@ export class AppMenuComponent implements OnInit {
   }
 
   IsParentPageVisible(pageKeys: number[]): boolean {
-    return true;
     let permission = this.rolePages.find((x) => pageKeys.find((y) => y == +x));
 
     return permission ? true : false;
@@ -200,6 +197,10 @@ export class AppMenuComponent implements OnInit {
 
   get authUserProfile() {
     return this.getSessionStorageItem("userProfile");
+  }
+
+  get authUserRoles() {
+    return this.getSessionStorageItem("userRoles");
   }
 
   getSessionStorageItem(key: string): any {

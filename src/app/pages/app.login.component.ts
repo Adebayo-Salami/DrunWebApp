@@ -58,7 +58,7 @@ export class AppLoginComponent implements OnInit {
           const token = data.token;
           const userProfile = data.userProfile;
           const refreshToken = data.token;
-          const roles = data.userProfile.userRoles;
+          const roles = data.userRoles;
 
           this.setSessionStorageItem("token", token);
           this.setSessionStorageItem("userProfile", userProfile);
