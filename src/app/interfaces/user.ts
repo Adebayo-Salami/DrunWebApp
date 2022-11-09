@@ -1,4 +1,3 @@
-import { RoleVM } from "src/app/interfaces/role";
 import { Role } from "./role";
 
 export interface ProfileVM {

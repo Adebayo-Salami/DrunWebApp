@@ -9,7 +9,7 @@ import {
 } from "@angular/forms";
 import { MessageService, Message, ConfirmationService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
-import { CreateRoleVM, RoleVM, UpdateRoleVM } from "src/app/interfaces/role";
+import { CreateRoleVM, Role, UpdateRoleVM } from "src/app/interfaces/role";
 
 @Component({
   selector: "app-role-setup",
@@ -32,9 +32,9 @@ export class RoleSetupComponent implements OnInit {
   }[] = [];
   editing: boolean;
   fetching: boolean;
-  allRoles: RoleVM[];
-  selectedRoles: RoleVM[];
-  roleToEdit: RoleVM;
+  allRoles: Role[];
+  selectedRoles: Role[];
+  roleToEdit: Role;
 
   constructor(
     private fb: FormBuilder,
@@ -256,7 +256,7 @@ export class RoleSetupComponent implements OnInit {
     return strValue;
   }
 
-  EditRole(item: RoleVM) {
+  EditRole(item: Role) {
     this.editing = true;
     this.roleForm.addControl(
       "ID",
@@ -331,7 +331,7 @@ export class RoleSetupComponent implements OnInit {
     );
   }
 
-  DeleteRole(item: RoleVM) {
+  DeleteRole(item: Role) {
     this.confirmationService.confirm({
       message: "Are you sure you want to remove role?",
       accept: () => {
