@@ -256,7 +256,60 @@ export class UserSetupComponent implements OnInit {
     return "System";
   }
 
-  SwitchUserStatus(item: any) {}
+  SwitchUserStatus(item: User) {
+    this.confirmationService.confirm({
+      message: item.isDeactivated
+        ? "Activated users can access the system. Do you still wish to proceed?"
+        : "Deactivated users can't access the system. Are you sure you want to deactivate this user account?",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: item.isDeactivated
+            ? "Activating user account..."
+            : "Deactivating user account...",
+        });
+        this.ResetMessageToasters();
+
+        this.userService.SwitchUserAccountStatus(item.id).subscribe(
+          async (data) => {
+            if (data.isSuccessful) {
+              this.messageService.add({
+                severity: "success",
+                summary: "Completed",
+                detail: item.isDeactivated
+                  ? "Account Activated Successfully!"
+                  : "Account Deactivated Successfully!",
+              });
+              this.CloseEditing();
+              this.ResetMessageToasters();
+              this.FetchAllUsers();
+            } else {
+              this.messageService.add({
+                severity: "error",
+                summary: "Notice",
+                detail: data.message,
+              });
+              this.ResetMessageToasters();
+            }
+          },
+          (error) => {
+            console.log("Error: " + JSON.stringify(error));
+            this.messageService.add({
+              severity: "error",
+              summary: "Notice",
+              detail:
+                "Unable to perform action on user account at the moment.. Reason: [" +
+                error
+                  ? error.error.message
+                  : "request failed - permission" + "]",
+            });
+            this.ResetMessageToasters();
+          }
+        );
+      },
+    });
+  }
 
   EditUser(item: User) {
     this.editingUser = true;
@@ -290,7 +343,7 @@ export class UserSetupComponent implements OnInit {
     this.userForm.reset();
   }
 
-  DeleteUser(item: any) {}
+  DeleteUser(item: User) {}
 
   ActOnUserCreationRequest(item: any, approved: boolean) {}
 }

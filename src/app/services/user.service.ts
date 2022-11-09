@@ -35,4 +35,11 @@ export class UserService {
       data
     );
   }
+
+  SwitchUserAccountStatus(id: number): Observable<ResultVM> {
+    return this.http.patch<ResultVM>(
+      this.baseUrl + "SwitchUserAccountStatus/" + id,
+      null
+    );
+  }
 }
