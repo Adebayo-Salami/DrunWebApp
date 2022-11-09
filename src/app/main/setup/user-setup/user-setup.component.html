@@ -525,7 +525,7 @@
                         placeholder="--Select Assigned Role--"
                         [showClear]="true"
                         [filter]="true"
-                        optionLabel="name"
+                        optionLabel="roleName"
                       >
                       </p-dropdown>
                     </td>
@@ -534,13 +534,13 @@
                         label="Reject"
                         icon="pi pi-times"
                         styleClass="p-mr-2 p-button-danger"
-                        [disabled]="!selected.role"
                         (onClick)="ActOnUserCreationRequest(selected, false)"
                       ></p-button>
                       <p-button
                         label="Approve"
                         icon="pi pi-check"
                         styleClass="p-mr-2 p-button-success"
+                        [disabled]="!selected.role"
                         (onClick)="ActOnUserCreationRequest(selected, true)"
                       ></p-button>
                     </td>
