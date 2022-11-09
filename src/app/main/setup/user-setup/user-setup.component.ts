@@ -213,6 +213,7 @@ export class UserSetupComponent implements OnInit {
       mobile: this.userForm.get("Mobile").value,
       address: this.userForm.get("Address").value,
     };
+    postData.roleIds = [this.theRole.id];
 
     this.userService.UpdateUserProfile(id, postData).subscribe(
       async (data) => {
