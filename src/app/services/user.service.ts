@@ -3,7 +3,12 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ResultVM } from "../interfaces/main";
-import { CreateUserVM, UpdateProfileVM, User } from "../interfaces/user";
+import {
+  ActOnUserAccountRequestVM,
+  CreateUserVM,
+  UpdateProfileVM,
+  User,
+} from "../interfaces/user";
 
 @Injectable({
   providedIn: "root",
@@ -44,19 +49,11 @@ export class UserService {
   }
 
   ActOnUserAccountCreationRequest(
-    userId: number,
-    roleId: number,
-    action: boolean
+    data: ActOnUserAccountRequestVM
   ): Observable<ResultVM> {
-    return this.http.put<ResultVM>(
-      this.baseUrl +
-        "ActOnUserAccountCreationRequest/" +
-        userId +
-        "/" +
-        roleId +
-        "/" +
-        action,
-      null
+    return this.http.post<ResultVM>(
+      this.baseUrl + "ActOnUserAccountCreationRequest",
+      data
     );
   }
 }

@@ -3,7 +3,12 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, Message, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { Role } from "src/app/interfaces/role";
-import { CreateUserVM, UpdateProfileVM, User } from "src/app/interfaces/user";
+import {
+  ActOnUserAccountRequestVM,
+  CreateUserVM,
+  UpdateProfileVM,
+  User,
+} from "src/app/interfaces/user";
 import { RoleService } from "src/app/services/role.service";
 import { UserService } from "src/app/services/user.service";
 
@@ -362,45 +367,50 @@ export class UserSetupComponent implements OnInit {
         });
         this.ResetMessageToasters();
 
+        console.log(item);
         let roleId = approved ? item.role.id : 0;
-        this.userService
-          .ActOnUserAccountCreationRequest(item.id, roleId, approved)
-          .subscribe(
-            async (data) => {
-              if (data.isSuccessful) {
-                this.messageService.add({
-                  severity: "success",
-                  summary: "Completed",
-                  detail: approved
-                    ? "Account Request Approved Successfully!"
-                    : "Account Request Declined Successfully!",
-                });
-                this.CloseEditing();
-                this.ResetMessageToasters();
-                this.FetchAllUsers();
-              } else {
-                this.messageService.add({
-                  severity: "error",
-                  summary: "Notice",
-                  detail: data.message,
-                });
-                this.ResetMessageToasters();
-              }
-            },
-            (error) => {
-              console.log("Error: " + JSON.stringify(error));
+
+        const postData: ActOnUserAccountRequestVM = {
+          userId: item.id,
+          roleId: roleId,
+          action: approved,
+        };
+        this.userService.ActOnUserAccountCreationRequest(postData).subscribe(
+          async (data) => {
+            if (data.isSuccessful) {
+              this.messageService.add({
+                severity: "success",
+                summary: "Completed",
+                detail: approved
+                  ? "Account Request Approved Successfully!"
+                  : "Account Request Declined Successfully!",
+              });
+              this.CloseEditing();
+              this.ResetMessageToasters();
+              this.FetchAllUsers();
+            } else {
               this.messageService.add({
                 severity: "error",
                 summary: "Notice",
-                detail:
-                  "Unable to perform action on user account request at the moment.. Reason: [" +
-                  error
-                    ? error.error.message
-                    : "request failed - permission" + "]",
+                detail: data.message,
               });
               this.ResetMessageToasters();
             }
-          );
+          },
+          (error) => {
+            console.log("Error: " + JSON.stringify(error));
+            this.messageService.add({
+              severity: "error",
+              summary: "Notice",
+              detail:
+                "Unable to perform action on user account request at the moment.. Reason: [" +
+                error
+                  ? error.error.message
+                  : "request failed - permission" + "]",
+            });
+            this.ResetMessageToasters();
+          }
+        );
       },
     });
   }

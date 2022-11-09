@@ -82,6 +82,9 @@ export class ApiInterceptor implements HttpInterceptor {
           if (error.status == 401) {
             this.logout();
           }
+          if (error.status == 404) {
+            //Not Found
+          }
 
           if (error.status == 445) {
             //login again

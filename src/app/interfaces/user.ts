@@ -55,3 +55,9 @@ export interface UpdateProfileVM {
   roleIds?: number[];
   address?: string;
 }
+
+export interface ActOnUserAccountRequestVM {
+  userId: number;
+  roleId: number;
+  action?: boolean;
+}
