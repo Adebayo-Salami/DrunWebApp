@@ -171,9 +171,10 @@ export class AppMenuComponent implements OnInit {
 
   LoadLoggedInUserRolePages() {
     let userRoles = this.authUserRoles as UserRole[];
+    console.log(userRoles);
     this.rolePages = [];
     userRoles.forEach((userRole) => {
-      let pages = userRole.role.rolePages.split(";");
+      let pages = userRole.role.rolePages;
       this.rolePages.push(...pages);
     });
   }
