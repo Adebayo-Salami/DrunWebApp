@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { AuthenticateUserVM } from "../interfaces/auth";
+import { AuthenticateUserVM, AuthSessionVM } from "../interfaces/auth";
 import { ResultVM } from "../interfaces/main";
 
 @Injectable({
@@ -13,8 +13,11 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  Authenticate(data: AuthenticateUserVM): Observable<ResultVM> {
-    data.companyId = environment.CompanyId
-    return this.http.post<ResultVM>(this.baseUrl + "Authenticate", data);
+  Authenticate(data: AuthenticateUserVM): Observable<ResultVM<AuthSessionVM>> {
+    data.companyId = environment.CompanyId;
+    return this.http.post<ResultVM<AuthSessionVM>>(
+      this.baseUrl + "Authenticate",
+      data
+    );
   }
 }

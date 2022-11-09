@@ -7,7 +7,15 @@ export interface ProfileVM {
   othername: string;
   email: string;
   isApproved: boolean;
-  role: RoleVM;
+  userRoles: UserRole[];
+}
+
+export interface UserRole {
+  id: number;
+  roleId?: number;
+  role?: Role;
+  userId?: number;
+  user?: User;
 }
 
 export interface User {

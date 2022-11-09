@@ -9,17 +9,19 @@ import { PagesEnum } from "./interfaces/main";
 })
 export class AppMenuComponent implements OnInit {
   model: any[];
+  rolePages: string[] = [];
 
   constructor(public app: AppMainComponent) {}
 
   ngOnInit() {
-    this.ConfigureAppMenu();
-
-    if (!this.authUserProfile.role) {
+    if (!this.authUserProfile.userRoles) {
       sessionStorage.clear();
       localStorage.clear();
       return false;
     }
+    this.LoadLoggedInUserRolePages();
+
+    this.ConfigureAppMenu();
   }
 
   onMenuClick() {
@@ -167,11 +169,20 @@ export class AppMenuComponent implements OnInit {
     ];
   }
 
-  IsPageVisible(pageKey: number): boolean {
-    let visible = false;
+  LoadLoggedInUserRolePages() {
     let userProfile = this.authUserProfile as ProfileVM;
-    let rolePages = userProfile.role.rolePages;
-    rolePages.forEach((page) => {
+    let userRoles = userProfile.userRoles;
+    this.rolePages = [];
+    userRoles.forEach((userRole) => {
+      let pages = userRole.role.rolePages.split(";");
+      this.rolePages.push(...pages);
+    });
+  }
+
+  IsPageVisible(pageKey: number): boolean {
+    return true;
+    let visible = false;
+    this.rolePages.forEach((page) => {
       if (page) {
         if (+page == pageKey) visible = true;
       }
@@ -181,9 +192,8 @@ export class AppMenuComponent implements OnInit {
   }
 
   IsParentPageVisible(pageKeys: number[]): boolean {
-    let userProfile = this.authUserProfile as ProfileVM;
-    let rolePages = userProfile.role.rolePages;
-    let permission = rolePages.find((x) => pageKeys.find((y) => y == +x));
+    return true;
+    let permission = this.rolePages.find((x) => pageKeys.find((y) => y == +x));
 
     return permission ? true : false;
   }
