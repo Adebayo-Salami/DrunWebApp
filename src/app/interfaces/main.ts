@@ -11,6 +11,10 @@ export const PagesEnum = {
   Customer_Ordering_ApproveOrder: 10,
   Setup_UserRole: 11,
   Setup_User: 12,
+  Inventory_Setup: 13,
+  Inventory_ItemRequest: 14,
+  Inventory_ItemApproval: 15,
+  Inventory_ItemStore: 16,
 };
 Object.freeze(PagesEnum); // Do Not Change Arrangement of this enum
 

@@ -86,10 +86,6 @@ export class RoleSetupComponent implements OnInit {
         key: PagesEnum.Setup_User,
         value: "Setup User",
       },
-      // {
-      //   key: PagesEnum.Setup_UserRole,
-      //   value: "Setup User Role",
-      // },
       {
         key: PagesEnum.Setup_Product,
         value: "Setup Product",
@@ -121,6 +117,22 @@ export class RoleSetupComponent implements OnInit {
       {
         key: PagesEnum.Customer_Reporting_ProductMix,
         value: "Customer Reporting (Product Mix)",
+      },
+      {
+        key: PagesEnum.Inventory_Setup,
+        value: "Inventory Setup",
+      },
+      {
+        key: PagesEnum.Inventory_ItemRequest,
+        value: "Inventory Item Request",
+      },
+      {
+        key: PagesEnum.Inventory_ItemApproval,
+        value: "Inventory Item Approval",
+      },
+      {
+        key: PagesEnum.Inventory_ItemStore,
+        value: "Inventory Item Store",
       },
     ];
   }
@@ -242,6 +254,13 @@ export class RoleSetupComponent implements OnInit {
       return "Customer Reporting (Debt Age Analysis)";
     if (identifier == PagesEnum.Customer_Reporting_ProductMix)
       return "Customer Reporting (Product Mix)";
+    if (identifier == PagesEnum.Inventory_Setup) return "Inventory Setup";
+    if (identifier == PagesEnum.Inventory_ItemRequest)
+      return "Inventory Item Request";
+    if (identifier == PagesEnum.Inventory_ItemApproval)
+      return "Inventory Item Approval";
+    if (identifier == PagesEnum.Inventory_ItemStore)
+      return "Inventory Item Store";
 
     return "N/A";
   }

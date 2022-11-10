@@ -12,6 +12,10 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { UserRoleSetupComponent } from "./setup/user-role-setup/user-role-setup.component";
 import { UserSetupComponent } from "./setup/user-setup/user-setup.component";
+import { InventorySetupComponent } from "./inventory/inventory-setup/inventory-setup.component";
+import { InventoryItemRequestComponent } from "./inventory/inventory-item-request/inventory-item-request.component";
+import { InventoryItemApprovalComponent } from "./inventory/inventory-item-approval/inventory-item-approval.component";
+import { InventoryItemStoreComponent } from "./inventory/inventory-item-store/inventory-item-store.component";
 
 const routes: Routes = [
   {
@@ -36,6 +40,16 @@ const routes: Routes = [
         component: CustomerOrderViewComponent,
       },
       { path: "customer/reporting", component: CustomerReportingComponent },
+      { path: "inventory/setup", component: InventorySetupComponent },
+      {
+        path: "inventory/item-request",
+        component: InventoryItemRequestComponent,
+      },
+      {
+        path: "inventory/item-approval",
+        component: InventoryItemApprovalComponent,
+      },
+      { path: "inventory/item-store", component: InventoryItemStoreComponent },
     ],
   },
   {

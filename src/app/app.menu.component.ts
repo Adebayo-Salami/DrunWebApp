@@ -58,12 +58,6 @@ export class AppMenuComponent implements OnInit {
             visible: this.IsPageVisible(PagesEnum.Setup_Role),
             routerLink: ["/main/setup/role"],
           },
-          // {
-          //   label: "User Role Setup",
-          //   icon: "pi pi-fw pi-id-card",
-          //   visible: this.IsPageVisible(PagesEnum.Setup_UserRole),
-          //   routerLink: ["/main/setup/user-role"],
-          // },
           {
             label: "User Setup",
             icon: "pi pi-fw pi-id-card",
@@ -75,6 +69,42 @@ export class AppMenuComponent implements OnInit {
             icon: "pi pi-fw pi-id-card",
             visible: this.IsPageVisible(PagesEnum.Setup_Product),
             routerLink: ["/main/setup/product"],
+          },
+        ],
+      },
+      {
+        label: "Inventory Service",
+        icon: "pi pi-fw pi-cog",
+        visible: this.IsParentPageVisible([
+          PagesEnum.Inventory_Setup,
+          PagesEnum.Inventory_ItemRequest,
+          PagesEnum.Inventory_ItemApproval,
+          PagesEnum.Inventory_ItemStore,
+        ]),
+        items: [
+          {
+            label: "Setup",
+            icon: "pi pi-fw pi-id-card",
+            visible: this.IsPageVisible(PagesEnum.Inventory_Setup),
+            routerLink: ["/main/inventory/setup"],
+          },
+          {
+            label: "Setup",
+            icon: "pi pi-fw pi-id-card",
+            visible: this.IsPageVisible(PagesEnum.Inventory_ItemRequest),
+            routerLink: ["/main/inventory/item-request"],
+          },
+          {
+            label: "Setup",
+            icon: "pi pi-fw pi-id-card",
+            visible: this.IsPageVisible(PagesEnum.Inventory_ItemApproval),
+            routerLink: ["/main/inventory/item-approval"],
+          },
+          {
+            label: "Setup",
+            icon: "pi pi-fw pi-id-card",
+            visible: this.IsPageVisible(PagesEnum.Inventory_ItemStore),
+            routerLink: ["/main/inventory/item-store"],
           },
         ],
       },

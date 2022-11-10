@@ -82,6 +82,10 @@ import { CustomerOrderViewComponent } from './customer/customer-ordering/custome
 import { UserRoleSetupComponent } from './setup/user-role-setup/user-role-setup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserSetupComponent } from './setup/user-setup/user-setup.component';
+import { InventorySetupComponent } from './inventory/inventory-setup/inventory-setup.component';
+import { InventoryItemRequestComponent } from './inventory/inventory-item-request/inventory-item-request.component';
+import { InventoryItemApprovalComponent } from './inventory/inventory-item-approval/inventory-item-approval.component';
+import { InventoryItemStoreComponent } from './inventory/inventory-item-store/inventory-item-store.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +104,10 @@ import { UserSetupComponent } from './setup/user-setup/user-setup.component';
     UserRoleSetupComponent,
     ProfileComponent,
     UserSetupComponent,
+    InventorySetupComponent,
+    InventoryItemRequestComponent,
+    InventoryItemApprovalComponent,
+    InventoryItemStoreComponent,
   ],
   imports: [
     AvatarModule,
