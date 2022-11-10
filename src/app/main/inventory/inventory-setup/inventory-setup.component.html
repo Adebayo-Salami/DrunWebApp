@@ -1,1 +1,116 @@
-<p>inventory-setup works!</p>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="card" id="formFields" tabindex="1">
+  <p-tabView orientation="left">
+    <p-tabPanel header="Create Item">
+      <div class="card">
+        <div class="card mb-4">
+          <div class="p-card-body mt-4" #formWrapper id="formWrapper">
+            <div class="row">
+              <div class="col-7">
+                <form [formGroup]="itemForm" (ngSubmit)="CreateProduct()">
+                  <div class="p-fluid">
+                    <div class="p-field">
+                      <label for="nameLabel">Item Name:</label>
+                      <input
+                        id="nameLabel"
+                        type="text"
+                        pInputText
+                        placeholder="Item Name"
+                        formControlName="Name"
+                      />
+                    </div>
+                    <div class="p-field">
+                      <label for="descLabel">Item Description:</label>
+                      <textarea
+                        type="text"
+                        rows="4"
+                        cols="14"
+                        pInputTextarea
+                        id="descLabel"
+                        placeholder="Item Description"
+                        formControlName="Description"
+                      ></textarea>
+                    </div>
+                    <div class="p-field">
+                      <label for="isRawLabel">Is A Raw Material:</label>
+                      <div
+                        class="p-grid"
+                        style="margin-top: 3px; margin-left: 5px"
+                      >
+                        <div class="p-col-12 p-md-4">
+                          <div class="p-field-radiobutton">
+                            <p-radioButton
+                              name="IsRawMaterial"
+                              value="1"
+                              [(ngModel)]="isRawMaterialRadioButton"
+                              formControlName="IsRawMaterial"
+                              id="usecalendar"
+                            ></p-radioButton>
+                            <label for="usecalendar">Yes</label>
+                          </div>
+                        </div>
+                        <div class="p-col-12 p-md-4"></div>
+                        <div class="p-col-12 p-md-4">
+                          <div class="p-field-radiobutton">
+                            <p-radioButton
+                              name="IsRawMaterial"
+                              value="2"
+                              [(ngModel)]="isRawMaterialRadioButton"
+                              formControlName="IsRawMaterial"
+                              id="enterDefault"
+                            ></p-radioButton>
+                            <label for="enterDefault">No</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="p-grid">
+                    <div class="p-col-12 p-md-12">
+                      <div class="pt-2 text-right">
+                        <button
+                          style="width: 20%"
+                          pButton
+                          pRipple
+                          type="submit"
+                          *ngIf="!editingItem"
+                          [disabled]="itemForm.invalid"
+                          label="Create Item"
+                          icon="pi pi-plus-circle"
+                          class="p-button-raised p-mr-2 p-mb-2"
+                        ></button>
+                        <button
+                          pButton
+                          pRipple
+                          type="submit"
+                          *ngIf="editingItem"
+                          (click)="CloseEditingItem()"
+                          label="Cancel Editing Item"
+                          icon="pi pi-times-circle"
+                          class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
+                        ></button>
+                        <button
+                          pButton
+                          pRipple
+                          type="button"
+                          *ngIf="editingItem"
+                          [disabled]="itemForm.invalid"
+                          (click)="UpdateItem()"
+                          icon="pi pi-save"
+                          label="Update Item"
+                          class="p-button-raised p-mr-0 p-mb-2"
+                        ></button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Create Pack Size"> </p-tabPanel>
+  </p-tabView>
+</div>
