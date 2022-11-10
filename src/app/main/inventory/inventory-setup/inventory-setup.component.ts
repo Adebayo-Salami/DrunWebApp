@@ -11,12 +11,18 @@ import { BreadcrumbService } from "src/app/breadcrumb.service";
 export class InventorySetupComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
   itemForm: FormGroup;
+  packSizeForm: FormGroup;
   isRawMaterialRadioButton: number;
   editingItem: boolean;
   fetchingItems: boolean;
   allItems: any[];
   selectedItems: any[];
   itemCols: any[];
+  editingPackSize: boolean;
+  fetchingPackSize: boolean;
+  allPackSizes: any[];
+  selectedPackSize: any[];
+  packSizeCols: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -28,6 +34,11 @@ export class InventorySetupComponent implements OnInit {
       Name: ["", Validators.required],
       Description: ["", Validators.required],
       IsRawMaterial: ["", Validators.required],
+    });
+
+    this.packSizeForm = fb.group({
+      Caption: ["", Validators.required],
+      Description: ["", Validators.required],
     });
   }
 
@@ -49,13 +60,31 @@ export class InventorySetupComponent implements OnInit {
       { field: "isRawMaterial", header: "Is Raw Material" },
       { field: "dateAdded", header: "Date Added" },
     ];
+
+    this.packSizeCols = [
+      { field: "name", header: "Product Name" },
+      { field: "description", header: "Product Description" },
+      { field: "dateAdded", header: "Date Added" },
+    ];
   }
 
-  CreateIItem() {}
-
-  CreatePackSize() {}
+  CreateItem() {}
 
   CloseEditingItem() {}
 
   UpdateItem() {}
+
+  EditItem(item: any) {}
+
+  DeleteItem(item: any) {}
+
+  CreatePackSize() {}
+
+  CloseEditingPackSize() {}
+
+  UpdatePackSize() {}
+
+  EditPackSize(item: any) {}
+
+  DeletePackSize(item: any) {}
 }
