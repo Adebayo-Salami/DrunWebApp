@@ -242,6 +242,8 @@ export class RoleSetupComponent implements OnInit {
     if (identifier == PagesEnum.Dashboard) return "Dashboard";
     if (identifier == PagesEnum.Setup_Role) return "Setup Role";
     if (identifier == PagesEnum.Setup_Product) return "Setup Product";
+    if (identifier == PagesEnum.Setup_User) return "Setup User";
+    if (identifier == PagesEnum.Setup_UserRole) return "Setup User Role";
     if (identifier == PagesEnum.Customer_Onboarding)
       return "Customer Onboarding";
     if (identifier == PagesEnum.Customer_Ordering_CreateOrder)
