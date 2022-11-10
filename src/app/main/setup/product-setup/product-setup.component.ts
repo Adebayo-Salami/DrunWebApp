@@ -66,12 +66,12 @@ export class ProductSetupComponent implements OnInit {
   }
 
   RunMessageDialogue() {
-    this.msgs = [];
-    this.msgs.push({
-      severity: "info",
-      summary: "Notice:",
-      detail: "This page is for setting up company products.",
-    });
+    // this.msgs = [];
+    // this.msgs.push({
+    //   severity: "info",
+    //   summary: "Notice:",
+    //   detail: "This page is for setting up company products.",
+    // });
   }
 
   FetchAllProducts() {
