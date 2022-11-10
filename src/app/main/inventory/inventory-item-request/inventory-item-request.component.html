@@ -1,1 +1,80 @@
-<p>inventory-item-request works!</p>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="p-grid">
+  <div class="p-col-12 p-md-6">
+    <div class="card" #formWrapper>
+      <h5>Inventory Item Request</h5>
+      <form [formGroup]="requestForm" (ngSubmit)="CreateInventoryRequest()">
+        <div class="p-fluid">
+          <div class="p-field">
+            <label for="strBatchLabel">Request Name:</label>
+            <input
+              id="strBatchLabel"
+              type="text"
+              pInputText
+              placeholder="Request Name"
+              formControlName="Name"
+            />
+          </div>
+          <div class="p-field">
+            <label for="strBatchDescLabel">Request Description:</label>
+            <textarea
+              type="text"
+              rows="4"
+              cols="14"
+              pInputTextarea
+              id="strBatchDescLabel"
+              placeholder="Request Description"
+              formControlName="Description"
+            ></textarea>
+          </div>
+          <div class="p-field">
+            <label for="cenStoreLabel">Requesting Item:</label>
+            <p-dropdown
+              inputId="cenStoreLabel"
+              [options]="allInventoryItems"
+              [(ngModel)]="theInventoryItem"
+              placeholder="--Select Item--"
+              [showClear]="true"
+              [filter]="true"
+              optionLabel="name"
+              formControlName="Item"
+            >
+            </p-dropdown>
+          </div>
+          <div class="p-field">
+            <label for="qtyLabel">Quantity:</label>
+            <input
+              id="qtyLabel"
+              type="number"
+              pInputText
+              formControlName="Quantity"
+            />
+          </div>
+          <div class="p-field">
+            <label for="strBatchLabel">Unit Price (Is Raw Material):</label>
+            <input
+              id="strBatchLabel"
+              type="number"
+              pInputText
+              placeholder="Unit Price"
+              formControlName="BasePrice"
+            />
+          </div>
+        </div>
+        <div class="text-right">
+          <button
+            pButton
+            pRipple
+            type="submit"
+            [disabled]="requestForm.invalid"
+            label="Create Inventory Item Request"
+            icon="pi pi-plus-circle"
+            class="p-button-raised p-mr-2 p-mb-2"
+          ></button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="p-col-12 p-md-6"></div>
+</div>
