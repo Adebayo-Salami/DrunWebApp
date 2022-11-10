@@ -107,6 +107,141 @@
                 </form>
               </div>
             </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div
+                    *ngIf="fetchingItems; else tableDataItem"
+                    class="text-center"
+                  >
+                    <p-progressSpinner></p-progressSpinner>
+                  </div>
+                  <ng-template #tableDataItem>
+                    <p-table
+                      #dtItem
+                      [value]="allItems"
+                      [(selection)]="selectedItems"
+                      dataKey="id"
+                      styleClass="p-datatable-customers"
+                      [rowHover]="true"
+                      [rows]="10"
+                      [paginator]="true"
+                      [filterDelay]="0"
+                      [globalFilterFields]="[
+                        'name',
+                        'description',
+                        'dateAdded'
+                      ]"
+                      [columns]="itemCols"
+                    >
+                      <ng-template pTemplate="caption">
+                        <div>
+                          <button
+                            type="button"
+                            pButton
+                            pRipple
+                            icon="pi pi-file-o"
+                            (click)="dtItem.exportCSV()"
+                            class="p-mr-2"
+                            pTooltip="CSV"
+                            tooltipPosition="bottom"
+                            label="export all"
+                          ></button>
+                          <button
+                            type="button"
+                            pButton
+                            pRipple
+                            icon="pi pi-filter"
+                            (click)="dtItem.exportCSV({ selectionOnly: true })"
+                            class="p-button-info p-ml-auto"
+                            pTooltip="Selection Only"
+                            tooltipPosition="bottom"
+                            label="export selected"
+                          ></button>
+                        </div>
+                        <div class="table-header">
+                          <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input
+                              pInputText
+                              type="text"
+                              (input)="
+                                dtItem.filterGlobal(
+                                  $event.target.value,
+                                  'contains'
+                                )
+                              "
+                              placeholder="Global Search"
+                            />
+                          </span>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                          </th>
+                          <th pSortableColumn="name">
+                            Name
+                            <p-sortIcon field="name"></p-sortIcon>
+                          </th>
+                          <th pSortableColumn="description">
+                            Description
+                            <p-sortIcon field="description"></p-sortIcon>
+                          </th>
+                          <th>Is Raw Material</th>
+                          <th pSortableColumn="dateAdded">
+                            Date Added
+                            <p-sortIcon field="dateAdded"></p-sortIcon>
+                          </th>
+                          <th>Actions</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-selected>
+                        <tr class="p-selectable-row">
+                          <td>
+                            <p-tableCheckbox
+                              [value]="selected"
+                            ></p-tableCheckbox>
+                          </td>
+                          <td>{{ selected.name }}</td>
+                          <td>{{ selected.description }}</td>
+                          <td>
+                            <i
+                              *ngIf="selected.isRawMaterial"
+                              class="pi pi-check"
+                            ></i>
+                            <i
+                              *ngIf="!selected.isRawMaterial"
+                              class="pi pi-times"
+                            ></i>
+                          </td>
+                          <td>{{ selected.dateAdded | date: "yyyy-MM-dd" }}</td>
+                          <td>
+                            <p-button
+                              label=""
+                              icon="pi pi-trash"
+                              styleClass="p-mr-2 p-button-danger"
+                              (onClick)="DeleteProduct(selected)"
+                            ></p-button>
+                            <p-button
+                              label=""
+                              icon="pi pi-pencil"
+                              (onClick)="EditProduct(selected)"
+                            ></p-button>
+                          </td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="emptymessage">
+                        <tr>
+                          <td colspan="8">No Item(s) Yet!</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

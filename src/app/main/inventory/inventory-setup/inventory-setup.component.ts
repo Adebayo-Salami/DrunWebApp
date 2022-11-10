@@ -13,6 +13,10 @@ export class InventorySetupComponent implements OnInit {
   itemForm: FormGroup;
   isRawMaterialRadioButton: number;
   editingItem: boolean;
+  fetchingItems: boolean;
+  allItems: any[];
+  selectedItems: any[];
+  itemCols: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -38,6 +42,13 @@ export class InventorySetupComponent implements OnInit {
         routerLink: ["/main/inventory/setup"],
       },
     ]);
+
+    this.itemCols = [
+      { field: "name", header: "Product Name" },
+      { field: "description", header: "Product Description" },
+      { field: "isRawMaterial", header: "Is Raw Material" },
+      { field: "dateAdded", header: "Date Added" },
+    ];
   }
 
   CreateIItem() {}
