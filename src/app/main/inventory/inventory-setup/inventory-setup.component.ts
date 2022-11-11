@@ -12,6 +12,7 @@ export class InventorySetupComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
   itemForm: FormGroup;
   packSizeForm: FormGroup;
+  approvingOfficerForm: FormGroup;
   isRawMaterialRadioButton: number;
   editingItem: boolean;
   fetchingItems: boolean;
@@ -23,6 +24,10 @@ export class InventorySetupComponent implements OnInit {
   allPackSizes: any[];
   selectedPackSize: any[];
   packSizeCols: any[];
+  allUsers: any[];
+  theUser: any;
+  fetchingApprovingOfficers: boolean;
+  allApprovingOfficers: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -39,6 +44,10 @@ export class InventorySetupComponent implements OnInit {
     this.packSizeForm = fb.group({
       Caption: ["", Validators.required],
       Description: ["", Validators.required],
+    });
+
+    this.approvingOfficerForm = fb.group({
+      Officer: ["", Validators.required],
     });
   }
 
@@ -87,4 +96,8 @@ export class InventorySetupComponent implements OnInit {
   EditPackSize(item: any) {}
 
   DeletePackSize(item: any) {}
+
+  CreateApprovingOfficer() {}
+
+  DeleteApprovingOfficer(item: any) {}
 }
