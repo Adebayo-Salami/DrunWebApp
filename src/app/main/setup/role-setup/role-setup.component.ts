@@ -134,6 +134,10 @@ export class RoleSetupComponent implements OnInit {
         key: PagesEnum.Inventory_ItemStore,
         value: "Inventory Item Store",
       },
+      {
+        key: PagesEnum.Inventory_ItemConfirmation,
+        value: "Inventory Item Confirmation",
+      },
     ];
   }
 
@@ -263,6 +267,8 @@ export class RoleSetupComponent implements OnInit {
       return "Inventory Item Approval";
     if (identifier == PagesEnum.Inventory_ItemStore)
       return "Inventory Item Store";
+    if (identifier == PagesEnum.Inventory_ItemConfirmation)
+      return "Inventory Item Confirmation";
 
     return "N/A";
   }
