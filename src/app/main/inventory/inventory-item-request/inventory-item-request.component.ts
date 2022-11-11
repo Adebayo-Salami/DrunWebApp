@@ -14,6 +14,14 @@ export class InventoryItemRequestComponent implements OnInit {
   allInventoryItems: any[];
   theInventoryItem: any;
   selectedInventoryRawItems: any[] = [];
+  allRawMaterials: any[];
+  theRawMaterial: any;
+  rawMaterialQuantity: number;
+  selectedRawMaterials: any[];
+  fetchingItemRequests: boolean;
+  allItemRequested: any[];
+  selectedItemRequests: any[];
+  itemReqCols: any[];
 
   constructor(
     fb: FormBuilder,
@@ -27,6 +35,8 @@ export class InventoryItemRequestComponent implements OnInit {
       Quantity: ["", Validators.required],
       Item: ["", Validators.required],
       BasePrice: [""],
+      RawMaterial: [""],
+      QtyRawMaterial: [""],
     });
   }
 
@@ -41,9 +51,22 @@ export class InventoryItemRequestComponent implements OnInit {
         routerLink: ["/main/inventory/item-request"],
       },
     ]);
+
+    this.itemReqCols = [
+      { field: "name", header: "Name" },
+      { field: "description", header: "Description" },
+      { field: "requestingItem", header: "Requesting Item" },
+      { field: "quantiity", header: "Quantity" },
+    ];
   }
 
   // Check User Reuuesyt
   //INCLUDE INVENTORY CONFIRMATION IN
   CreateInventoryRequest() {}
+
+  AddRawMaterial() {}
+
+  RemoveRawMaterial(item: any) {}
+
+  EditItemRequest(item: any) {}
 }
