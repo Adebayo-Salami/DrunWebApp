@@ -22,6 +22,8 @@ export class InventoryItemRequestComponent implements OnInit {
   allItemRequested: any[];
   selectedItemRequests: any[];
   itemReqCols: any[];
+  allPackSizes: any[];
+  thePackSize: any;
 
   constructor(
     fb: FormBuilder,
@@ -34,6 +36,7 @@ export class InventoryItemRequestComponent implements OnInit {
       Description: ["", Validators.required],
       Quantity: ["", Validators.required],
       Item: ["", Validators.required],
+      PackSize: ["", Validators.required],
       BasePrice: [""],
       RawMaterial: [""],
       QtyRawMaterial: [""],
@@ -56,6 +59,7 @@ export class InventoryItemRequestComponent implements OnInit {
       { field: "name", header: "Name" },
       { field: "description", header: "Description" },
       { field: "requestingItem", header: "Requesting Item" },
+      { field: "requestedPackize", header: "Pack Size" },
       { field: "quantiity", header: "Quantity" },
     ];
   }
