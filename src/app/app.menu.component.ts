@@ -101,6 +101,12 @@ export class AppMenuComponent implements OnInit {
             routerLink: ["/main/inventory/item-approval"],
           },
           {
+            label: "Item Approval",
+            icon: "pi pi-fw pi-id-card",
+            visible: this.IsPageVisible(PagesEnum.Inventory_ItemConfirmation),
+            routerLink: ["/main/inventory/item-confirmation"],
+          },
+          {
             label: "Item Store",
             icon: "pi pi-fw pi-id-card",
             visible: this.IsPageVisible(PagesEnum.Inventory_ItemStore),

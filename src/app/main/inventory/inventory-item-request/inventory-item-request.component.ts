@@ -73,4 +73,6 @@ export class InventoryItemRequestComponent implements OnInit {
   RemoveRawMaterial(item: any) {}
 
   EditItemRequest(item: any) {}
+
+  DeleteItemRequest(item: any) {}
 }
