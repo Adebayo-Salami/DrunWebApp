@@ -1,1 +1,132 @@
-<p>inventory-item-confirmation works!</p>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="card">
+  <div class="p-grid">
+    <div class="p-col-12 p-md-6">
+      <div class="p-card-body mt-4" #formWrapper id="formWrapper">
+        <div class="row">
+          <div class="p-fluid">
+            <div class="p-field p-grid">
+              <label for="itemLabel" class="p-col-12 p-mb-2 p-md-3 p-mb-md-0"
+                >Inventory Item:</label
+              >
+              <div class="p-col-12 p-md-9">
+                <p-dropdown
+                  inputId="itemLabel"
+                  [options]="allInventoryItems"
+                  [(ngModel)]="theInventoryItem"
+                  placeholder="Select"
+                  [showClear]="true"
+                  [filter]="true"
+                  optionLabel="name"
+                  (onChange)="LoadItemConfirmations()"
+                >
+                </p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div
+              *ngIf="fetchingItemConfirmations; else tableDataItemConfirmation"
+              class="text-center"
+            >
+              <p-progressSpinner></p-progressSpinner>
+            </div>
+            <ng-template #tableDataItemConfirmation>
+              <p-table
+                #dtItemConfirmations
+                [value]="selectedItemConfirmations"
+                dataKey="id"
+                styleClass="p-datatable-customers"
+                [rowHover]="true"
+                [rows]="10"
+                [paginator]="true"
+                [filterDelay]="0"
+                [globalFilterFields]="[
+                  'batchName',
+                  'batchDescription',
+                  'itemQty'
+                ]"
+                [columns]="itemConfirmationCols"
+              >
+                <ng-template pTemplate="caption">
+                  <div>
+                    <button
+                      type="button"
+                      pButton
+                      pRipple
+                      icon="pi pi-file-o"
+                      (click)="dtItemConfirmations.exportCSV()"
+                      class="p-mr-2"
+                      pTooltip="CSV"
+                      tooltipPosition="bottom"
+                      label="export all"
+                    ></button>
+                  </div>
+                  <div class="table-header">
+                    <span class="p-input-icon-left">
+                      <i class="pi pi-search"></i>
+                      <input
+                        pInputText
+                        type="text"
+                        (input)="
+                          dtItemConfirmations.filterGlobal(
+                            $event.target.value,
+                            'contains'
+                          )
+                        "
+                        placeholder="Global Search"
+                      />
+                    </span>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 3rem">
+                      <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                    </th>
+                    <th pSortableColumn="batchName">
+                      Batch No
+                      <p-sortIcon field="batchName"></p-sortIcon>
+                    </th>
+                    <th>No of Items</th>
+                    <th>Batch Desc</th>
+                    <th>Qty</th>
+                    <th>Action</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-selected>
+                  <tr class="p-selectable-row">
+                    <td>
+                      <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+                    </td>
+                    <td>{{ selected.batchNumber }}</td>
+                    <td>{{ selected.description }}</td>
+                    <td>{{ selected.qty | number }}</td>
+                    <td>
+                      <p-button
+                        label=""
+                        icon="pi pi-arrow-right"
+                        (onClick)="LoadBatchDetails(selectedApprovedBatch)"
+                      ></p-button>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="4">No Item Pending Confirmation(s).</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-col-12 p-md-6"></div>
+  </div>
+</div>
