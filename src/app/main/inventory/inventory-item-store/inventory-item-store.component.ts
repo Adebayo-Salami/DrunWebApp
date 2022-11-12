@@ -18,6 +18,12 @@ export class InventoryItemStoreComponent implements OnInit {
     name: string;
     data: string;
   };
+  fetchingInventoryItems: boolean;
+  inventoryItems: any[];
+  selectedInventoryItems: any[];
+  inventoryItemCols: any[];
+  openInventoryItemDetailDialogue: boolean;
+  inventoryItemInView: any;
 
   constructor(
     fb: FormBuilder,
@@ -44,11 +50,11 @@ export class InventoryItemStoreComponent implements OnInit {
         data: "Deran Energy Ltd",
       },
       {
-        name: "Total Items In Store",
+        name: "Total Items In Inventory",
         data: "100,000",
       },
       {
-        name: "Total Store Value",
+        name: "Total Inventory Value",
         data: "N100,000,000",
       },
       {
@@ -56,9 +62,21 @@ export class InventoryItemStoreComponent implements OnInit {
         data: "",
       },
     ];
+
+    this.inventoryItemCols = [
+      { field: "caption", header: "Item.caption" },
+      { field: "description", header: "Item.description" },
+      { field: "quantity", header: "Quantity" },
+    ];
   }
 
   MakeStoreItemRequest() {}
 
   LoadItemsInStore() {}
+
+  ShowInventoryItemDetails(item: any) {}
+
+  ShowInventoryItemHistory(item: any) {}
+
+  HideInvetoryItemDetailDialog() {}
 }

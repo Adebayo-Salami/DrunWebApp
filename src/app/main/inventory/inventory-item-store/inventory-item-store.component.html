@@ -46,3 +46,177 @@
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div *ngIf="fetchingInventoryItems; else tableData" class="text-center">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+      <ng-template #tableData>
+        <p-table
+          #dt
+          [value]="inventoryItems"
+          [(selection)]="selectedInventoryItems"
+          dataKey="id"
+          styleClass="p-datatable-customers"
+          [rowHover]="true"
+          [rows]="10"
+          [paginator]="true"
+          [filterDelay]="0"
+          [globalFilterFields]="['caption', 'description', 'quantity']"
+          [columns]="inventoryItemCols"
+        >
+          <ng-template pTemplate="caption">
+            <div>
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-file-o"
+                (click)="dt.exportCSV()"
+                class="p-mr-2"
+                pTooltip="CSV"
+                tooltipPosition="bottom"
+                label="export all"
+              ></button>
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-filter"
+                (click)="dt.exportCSV({ selectionOnly: true })"
+                class="p-button-info p-ml-auto"
+                pTooltip="Selection Only"
+                tooltipPosition="bottom"
+                label="export selected"
+              ></button>
+            </div>
+            <div class="table-header">
+              <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                  pInputText
+                  type="text"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')"
+                  placeholder="Global Search"
+                />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th pSortableColumn="caption">
+                Item Name
+                <p-sortIcon field="caption"></p-sortIcon>
+              </th>
+              <th>Item Description</th>
+              <th pSortableColumn="quantity">
+                Quantity Available
+                <p-sortIcon field="quantity"></p-sortIcon>
+              </th>
+              <th>View More</th>
+              <th>View History</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-selected>
+            <tr class="p-selectable-row">
+              <td>
+                <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+              </td>
+              <td>
+                {{ selected.caption }}
+              </td>
+              <td>
+                {{ selected.description }}
+              </td>
+              <td>
+                {{ selected.quantity }}
+              </td>
+              <td>
+                <p-button
+                  label=""
+                  icon="pi pi-eye"
+                  (onClick)="ShowInventoryItemDetails(selected)"
+                ></p-button>
+              </td>
+              <td>
+                <p-button
+                  label=""
+                  icon="pi pi-list"
+                  (onClick)="ShowInventoryItemHistory(selected)"
+                ></p-button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="8">No Item In Inventory Yet!</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<p-dialog
+[(visible)]="openInventoryItemDetailDialogue"
+[style]="{ width: '450px' }"
+header="Inventory Item Details"
+[modal]="true"
+styleClass="p-fluid"
+>
+<ng-template pTemplate="content">
+  <div class="p-field">
+    <label for="itemNameLab">Item Name:</label>
+    <input
+      type="text"
+      pInputText
+      id="itemNameLab"
+      disabled="disabled"
+      [value]="inventoryItemInView.caption"
+    />
+  </div>
+  <div class="p-field">
+    <label for="itemQtyLab">Item Qty:</label>
+    <input
+      type="text"
+      pInputText
+      id="itemQtyLab"
+      disabled="disabled"
+      [value]="inventoryItemInView.quantity"
+    />
+  </div>
+  <div class="p-field">
+    <label for="itemDescPLab">Item Description:</label>
+    <textarea
+      pInputTextarea
+      id="itemDescPLab"
+      disabled="disabled"
+      [value]="inventoryItemInView.description"
+    ></textarea>
+  </div>
+  <div class="p-field">
+    <label for="itemCategPLab">Is Raw Material:</label>
+    <input
+      type="text"
+      pInputText
+      id="itemCategPLab"
+      disabled="disabled"
+      [value]="inventoryItemInView.type == 1 ? 'Yes' : 'No'"
+    />
+  </div>
+</ng-template>
+<ng-template pTemplate="footer">
+  <button
+    pButton
+    pRipple
+    label="Close"
+    icon="pi pi-times"
+    class="p-button-text"
+    (click)="HideInvetoryItemDetailDialog()"
+  ></button>
+</ng-template>
+</p-dialog
