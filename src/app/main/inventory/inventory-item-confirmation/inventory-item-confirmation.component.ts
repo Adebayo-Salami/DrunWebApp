@@ -15,6 +15,13 @@ export class InventoryItemConfirmationComponent implements OnInit {
   fetchingItemConfirmations: boolean;
   selectedItemConfirmations: any[];
   itemConfirmationCols: any[];
+  itemConfirmationsTable: {
+    field: string;
+    value: string;
+    isInput: boolean;
+  }[];
+  quantityConfirmed: number;
+  confirmationNote: string;
 
   constructor(
     fb: FormBuilder,
@@ -40,7 +47,62 @@ export class InventoryItemConfirmationComponent implements OnInit {
       { field: "batchDescription", header: "BatchDescription" },
       { field: "itemQty", header: "Item Quantity" },
     ];
+
+    this.itemConfirmationsTable = [
+      {
+        field: "Batch Name",
+        value: "Data",
+        isInput: false,
+      },
+      {
+        field: "Batch Description",
+        value: "Data",
+        isInput: false,
+      },
+      {
+        field: "Item Name",
+        value: "Data",
+        isInput: false,
+      },
+      {
+        field: "Quantity Requested",
+        value: "Data",
+        isInput: false,
+      },
+      {
+        field: "Quantity Confirmed",
+        value: "Data",
+        isInput: false,
+      },
+      {
+        field: "Request Raised By",
+        value: "Data",
+        isInput: false,
+      },
+      {
+        field: "Date Request Raised",
+        value: "Data",
+        isInput: false,
+      },
+      {
+        field: "",
+        value: "",
+        isInput: false,
+      },
+      {
+        field: "Quantity Confirming",
+        value: "0",
+        isInput: true,
+      },
+      {
+        field: "Confirmation Note",
+        value: "Data",
+        isInput: true,
+      },
+    ];
   }
 
   LoadItemConfirmations() {}
+
+  ConfirmRequestedItem() {}
 }

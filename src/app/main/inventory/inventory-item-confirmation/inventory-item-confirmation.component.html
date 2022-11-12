@@ -127,6 +127,41 @@
         </div>
       </div>
     </div>
-    <div class="p-col-12 p-md-6"></div>
+    <div class="p-col-12 p-md-6">
+      <p-table
+        #dtConfirmInward
+        [value]="itemConfirmationsTable"
+        dataKey="id"
+        styleClass="p-datatable-customers"
+        [rowHover]="true"
+        [rows]="10"
+        [paginator]="false"
+      >
+        <ng-template pTemplate="body" let-selected>
+          <tr class="p-selectable-row">
+            <td>
+              <b>{{ selected.field }}</b>
+            </td>
+            <td>{{ selected.value }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <div class="p-grid">
+        <div class="p-col-12 p-md-12">
+          <div class="pt-2 text-right">
+            <button
+              pButton
+              pRipple
+              type="button"
+              [disabled]="!quantityConfirmed || !confirmationNote"
+              (click)="ConfirmRequestedItem()"
+              icon="pi pi-save"
+              label="Confirm Item Requested"
+              class="p-button-raised p-mr-0 p-mb-2"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
