@@ -1,1 +1,208 @@
-<p>inventory-item-approval works!</p>
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class="p-grid">
+  <div class="card orders-table">
+    <h5>Requests Awaiting Approval</h5>
+    <div
+      *ngIf="fetchingPendingRequests; else tableDataPendReq"
+      class="text-center"
+    >
+      <p-progressSpinner></p-progressSpinner>
+    </div>
+    <ng-template #tableDataPendReq>
+      <p-table
+        #dtPendReq
+        [value]="allPendingRequests"
+        [(selection)]="selectedPendingRequests"
+        dataKey="id"
+        styleClass="p-datatable-customers"
+        [rowHover]="true"
+        [rows]="5"
+        [paginator]="true"
+        [filterDelay]="0"
+        [globalFilterFields]="['name', 'batchNumber', 'description']"
+        [columns]="pendingReqCols"
+      >
+        <ng-template pTemplate="caption">
+          <div>
+            <button
+              type="button"
+              pButton
+              pRipple
+              icon="pi pi-file-o"
+              (click)="dtPendReq.exportCSV()"
+              class="p-mr-2"
+              pTooltip="CSV"
+              tooltipPosition="bottom"
+              label="export all"
+            ></button>
+          </div>
+          <div class="table-header">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                (input)="
+                  dtPendReq.filterGlobal($event.target.value, 'contains')
+                "
+                placeholder="Global Search"
+              />
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">
+              Batch Name
+              <p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th>Batch Description</th>
+            <th>Item Requested</th>
+            <th>Quantity Requested</th>
+            <th>Date Requested</th>
+            <th>Requested By</th>
+            <th>Action</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-selected>
+          <tr class="p-selectable-row">
+            <td>{{ selected.name }}</td>
+            <td>{{ selected.description }}</td>
+            <td>{{ selected.itemRequested }}</td>
+            <td>{{ selected.quantityRequested }}</td>
+            <td>
+              {{ selected.dateCreated | date: "yyyy-MM-dd" }}
+            </td>
+            <td>{{ selected.requestedBy }}</td>
+            <td>
+              <p-button
+                label=""
+                icon="pi pi-chevron-down"
+                (onClick)="PickBatchToActOn(selectedPendingBatchRequest)"
+              ></p-button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">No Pending Item Request Yet!</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-template>
+  </div>
+  <div class="card orders-table">
+    <h5>Raw Material(s) needed for - Batch XYZ</h5>
+    <p-table
+      #dtRawItems
+      [value]="requestedItemRawMaterials"
+      [(selection)]="selectedItemRawMaterials"
+      dataKey="id"
+      styleClass="p-datatable-customers"
+      [rowHover]="true"
+      [rows]="5"
+      [paginator]="true"
+      [filterDelay]="0"
+      [globalFilterFields]="['name', 'description', 'quantity', 'totalInStock']"
+      [columns]="rawMaterialCols"
+    >
+      <ng-template pTemplate="caption">
+        <div>
+          <button
+            type="button"
+            pButton
+            pRipple
+            icon="pi pi-file-o"
+            (click)="dtRawItems.exportCSV()"
+            class="p-mr-2"
+            pTooltip="CSV"
+            tooltipPosition="bottom"
+            label="export all"
+          ></button>
+        </div>
+        <div class="table-header">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input
+              pInputText
+              type="text"
+              (input)="dtRawItems.filterGlobal($event.target.value, 'contains')"
+              placeholder="Global Search"
+            />
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th pSortableColumn="name">
+            Name
+            <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th>Desc</th>
+          <th pSortableColumn="quantity">
+            Quantiy Needed
+            <p-sortIcon field="quantity"></p-sortIcon>
+          </th>
+          <th>Total Quantity Available In Store</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-selected>
+        <tr class="p-selectable-row">
+          <td>
+            <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+          </td>
+          <td>{{ selected.name }}</td>
+          <td>
+            {{
+              selected.description.length > 50
+                ? (selected.description | slice: 0:50) + ".."
+                : selected.description
+            }}
+          </td>
+          <td>{{ selected.quantity | number }}</td>
+          <td>{{ selected.quantityInStore | number }}</td>
+          <td>
+            <p-button
+              label=""
+              icon="pi pi-chevron-right"
+              (onClick)="LoadItemStockCount(selectedBatchToActOnItem)"
+            ></p-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="3">No Raw Material Needed for the item requested.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <div class="p-grid">
+      <div class="p-col-12 p-md-12">
+        <div class="pt-2 text-right">
+          <button
+            pButton
+            pRipple
+            type="submit"
+            (click)="ShowDeclineItemRequested()"
+            label="Decline Item Request"
+            icon="pi pi-times"
+            class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            (click)="ShowApproveItemRequested()"
+            icon="pi pi-check"
+            label="Approve Item Request"
+            class="p-button-raised p-mr-0 p-mb-2"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
