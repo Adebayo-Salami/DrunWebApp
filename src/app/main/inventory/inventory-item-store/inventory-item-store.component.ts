@@ -24,6 +24,11 @@ export class InventoryItemStoreComponent implements OnInit {
   inventoryItemCols: any[];
   openInventoryItemDetailDialogue: boolean;
   inventoryItemInView: any;
+  openInventoryItemHistoryDialogue: boolean;
+  fetchingInventoryItemHistory: boolean;
+  inventoryItemHistories: any[];
+  selectedInventoryItemHistory: any[];
+  inventoryItemHistoryCols: any[];
 
   constructor(
     fb: FormBuilder,
@@ -68,6 +73,13 @@ export class InventoryItemStoreComponent implements OnInit {
       { field: "description", header: "Item.description" },
       { field: "quantity", header: "Quantity" },
     ];
+
+    this.inventoryItemHistoryCols = [
+      { field: "batchRequest.name", header: "BatchRequest.name" },
+      { field: "batchRequest.batchNumber", header: "BatchRequest.batchNumber" },
+      { field: "batchRequest.description", header: "BatchRequest.description" },
+      { field: "batchRequest.createdAt", header: "BatchRequest.createdAt" },
+    ];
   }
 
   MakeStoreItemRequest() {}
@@ -79,4 +91,6 @@ export class InventoryItemStoreComponent implements OnInit {
   ShowInventoryItemHistory(item: any) {}
 
   HideInvetoryItemDetailDialog() {}
+
+  HideInventoryItemHistoryDialog() {}
 }

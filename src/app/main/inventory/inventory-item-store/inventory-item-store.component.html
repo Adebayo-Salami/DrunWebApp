@@ -162,61 +162,185 @@
   </div>
 </div>
 <p-dialog
-[(visible)]="openInventoryItemDetailDialogue"
-[style]="{ width: '450px' }"
-header="Inventory Item Details"
-[modal]="true"
-styleClass="p-fluid"
+  [(visible)]="openInventoryItemDetailDialogue"
+  [style]="{ width: '750px' }"
+  header="Inventory Item Details"
+  [modal]="true"
+  styleClass="p-fluid"
 >
-<ng-template pTemplate="content">
-  <div class="p-field">
-    <label for="itemNameLab">Item Name:</label>
-    <input
-      type="text"
-      pInputText
-      id="itemNameLab"
-      disabled="disabled"
-      [value]="inventoryItemInView.caption"
-    />
-  </div>
-  <div class="p-field">
-    <label for="itemQtyLab">Item Qty:</label>
-    <input
-      type="text"
-      pInputText
-      id="itemQtyLab"
-      disabled="disabled"
-      [value]="inventoryItemInView.quantity"
-    />
-  </div>
-  <div class="p-field">
-    <label for="itemDescPLab">Item Description:</label>
-    <textarea
-      pInputTextarea
-      id="itemDescPLab"
-      disabled="disabled"
-      [value]="inventoryItemInView.description"
-    ></textarea>
-  </div>
-  <div class="p-field">
-    <label for="itemCategPLab">Is Raw Material:</label>
-    <input
-      type="text"
-      pInputText
-      id="itemCategPLab"
-      disabled="disabled"
-      [value]="inventoryItemInView.type == 1 ? 'Yes' : 'No'"
-    />
-  </div>
-</ng-template>
-<ng-template pTemplate="footer">
-  <button
-    pButton
-    pRipple
-    label="Close"
-    icon="pi pi-times"
-    class="p-button-text"
-    (click)="HideInvetoryItemDetailDialog()"
-  ></button>
-</ng-template>
-</p-dialog
+  <ng-template pTemplate="content">
+    <div class="p-field">
+      <label for="itemNameLab">Item Name:</label>
+      <input
+        type="text"
+        pInputText
+        id="itemNameLab"
+        disabled="disabled"
+        [value]="inventoryItemInView.caption"
+      />
+    </div>
+    <div class="p-field">
+      <label for="itemQtyLab">Item Qty:</label>
+      <input
+        type="text"
+        pInputText
+        id="itemQtyLab"
+        disabled="disabled"
+        [value]="inventoryItemInView.quantity"
+      />
+    </div>
+    <div class="p-field">
+      <label for="itemDescPLab">Item Description:</label>
+      <textarea
+        pInputTextarea
+        id="itemDescPLab"
+        disabled="disabled"
+        [value]="inventoryItemInView.description"
+      ></textarea>
+    </div>
+    <div class="p-field">
+      <label for="itemCategPLab">Is Raw Material:</label>
+      <input
+        type="text"
+        pInputText
+        id="itemCategPLab"
+        disabled="disabled"
+        [value]="inventoryItemInView.type == 1 ? 'Yes' : 'No'"
+      />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="HideInvetoryItemDetailDialog()"
+    ></button>
+  </ng-template>
+</p-dialog>
+<p-dialog
+  [(visible)]="openInventoryItemHistoryDialogue"
+  [style]="{ width: '850px' }"
+  header="Item Batch History"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="card">
+      <div
+        *ngIf="fetchingInventoryItemHistory; else tableHistory"
+        class="text-center"
+      >
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+      <ng-template #tableHistory>
+        <p-table
+          #dtHistory
+          [value]="inventoryItemHistories"
+          [(selection)]="selectedInventoryItemHistory"
+          dataKey="id"
+          styleClass="p-datatable-customers"
+          [rowHover]="true"
+          [rows]="5"
+          [paginator]="true"
+          [filterDelay]="0"
+          [globalFilterFields]="[
+            'batchRequest.name',
+            'batchRequest.batchNumber',
+            'batchRequest.description',
+            'batchRequest.createdAt'
+          ]"
+          [columns]="inventoryItemHistoryCols"
+        >
+          <ng-template pTemplate="caption">
+            <div>
+              <button
+                type="button"
+                pButton
+                pRipple
+                icon="pi pi-file-o"
+                (click)="dtHistory.exportCSV()"
+                class="p-mr-2"
+                pTooltip="CSV"
+                tooltipPosition="bottom"
+                label="export all"
+              ></button>
+            </div>
+            <div class="table-header">
+              <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input
+                  pInputText
+                  type="text"
+                  (input)="
+                    dtHistory.filterGlobal($event.target.value, 'contains')
+                  "
+                  placeholder="Global Search"
+                />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Status</th>
+              <th pSortableColumn="batchRequest.name">Batch Name</th>
+              <th pSortableColumn="batchRequest.batchNumber">Batch No</th>
+              <th>Qty</th>
+              <th *ngIf="isRegionBatchHistory">Unit Price</th>
+              <th pSortableColumn="batchRequest.createdAt">Date Requested</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-selected>
+            <tr class="p-selectable-row">
+              <td>
+                <i
+                  *ngIf="
+                    selected.isDispatchHistory &&
+                    selected.isDispatchHistory == true
+                  "
+                  class="pi pi-angle-double-up"
+                  style="font-size: 2rem; color: red"
+                ></i>
+                <i
+                  *ngIf="!selected.isDispatchHistory"
+                  class="pi pi-angle-double-down"
+                  style="font-size: 2rem; color: green"
+                ></i>
+              </td>
+              <td>{{ selected.batchRequest.name }}</td>
+              <td>
+                {{ selected.batchRequest.batchNumber }}
+              </td>
+              <td>
+                {{ GetItemInBatchQty(selected.batchRequest) }}
+              </td>
+              <td *ngIf="isRegionBatchHistory">
+                {{ GetItemInBatchUnitPrice(selected.batchRequest) }}
+              </td>
+              <td>
+                {{ selected.batchRequest.createdAt | date: "yyyy-MM-dd" }}
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="4">No History Found For this Invetory Item.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </ng-template>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="HideInventoryItemHistoryDialog()"
+    ></button>
+  </ng-template>
+</p-dialog>
