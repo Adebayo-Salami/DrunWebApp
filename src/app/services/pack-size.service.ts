@@ -21,8 +21,10 @@ export class PackSizeService {
     return this.http.post<ResultVM>(this.baseUrl + "CreatePackSize", data);
   }
 
-  GetAllPackSizes(): Observable<ResultVM<PackSize>> {
-    return this.http.get<ResultVM<PackSize>>(this.baseUrl + "GetAllPackSizes");
+  GetAllPackSizes(): Observable<ResultVM<PackSize[]>> {
+    return this.http.get<ResultVM<PackSize[]>>(
+      this.baseUrl + "GetAllPackSizes"
+    );
   }
 
   UpdatePackSize(id: number, data: UpdatePackSizeVM): Observable<ResultVM> {

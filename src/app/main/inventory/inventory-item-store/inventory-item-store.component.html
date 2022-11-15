@@ -112,6 +112,10 @@
                 Item Name
                 <p-sortIcon field="caption"></p-sortIcon>
               </th>
+              <th pSortableColumn="caption">
+                Pack Size
+                <p-sortIcon field="caption"></p-sortIcon>
+              </th>
               <th>Item Description</th>
               <th pSortableColumn="quantity">
                 Quantity Available
@@ -125,6 +129,9 @@
             <tr class="p-selectable-row">
               <td>
                 <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+              </td>
+              <td>
+                {{ selected.caption }}
               </td>
               <td>
                 {{ selected.caption }}
