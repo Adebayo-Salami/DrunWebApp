@@ -9,8 +9,8 @@ export interface InventoryItemRequest {
   productSupplierId?: number;
   isSentForApproval: boolean;
   dateSentForApproval?: Date;
-  approvedById?: number;
-  dateApproved?: Date;
+  actedOnById?: number;
+  dateActedOn?: Date;
   quantityConfirmed: number;
   isFullyConfirmed: boolean;
   dateAdded: Date;
@@ -41,4 +41,9 @@ export interface UpdateInventoryItemRequestVM {
   unitPrice?: number;
   productSupplierId?: number;
   rawMaterials?: ItemRequestRawMaterialVM[];
+}
+
+export interface ActOnInventoryItemRequestVM {
+  itemRequestId: number;
+  isApproved: boolean;
 }
