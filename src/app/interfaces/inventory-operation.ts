@@ -47,3 +47,9 @@ export interface ActOnInventoryItemRequestVM {
   itemRequestId: number;
   isApproved: boolean;
 }
+
+export interface ConfirmInventoryItemRequestVM {
+  itemRequestId: number;
+  quantityConfirmed: number;
+  confirmationNote: number;
+}

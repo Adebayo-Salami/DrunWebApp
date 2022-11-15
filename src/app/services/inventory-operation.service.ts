@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import {
   ActOnInventoryItemRequestVM,
+  ConfirmInventoryItemRequestVM,
   CreateInventoryItemRequestVM,
   InventoryItemRequest,
   UpdateInventoryItemRequestVM,
@@ -70,6 +71,23 @@ export class InventoryOperationService {
   ): Observable<ResultVM> {
     return this.http.post<ResultVM>(
       this.baseUrl + "ActOnInventoryItemRequest",
+      data
+    );
+  }
+
+  GetApprovedInventoryItemRequests(
+    inventoryItemId: number
+  ): Observable<ResultVM<InventoryItemRequest[]>> {
+    return this.http.get<ResultVM<InventoryItemRequest[]>>(
+      this.baseUrl + "GetAllPendingInventoryItemRequests/" + inventoryItemId
+    );
+  }
+
+  ConfirmInventoryItemRequest(
+    data: ConfirmInventoryItemRequestVM
+  ): Observable<ResultVM> {
+    return this.http.post<ResultVM>(
+      this.baseUrl + "ConfirmInventoryItemRequest",
       data
     );
   }
