@@ -2,7 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { InventoryItemRequest } from "../interfaces/inventory-operation";
+import {
+  CreateInventoryItemRequestVM,
+  InventoryItemRequest,
+} from "../interfaces/inventory-operation";
 import { ResultVM } from "../interfaces/main";
 
 @Injectable({
@@ -18,6 +21,15 @@ export class InventoryOperationService {
   > {
     return this.http.get<ResultVM<InventoryItemRequest>>(
       this.baseUrl + "GetAllPendingInventoryItemRequests"
+    );
+  }
+
+  CreateInventoryItemRequest(
+    data: CreateInventoryItemRequestVM
+  ): Observable<ResultVM> {
+    return this.http.post<ResultVM>(
+      this.baseUrl + "CreateInventoryItemRequest",
+      data
     );
   }
 }

@@ -15,3 +15,19 @@ export interface InventoryItemRequest {
   isFullyConfirmed: boolean;
   dateAdded: Date;
 }
+
+export interface CreateInventoryItemRequestVM {
+  requestName: string;
+  requestDescription: string;
+  requestedItemId: number;
+  requestedPackSizeId: number;
+  requestedQuantity: number;
+  unitPrice: number;
+  productSupplierId: number;
+  rawMaterials: ItemRequestRawMaterialVM[];
+}
+
+export interface ItemRequestRawMaterialVM {
+  itemId: number;
+  quantity: number;
+}
