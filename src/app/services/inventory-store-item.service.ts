@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
+import { InventoryLog } from "../interfaces/inventory-operation";
 import {
   InventoryStoreItem,
   InventoryStoreSummaryVM,
@@ -25,6 +26,14 @@ export class InventoryStoreItemService {
   GetAllInventoryItemsInStore(): Observable<ResultVM<InventoryStoreItem[]>> {
     return this.http.get<ResultVM<InventoryStoreItem[]>>(
       this.baseUrl + "GetAllInventoryItemsInStore"
+    );
+  }
+
+  GetInventoryStoreItemLogs(
+    inventoryStoreItemId: number
+  ): Observable<ResultVM<InventoryLog[]>> {
+    return this.http.get<ResultVM<InventoryLog[]>>(
+      this.baseUrl + "GetInventoryStoreItemLogs/" + inventoryStoreItemId
     );
   }
 }

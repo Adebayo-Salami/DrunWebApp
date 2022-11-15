@@ -53,3 +53,18 @@ export interface ConfirmInventoryItemRequestVM {
   quantityConfirmed: number;
   confirmationNote: number;
 }
+
+export interface InventoryLog {
+  id: number;
+  inventoryStoreItemId?: number;
+  unitPrice: number;
+  requestBatchId?: number;
+  requestBatchName: string;
+  quantity: number;
+  supplierServiceCharge?: number;
+  supplierId?: number;
+  supplierName: string;
+  status: number;
+  logNote: string;
+  dateAdded: Date;
+}
