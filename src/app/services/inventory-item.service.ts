@@ -21,8 +21,8 @@ export class InventoryItemService {
     return this.http.post<ResultVM>(this.baseUrl + "CreateInventoryItem", data);
   }
 
-  GetAllInventoryItems(): Observable<ResultVM<InventoryItem>> {
-    return this.http.get<ResultVM<InventoryItem>>(
+  GetAllInventoryItems(): Observable<ResultVM<InventoryItem[]>> {
+    return this.http.get<ResultVM<InventoryItem[]>>(
       this.baseUrl + "GetAllInventoryItems"
     );
   }

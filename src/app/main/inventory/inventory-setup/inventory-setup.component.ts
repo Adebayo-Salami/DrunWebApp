@@ -2,6 +2,14 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
+import { InventoryApprovingOfficer } from "src/app/interfaces/inventory-approving-officer";
+import {
+  CreateInventoryItemVM,
+  InventoryItem,
+} from "src/app/interfaces/inventory-item";
+import { PackSize } from "src/app/interfaces/pack-size";
+import { User } from "src/app/interfaces/user";
+import { InventoryItemService } from "src/app/services/inventory-item.service";
 
 @Component({
   selector: "app-inventory-setup",
@@ -16,21 +24,22 @@ export class InventorySetupComponent implements OnInit {
   isRawMaterialRadioButton: number;
   editingItem: boolean;
   fetchingItems: boolean;
-  allItems: any[];
-  selectedItems: any[];
+  allItems: InventoryItem[];
+  selectedItems: InventoryItem[];
   itemCols: any[];
   editingPackSize: boolean;
   fetchingPackSize: boolean;
-  allPackSizes: any[];
-  selectedPackSize: any[];
+  allPackSizes: PackSize[];
+  selectedPackSize: PackSize[];
   packSizeCols: any[];
-  allUsers: any[];
-  theUser: any;
+  allUsers: User[];
+  theUser: User;
   fetchingApprovingOfficers: boolean;
-  allApprovingOfficers: any[];
+  allApprovingOfficers: InventoryApprovingOfficer[];
 
   constructor(
     private fb: FormBuilder,
+    private inventoryItemService: InventoryItemService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,
     public messageService: MessageService
@@ -79,9 +88,88 @@ export class InventorySetupComponent implements OnInit {
     this.FetchAllItems();
   }
 
-  FetchAllItems() {}
+  FetchAllItems() {
+    this.fetchingItems = true;
+    this.inventoryItemService.GetAllInventoryItems().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          this.fetchingItems = false;
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
 
-  CreateItem() {}
+        this.allItems = data.object;
+        this.fetchingItems = false;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all products at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.fetchingItems = false;
+      }
+    );
+  }
+
+  CreateItem() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Creating Inventory Item...",
+    });
+
+    const postData: CreateInventoryItemVM = {
+      name: this.itemForm.get("Name").value,
+      description: this.itemForm.get("Description").value,
+      isRawMaterial: this.isRawMaterialRadioButton == 1 ? true : false,
+    };
+
+    this.inventoryItemService.CreateInventoryItem(postData).subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Completed",
+          detail: "Inventory Item Created Successfully...",
+        });
+
+        this.fetchingItems = true;
+        this.isRawMaterialRadioButton = null;
+        this.itemForm.reset();
+        this.FetchAllItems();
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to create inventory item  at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
 
   CloseEditingItem() {}
 
