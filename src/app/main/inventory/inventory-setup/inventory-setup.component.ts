@@ -25,6 +25,7 @@ import { User } from "src/app/interfaces/user";
 import { InventoryApprovingOfficerService } from "src/app/services/inventory-approving-officer.service";
 import { InventoryItemService } from "src/app/services/inventory-item.service";
 import { PackSizeService } from "src/app/services/pack-size.service";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
   selector: "app-inventory-setup",
@@ -58,6 +59,7 @@ export class InventorySetupComponent implements OnInit {
     private fb: FormBuilder,
     private inventoryItemService: InventoryItemService,
     private packSizeService: PackSizeService,
+    private userService: UserService,
     private inventoryApprovingOfficerService: InventoryApprovingOfficerService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,
@@ -106,7 +108,7 @@ export class InventorySetupComponent implements OnInit {
 
     this.FetchAllItems();
     this.FetchAllPackSizes();
-    this.FetchAllApprovingOfficers();
+    this.FetchAllUsers();
   }
 
   FetchAllItems() {
@@ -171,6 +173,36 @@ export class InventorySetupComponent implements OnInit {
             "]",
         });
         this.fetchingPackSize = false;
+      }
+    );
+  }
+
+  FetchAllUsers() {
+    this.userService.GetAllUserAccounts().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.allUsers = data.object;
+        this.FetchAllApprovingOfficers();
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all users at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
       }
     );
   }
