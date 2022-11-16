@@ -12,7 +12,11 @@ import {
   ProductVM,
   UpdateProductVM,
 } from "src/app/interfaces/product";
-import { CreateSupplierVM, ProductSupplier } from "src/app/interfaces/supplier";
+import {
+  CreateSupplierVM,
+  ProductSupplier,
+  UpdateSupplierVM,
+} from "src/app/interfaces/supplier";
 import { ProductService } from "src/app/services/product.service";
 import { SupplierService } from "src/app/services/supplier.service";
 
@@ -37,6 +41,7 @@ export class ProductSetupComponent implements OnInit {
   allSuppliers: ProductSupplier[];
   selectedSuppliers: ProductSupplier[];
   supplierCols: any[];
+  supplierToEdit: ProductSupplier;
 
   constructor(
     private fb: FormBuilder,
@@ -272,6 +277,7 @@ export class ProductSetupComponent implements OnInit {
             detail: data.message,
           });
           console.log("Error: " + JSON.stringify(data));
+          this.RunMessageDialogue();
           return;
         }
 
@@ -320,6 +326,7 @@ export class ProductSetupComponent implements OnInit {
                 detail: data.message,
               });
               console.log("Error: " + JSON.stringify(data));
+              this.RunMessageDialogue();
               return;
             }
 
@@ -410,11 +417,147 @@ export class ProductSetupComponent implements OnInit {
     );
   }
 
-  CloseEditingSupplier() {}
+  CloseEditingSupplier() {
+    this.editingSupplier = false;
+    this.supplierToEdit = null;
+    this.supplierForm.reset();
+  }
 
-  UpdateProductSupplier() {}
+  UpdateProductSupplier() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Updating Supplier...",
+    });
+    this.RunMessageDialogue();
 
-  DeleteProductSupplier(item: ProductSupplier) {}
+    const id = this.supplierToEdit.id;
+    const postData: UpdateSupplierVM = {
+      supplierName: this.supplierForm.get("Name").value,
+      supplierDescription: this.supplierForm.get("Description").value,
+      supplierLocation: this.supplierForm.get("Location").value,
+      contactPersonName: this.supplierForm.get("ContactName").value,
+      contactPersonMobile: this.supplierForm.get("ContactMobile").value,
+      contactPersonEmail: this.supplierForm.get("ContactEmail").value,
+      serviceCharge: this.supplierForm.get("ServiceCharge").value,
+    };
 
-  EditProductSupplier(item: ProductSupplier) {}
+    this.supplierService.UpdateSupplier(id, postData).subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          this.RunMessageDialogue();
+          return;
+        }
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Notice",
+          detail: "Update Successful!",
+        });
+        this.RunMessageDialogue();
+        this.CloseEditingSupplier();
+        this.FetchAllProductSuppliers();
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to update supplier at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.RunMessageDialogue();
+      }
+    );
+  }
+
+  DeleteProductSupplier(item: ProductSupplier) {
+    this.confirmationService.confirm({
+      message: "Are you sure you want to remove supplier?",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: "Removing supplier...",
+        });
+        this.RunMessageDialogue();
+
+        this.supplierService.DeleteSupplier(item.id).subscribe(
+          async (data) => {
+            if (!data.isSuccessful) {
+              this.messageService.add({
+                severity: "error",
+                summary: "Failure",
+                detail: data.message,
+              });
+              console.log("Error: " + JSON.stringify(data));
+              this.RunMessageDialogue();
+              return;
+            }
+
+            this.messageService.add({
+              severity: "success",
+              summary: "Removed",
+              detail: "Removed successfully",
+            });
+            this.RunMessageDialogue();
+
+            this.CloseEditingSupplier();
+            this.fetchingSuppliers = true;
+            const index = this.allSuppliers.indexOf(item);
+            if (index > -1) {
+              this.allSuppliers.splice(index, 1);
+            }
+            this.fetchingSuppliers = false;
+          },
+          (error) => {
+            console.log("Error: " + JSON.stringify(error));
+            this.messageService.add({
+              severity: "error",
+              summary: "Notice",
+              detail:
+                "Unable to remove suppler at the moment.. Reason: [" +
+                error.message +
+                "]",
+            });
+            this.RunMessageDialogue();
+          }
+        );
+      },
+    });
+  }
+
+  EditProductSupplier(item: ProductSupplier) {
+    this.editingSupplier = true;
+    this.supplierForm.addControl(
+      "ID",
+      new FormControl({ value: "", disabled: true }, Validators.required)
+    );
+
+    this.supplierToEdit = item;
+    this.supplierForm.patchValue({
+      ID: item.id,
+      Name: item.supplierName,
+      Description: item.supplierDescription,
+      Location: item.supplierLocation,
+      ContactName: item.contactPersonName,
+      ContactMobile: item.contactPersonMobile,
+      ContactEmail: item.contactPersonEmail,
+      ServiceCharge: item.serviceCharge,
+    });
+
+    this.formWrapper.nativeElement.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "start",
+    });
+  }
 }
