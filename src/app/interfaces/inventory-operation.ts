@@ -69,6 +69,7 @@ export interface InventoryLog {
   supplierName: string;
   status: number;
   logNote: string;
+  requestedById?: number;
   dateAdded: Date;
 }
 

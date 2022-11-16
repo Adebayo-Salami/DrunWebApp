@@ -323,7 +323,7 @@
                 {{ "N" + (selected.unitPrice | number) }}
               </td>
               <td>
-                {{ GetUserName(0) }}
+                {{ GetUserName(selected.requestedById) }}
               </td>
               <td>
                 {{ selected.dateAdded | date: "yyyy-MM-dd" }}
