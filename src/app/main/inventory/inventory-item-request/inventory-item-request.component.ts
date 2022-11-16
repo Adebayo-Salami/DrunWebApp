@@ -305,6 +305,15 @@ export class InventoryItemRequestComponent implements OnInit {
       return;
     }
 
+    if (this.theRawMaterial.id == this.theInventoryItem.id) {
+      this.messageService.add({
+        severity: "error",
+        summary: "Failure",
+        detail: "Raw Material can't be same as requesting item",
+      });
+      return;
+    }
+
     this.selectedRawMaterials.push({
       ItemId: this.theRawMaterial.id,
       PackSizeId: this.theRawMaterialPackSize.id,
@@ -313,6 +322,7 @@ export class InventoryItemRequestComponent implements OnInit {
 
     this.theRawMaterial = null;
     this.rawMaterialQuantity = null;
+    this.theRawMaterialPackSize = null;
   }
 
   RemoveRawMaterial(item: {
@@ -332,6 +342,9 @@ export class InventoryItemRequestComponent implements OnInit {
     this.theSupplier = null;
     this.selectedRawMaterials = [];
     this.itemRequestToEdit = null;
+    this.theRawMaterial = null;
+    this.rawMaterialQuantity = null;
+    this.theRawMaterialPackSize = null;
     this.requestForm.reset();
   }
 
