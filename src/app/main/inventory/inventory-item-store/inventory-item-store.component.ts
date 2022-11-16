@@ -258,9 +258,18 @@ export class InventoryItemStoreComponent implements OnInit {
     return "N/A";
   }
 
-  ShowInventoryItemDetails(item: any) {}
+  GetItemType(itemId: number): number {
+    let item = this.allItems.find((x) => x.id == itemId);
+    if (item) return item.itemType;
 
-  ShowInventoryItemHistory(item: any) {}
+    return 0;
+  }
+
+  ShowInventoryItemDetails(item: InventoryStoreItem) {
+    this.inventoryItemInView = item;
+  }
+
+  ShowInventoryItemHistory(item: InventoryStoreItem) {}
 
   HideInvetoryItemDetailDialog() {}
 

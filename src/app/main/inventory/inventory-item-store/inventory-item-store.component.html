@@ -183,7 +183,7 @@
         pInputText
         id="itemNameLab"
         disabled="disabled"
-        [value]="inventoryItemInView.caption"
+        [value]="GetItemName(inventoryItemInView.inventoryItemId)"
       />
     </div>
     <div class="p-field">
@@ -193,7 +193,7 @@
         pInputText
         id="itemQtyLab"
         disabled="disabled"
-        [value]="inventoryItemInView.quantity"
+        [value]="inventoryItemInView.quantityInStore"
       />
     </div>
     <div class="p-field">
@@ -202,7 +202,7 @@
         pInputTextarea
         id="itemDescPLab"
         disabled="disabled"
-        [value]="inventoryItemInView.description"
+        [value]="GetItemDescription(inventoryItemInView.inventoryItemId)"
       ></textarea>
     </div>
     <div class="p-field">
@@ -212,7 +212,9 @@
         pInputText
         id="itemCategPLab"
         disabled="disabled"
-        [value]="inventoryItemInView.type == 1 ? 'Yes' : 'No'"
+        [value]="
+          GetItemType(inventoryItemInView.inventoryItemId) == 1 ? 'Yes' : 'No'
+        "
       />
     </div>
   </ng-template>
