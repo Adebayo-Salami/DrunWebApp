@@ -26,9 +26,9 @@ export class InventoryApprovingOfficerService {
   }
 
   GetAllInventoryApprovingOfficers(): Observable<
-    ResultVM<InventoryApprovingOfficer>
+    ResultVM<InventoryApprovingOfficer[]>
   > {
-    return this.http.get<ResultVM<InventoryApprovingOfficer>>(
+    return this.http.get<ResultVM<InventoryApprovingOfficer[]>>(
       this.baseUrl + "GetAllInventoryApprovingOfficers"
     );
   }
