@@ -8,7 +8,7 @@
     dataKey="id"
     styleClass="p-datatable-customers"
     [rowHover]="true"
-    [rows]="3"
+    [rows]="4"
     [paginator]="false"
   >
     <ng-template pTemplate="body" let-selected>
@@ -46,7 +46,7 @@
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="showItemsInStore">
   <div class="col-12">
     <div class="card">
       <div *ngIf="fetchingInventoryItems; else tableData" class="text-center">
@@ -131,16 +131,16 @@
                 <p-tableCheckbox [value]="selected"></p-tableCheckbox>
               </td>
               <td>
-                {{ selected.caption }}
+                {{ GetItemName(selected.inventoryItemId) }}
               </td>
               <td>
-                {{ selected.caption }}
+                {{ GetPackSizeCaption(selected.packSizeId) }}
               </td>
               <td>
-                {{ selected.description }}
+                {{ GetItemDescription(selected.inventoryItemId) }}
               </td>
               <td>
-                {{ selected.quantity }}
+                {{ selected.quantityInStore | number }}
               </td>
               <td>
                 <p-button
