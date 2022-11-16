@@ -105,6 +105,7 @@ export class InventoryItemStoreComponent implements OnInit {
     this.LoadStoreSummary();
     this.FetchAllItems();
     this.FetchAllPackSizes();
+    this.FetchAllUsers();
   }
 
   LoadStoreSummary() {
