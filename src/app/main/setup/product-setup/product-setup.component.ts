@@ -12,6 +12,7 @@ import {
   ProductVM,
   UpdateProductVM,
 } from "src/app/interfaces/product";
+import { ProductSupplier } from "src/app/interfaces/supplier";
 import { ProductService } from "src/app/services/product.service";
 
 @Component({
@@ -24,11 +25,17 @@ export class ProductSetupComponent implements OnInit {
   msgs: Message[] = [];
   cols: any[];
   productForm: FormGroup;
+  supplierForm: FormGroup;
   editing: boolean;
   fetching: boolean;
   allProducts: ProductVM[];
   selectedProducts: ProductVM[];
   productToEdit: ProductVM;
+  editingSupplier: boolean;
+  fetchingSuppliers: boolean;
+  allSuppliers: ProductSupplier[];
+  selectedSuppliers: ProductSupplier[];
+  supplierCols: any[];
 
   constructor(
     private fb: FormBuilder,
@@ -40,6 +47,16 @@ export class ProductSetupComponent implements OnInit {
     this.productForm = fb.group({
       Name: ["", Validators.required],
       Description: ["", Validators.required],
+    });
+
+    this.supplierForm = fb.group({
+      Name: ["", Validators.required],
+      Description: ["", Validators.required],
+      Location: ["", Validators.required],
+      ContactName: ["", Validators.required],
+      ContactMobile: ["", Validators.required],
+      ContactEmail: [""],
+      ServiceCharge: ["", Validators.required],
     });
   }
 
@@ -58,6 +75,17 @@ export class ProductSetupComponent implements OnInit {
     this.cols = [
       { field: "name", header: "Product Name" },
       { field: "description", header: "Product Description" },
+      { field: "dateAdded", header: "Date Added" },
+    ];
+
+    this.supplierCols = [
+      { field: "supplierName", header: "Supplier Name" },
+      { field: "supplierDescription", header: "Supplier Description" },
+      { field: "supplierLocation", header: "Supplier Location" },
+      { field: "contactPersonName", header: "Supplier Contact Name" },
+      { field: "contactPersonMobile", header: "Supplier Contact Mobile" },
+      { field: "contactPersonEmail", header: "Supplier Contact Email" },
+      { field: "serviceCharge", header: "Supplier Service Charge" },
       { field: "dateAdded", header: "Date Added" },
     ];
 
@@ -289,5 +317,9 @@ export class ProductSetupComponent implements OnInit {
     });
   }
 
-  // Product Supplier Service Charge Location Contact Person Details Email
+  CreateProductSupplier() {}
+
+  CloseEditingSupplier() {}
+
+  UpdateProductSupplier() {}
 }

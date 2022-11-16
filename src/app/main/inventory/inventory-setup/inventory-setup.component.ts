@@ -101,7 +101,7 @@ export class InventorySetupComponent implements OnInit {
     ];
 
     this.packSizeCols = [
-      { field: "name", header: "Product Name" },
+      { field: "caption", header: "Product Name" },
       { field: "description", header: "Product Description" },
       { field: "dateAdded", header: "Date Added" },
     ];

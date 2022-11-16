@@ -234,7 +234,7 @@
                       </ng-template>
                       <ng-template pTemplate="emptymessage">
                         <tr>
-                          <td colspan="8">No Item(s) Yet!</td>
+                          <td colspan="3">No Item(s) Yet!</td>
                         </tr>
                       </ng-template>
                     </p-table>
@@ -339,7 +339,7 @@
                       [paginator]="true"
                       [filterDelay]="0"
                       [globalFilterFields]="[
-                        'name',
+                        'caption',
                         'description',
                         'dateAdded'
                       ]"
@@ -416,7 +416,7 @@
                               [value]="selected"
                             ></p-tableCheckbox>
                           </td>
-                          <td>{{ selected.name }}</td>
+                          <td>{{ selected.caption }}</td>
                           <td>{{ selected.description }}</td>
                           <td>{{ selected.dateAdded | date: "yyyy-MM-dd" }}</td>
                           <td>
@@ -436,7 +436,7 @@
                       </ng-template>
                       <ng-template pTemplate="emptymessage">
                         <tr>
-                          <td colspan="8">No Pac Size(s) Yet!</td>
+                          <td colspan="3">No Pac Size(s) Yet!</td>
                         </tr>
                       </ng-template>
                     </p-table>
@@ -605,7 +605,7 @@
                       </ng-template>
                       <ng-template pTemplate="emptymessage">
                         <tr>
-                          <td colspan="8">No Approving Officer(s) Yet!</td>
+                          <td colspan="3">No Approving Officer(s) Yet!</td>
                         </tr>
                       </ng-template>
                     </p-table>
