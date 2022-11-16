@@ -75,7 +75,11 @@ export class InventorySetupComponent implements OnInit {
       { field: "description", header: "Product Description" },
       { field: "dateAdded", header: "Date Added" },
     ];
+
+    this.FetchAllItems();
   }
+
+  FetchAllItems() {}
 
   CreateItem() {}
 
