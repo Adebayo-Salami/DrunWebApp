@@ -422,11 +422,11 @@
                             <p-sortIcon field="supplierName"></p-sortIcon>
                           </th>
                           <th>Description</th>
+                          <th>Service Charge</th>
                           <th>Location</th>
                           <th>Contact Name</th>
                           <th>Contact Mobile</th>
                           <th>Contact Email</th>
-                          <th>Service Charge</th>
                           <th>Date Added</th>
                           <th>Actions</th>
                         </tr>
@@ -440,11 +440,11 @@
                           </td>
                           <td>{{ selected.supplierName }}</td>
                           <td>{{ selected.supplierDescription }}</td>
+                          <td>{{ "N" + (selected.serviceCharge | number) }}</td>
                           <td>{{ selected.supplierLocation }}</td>
                           <td>{{ selected.contactPersonName }}</td>
                           <td>{{ selected.contactPersonMobile }}</td>
                           <td>{{ selected.contactPersonEmail }}</td>
-                          <td>{{ "N" + (selected.serviceCharge | number) }}</td>
                           <td>{{ selected.dateAdded | date: "yyyy-MM-dd" }}</td>
                           <td>
                             <p-button
