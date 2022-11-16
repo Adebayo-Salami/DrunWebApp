@@ -13,6 +13,7 @@ export interface InventoryItemRequest {
   dateActedOn?: Date;
   quantityConfirmed: number;
   isFullyConfirmed: boolean;
+  rawMaterials: InventoryItemRequestRawMaterial[];
   dateAdded: Date;
 }
 
@@ -66,5 +67,13 @@ export interface InventoryLog {
   supplierName: string;
   status: number;
   logNote: string;
+  dateAdded: Date;
+}
+
+export interface InventoryItemRequestRawMaterial {
+  id: number;
+  itemRequestId?: number;
+  rawMaterialId?: number;
+  quantity: number;
   dateAdded: Date;
 }

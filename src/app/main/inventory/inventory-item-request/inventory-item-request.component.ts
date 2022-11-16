@@ -1,5 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from "@angular/forms";
 import { MessageService, ConfirmationService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { InventoryItem } from "src/app/interfaces/inventory-item";
@@ -40,6 +45,8 @@ export class InventoryItemRequestComponent implements OnInit {
   thePackSize: PackSize;
   allSuppliers: ProductSupplier[];
   theSupplier: ProductSupplier;
+  editingItemRequest: boolean;
+  itemRequestToEdit: InventoryItemRequest;
 
   constructor(
     fb: FormBuilder,
@@ -58,7 +65,7 @@ export class InventoryItemRequestComponent implements OnInit {
       Item: ["", Validators.required],
       PackSize: ["", Validators.required],
       Supplier: ["", Validators.required],
-      BasePrice: [""],
+      BasePrice: ["", Validators.required],
       RawMaterial: [""],
       QtyRawMaterial: [""],
     });
@@ -309,7 +316,55 @@ export class InventoryItemRequestComponent implements OnInit {
     }
   }
 
-  EditItemRequest(item: InventoryItemRequest) {}
+  CloseEditingItemRequest() {
+    this.theInventoryItem = null;
+    this.thePackSize = null;
+    this.theSupplier = null;
+    this.selectedRawMaterials = [];
+    this.itemRequestToEdit = null;
+    this.requestForm.reset();
+  }
+
+  EditItemRequest(item: InventoryItemRequest) {
+    this.editingItemRequest = true;
+    this.requestForm.addControl(
+      "ID",
+      new FormControl({ value: "", disabled: true }, Validators.required)
+    );
+
+    this.itemRequestToEdit = item;
+    this.requestForm.patchValue({
+      ID: item.id,
+      Name: item.requestName,
+      Description: item.requestDescription,
+      Quantity: item.requestedQuantity,
+      BasePrice: item.unitPrice,
+    });
+    this.theInventoryItem = this.allInventoryItems.find(
+      (x) => x.id == item.requestedItemId
+    );
+    this.thePackSize = this.allPackSizes.find(
+      (x) => x.id == item.requestedPackSizeId
+    );
+    this.theSupplier = this.allSuppliers.find(
+      (x) => x.id == item.productSupplierId
+    );
+    this.selectedRawMaterials = [];
+    item.rawMaterials.forEach((rawMaterial) => {
+      this.selectedRawMaterials.push({
+        ItemId: rawMaterial.rawMaterialId,
+        Quantity: rawMaterial.quantity,
+      });
+    });
+
+    this.formWrapper.nativeElement.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "start",
+    });
+  }
+
+  UpdateItemRequest() {}
 
   DeleteItemRequest(item: InventoryItemRequest) {}
 
