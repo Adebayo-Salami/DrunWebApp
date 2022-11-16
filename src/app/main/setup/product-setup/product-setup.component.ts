@@ -12,8 +12,9 @@ import {
   ProductVM,
   UpdateProductVM,
 } from "src/app/interfaces/product";
-import { ProductSupplier } from "src/app/interfaces/supplier";
+import { CreateSupplierVM, ProductSupplier } from "src/app/interfaces/supplier";
 import { ProductService } from "src/app/services/product.service";
+import { SupplierService } from "src/app/services/supplier.service";
 
 @Component({
   selector: "app-product-setup",
@@ -40,6 +41,7 @@ export class ProductSetupComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
+    private supplierService: SupplierService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,
     public messageService: MessageService
@@ -91,6 +93,7 @@ export class ProductSetupComponent implements OnInit {
 
     this.RunMessageDialogue();
     this.FetchAllProducts();
+    this.FetchAllProductSuppliers();
   }
 
   RunMessageDialogue() {
@@ -135,6 +138,39 @@ export class ProductSetupComponent implements OnInit {
     );
   }
 
+  FetchAllProductSuppliers() {
+    this.fetchingSuppliers = true;
+    this.supplierService.GetAllSupplier().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          this.fetchingSuppliers = false;
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+        this.allSuppliers = data.object;
+        this.fetchingSuppliers = false;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all suppliers at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.RunMessageDialogue();
+        this.fetchingSuppliers = false;
+      }
+    );
+  }
+
   CloseEditing() {
     this.editing = false;
     this.productToEdit = null;
@@ -162,6 +198,7 @@ export class ProductSetupComponent implements OnInit {
             summary: "Failure",
             detail: data.message,
           });
+          this.RunMessageDialogue();
           console.log("Error: " + JSON.stringify(data));
           return;
         }
@@ -317,9 +354,67 @@ export class ProductSetupComponent implements OnInit {
     });
   }
 
-  CreateProductSupplier() {}
+  CreateProductSupplier() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Creating Supplier...",
+    });
+    this.RunMessageDialogue();
+
+    const postData: CreateSupplierVM = {
+      supplierName: this.supplierForm.get("Name").value,
+      supplierDescription: this.supplierForm.get("Description").value,
+      supplierLocation: this.supplierForm.get("Location").value,
+      contactPersonName: this.supplierForm.get("ContactName").value,
+      contactPersonMobile: this.supplierForm.get("ContactMobile").value,
+      contactPersonEmail: this.supplierForm.get("ContactEmail").value,
+      serviceCharge: this.supplierForm.get("ServiceCharge").value,
+    };
+
+    this.supplierService.CreateSupplier(postData).subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          this.RunMessageDialogue();
+          return;
+        }
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Completed",
+          detail: "Supplier Created Successfully...",
+        });
+
+        this.RunMessageDialogue();
+        this.supplierForm.reset();
+        this.FetchAllProductSuppliers();
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to create supplier  at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.RunMessageDialogue();
+      }
+    );
+  }
 
   CloseEditingSupplier() {}
 
   UpdateProductSupplier() {}
+
+  DeleteProductSupplier(item: ProductSupplier) {}
+
+  EditProductSupplier(item: ProductSupplier) {}
 }
