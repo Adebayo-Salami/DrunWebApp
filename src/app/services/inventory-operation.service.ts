@@ -79,7 +79,7 @@ export class InventoryOperationService {
     inventoryItemId: number
   ): Observable<ResultVM<InventoryItemRequest[]>> {
     return this.http.get<ResultVM<InventoryItemRequest[]>>(
-      this.baseUrl + "GetAllPendingInventoryItemRequests/" + inventoryItemId
+      this.baseUrl + "GetApprovedInventoryItemRequests/" + inventoryItemId
     );
   }
 
