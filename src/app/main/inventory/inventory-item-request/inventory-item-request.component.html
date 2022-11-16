@@ -57,6 +57,20 @@
             </p-dropdown>
           </div>
           <div class="p-field">
+            <label for="supplierLabel">Product Supplier:</label>
+            <p-dropdown
+              inputId="supplierLabel"
+              [options]="allSuppliers"
+              [(ngModel)]="theSupplier"
+              placeholder="--Select Supplier--"
+              [showClear]="true"
+              [filter]="true"
+              optionLabel="supplierName"
+              formControlName="Supplier"
+            >
+            </p-dropdown>
+          </div>
+          <div class="p-field">
             <label for="qtyLabel">Quantity:</label>
             <input
               id="qtyLabel"

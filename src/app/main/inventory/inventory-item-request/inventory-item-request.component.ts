@@ -3,7 +3,10 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { MessageService, ConfirmationService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { InventoryItem } from "src/app/interfaces/inventory-item";
-import { InventoryItemRequest } from "src/app/interfaces/inventory-operation";
+import {
+  CreateInventoryItemRequestVM,
+  InventoryItemRequest,
+} from "src/app/interfaces/inventory-operation";
 import { PackSize } from "src/app/interfaces/pack-size";
 import { ProductSupplier } from "src/app/interfaces/supplier";
 import { InventoryItemService } from "src/app/services/inventory-item.service";
@@ -20,12 +23,15 @@ export class InventoryItemRequestComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
   requestForm: FormGroup;
   allInventoryItems: InventoryItem[];
-  theInventoryItem: any;
-  selectedInventoryRawItems: any[] = [];
-  allRawMaterials: any[];
-  theRawMaterial: any;
+  theInventoryItem: InventoryItem;
+  selectedInventoryRawItems: InventoryItem[] = [];
+  allRawMaterials: InventoryItem[];
+  theRawMaterial: InventoryItem;
   rawMaterialQuantity: number;
-  selectedRawMaterials: any[];
+  selectedRawMaterials: {
+    ItemId: number;
+    Quantity: number;
+  }[];
   fetchingItemRequests: boolean;
   allItemRequested: InventoryItemRequest[];
   selectedItemRequests: any[];
@@ -33,6 +39,7 @@ export class InventoryItemRequestComponent implements OnInit {
   allPackSizes: PackSize[];
   thePackSize: PackSize;
   allSuppliers: ProductSupplier[];
+  theSupplier: ProductSupplier;
 
   constructor(
     fb: FormBuilder,
@@ -50,6 +57,7 @@ export class InventoryItemRequestComponent implements OnInit {
       Quantity: ["", Validators.required],
       Item: ["", Validators.required],
       PackSize: ["", Validators.required],
+      Supplier: ["", Validators.required],
       BasePrice: [""],
       RawMaterial: [""],
       QtyRawMaterial: [""],
@@ -96,6 +104,9 @@ export class InventoryItemRequestComponent implements OnInit {
         }
 
         this.allInventoryItems = data.object;
+        this.allRawMaterials = this.allInventoryItems.filter(
+          (x) => x.itemType == 1
+        );
       },
       (error) => {
         console.log("Error: " + JSON.stringify(error));
@@ -203,7 +214,71 @@ export class InventoryItemRequestComponent implements OnInit {
       );
   }
 
-  CreateInventoryRequest() {}
+  CreateInventoryRequest() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Creating Item Request...",
+    });
+
+    const postData: CreateInventoryItemRequestVM = {
+      requestName: this.requestForm.get("Name").value,
+      requestDescription: this.requestForm.get("Description").value,
+      requestedItemId: this.theInventoryItem.id,
+      requestedPackSizeId: this.thePackSize.id,
+      requestedQuantity: this.requestForm.get("Quantity").value,
+      unitPrice: this.requestForm.get("BasePrice").value,
+      productSupplierId: this.theSupplier.id,
+      rawMaterials: [],
+    };
+
+    this.selectedRawMaterials.forEach((rawMaterial) => {
+      postData.rawMaterials.push({
+        itemId: rawMaterial.ItemId,
+        quantity: rawMaterial.Quantity,
+      });
+    });
+
+    this.inventoryOperationService
+      .CreateInventoryItemRequest(postData)
+      .subscribe(
+        async (data) => {
+          if (!data.isSuccessful) {
+            this.messageService.add({
+              severity: "error",
+              summary: "Failure",
+              detail: data.message,
+            });
+            console.log("Error: " + JSON.stringify(data));
+            return;
+          }
+
+          this.messageService.add({
+            severity: "success",
+            summary: "Completed",
+            detail: "Inventory Item Request Created Successfully...",
+          });
+
+          this.theInventoryItem = null;
+          this.thePackSize = null;
+          this.theSupplier = null;
+          this.selectedInventoryRawItems = [];
+          this.requestForm.reset();
+          this.FetchAllPendingRequests();
+        },
+        (error) => {
+          console.log("Error: " + JSON.stringify(error));
+          this.messageService.add({
+            severity: "error",
+            summary: "Notice",
+            detail:
+              "Unable to create item request at the moment.. Reason: [" +
+              error.message +
+              "]",
+          });
+        }
+      );
+  }
 
   AddRawMaterial() {}
 
