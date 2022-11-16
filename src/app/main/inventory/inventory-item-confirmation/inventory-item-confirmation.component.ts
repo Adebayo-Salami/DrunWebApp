@@ -321,7 +321,18 @@ export class InventoryItemConfirmationComponent implements OnInit {
           if (index > -1) {
             this.selectedItemConfirmations.splice(index, 1);
           }
-          this.itemRequestInView = null;
+          if (
+            postData.quantityConfirmed ==
+            this.itemRequestInView.requestedQuantity -
+              this.itemRequestInView.quantityConfirmed
+          )
+            this.itemRequestInView = null;
+          else {
+            this.itemRequestInView.quantityConfirmed =
+              this.itemRequestInView.quantityConfirmed +
+              postData.quantityConfirmed;
+          }
+
           this.fetchingItemConfirmations = false;
         },
         (error) => {
