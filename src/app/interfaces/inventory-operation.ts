@@ -30,6 +30,7 @@ export interface CreateInventoryItemRequestVM {
 
 export interface ItemRequestRawMaterialVM {
   itemId: number;
+  packSizeId: number;
   quantity: number;
 }
 
@@ -74,6 +75,7 @@ export interface InventoryItemRequestRawMaterial {
   id: number;
   itemRequestId?: number;
   rawMaterialId?: number;
+  packSizeId?: number;
   quantity: number;
   dateAdded: Date;
 }

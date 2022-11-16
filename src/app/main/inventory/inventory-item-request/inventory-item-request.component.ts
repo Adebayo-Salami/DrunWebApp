@@ -36,6 +36,7 @@ export class InventoryItemRequestComponent implements OnInit {
   rawMaterialQuantity: number;
   selectedRawMaterials: {
     ItemId: number;
+    PackSizeId: number;
     Quantity: number;
   }[] = [];
   fetchingItemRequests: boolean;
@@ -48,6 +49,7 @@ export class InventoryItemRequestComponent implements OnInit {
   theSupplier: ProductSupplier;
   editingItemRequest: boolean;
   itemRequestToEdit: InventoryItemRequest;
+  theRawMaterialPackSize: PackSize;
 
   constructor(
     fb: FormBuilder,
@@ -243,6 +245,7 @@ export class InventoryItemRequestComponent implements OnInit {
     this.selectedRawMaterials.forEach((rawMaterial) => {
       postData.rawMaterials.push({
         itemId: rawMaterial.ItemId,
+        packSizeId: rawMaterial.PackSizeId,
         quantity: rawMaterial.Quantity,
       });
     });
@@ -303,6 +306,7 @@ export class InventoryItemRequestComponent implements OnInit {
 
     this.selectedRawMaterials.push({
       ItemId: this.theRawMaterial.id,
+      PackSizeId: this.theRawMaterialPackSize.id,
       Quantity: this.rawMaterialQuantity,
     });
 
@@ -310,7 +314,11 @@ export class InventoryItemRequestComponent implements OnInit {
     this.rawMaterialQuantity = null;
   }
 
-  RemoveRawMaterial(item: { ItemId: number; Quantity: number }) {
+  RemoveRawMaterial(item: {
+    ItemId: number;
+    PackSizeId: number;
+    Quantity: number;
+  }) {
     const index = this.selectedRawMaterials.indexOf(item);
     if (index > -1) {
       this.selectedRawMaterials.splice(index, 1);
@@ -354,6 +362,7 @@ export class InventoryItemRequestComponent implements OnInit {
     item.rawMaterials.forEach((rawMaterial) => {
       this.selectedRawMaterials.push({
         ItemId: rawMaterial.rawMaterialId,
+        PackSizeId: rawMaterial.packSizeId,
         Quantity: rawMaterial.quantity,
       });
     });
@@ -386,6 +395,7 @@ export class InventoryItemRequestComponent implements OnInit {
     this.selectedRawMaterials.forEach((rawMaterial) => {
       postData.rawMaterials.push({
         itemId: rawMaterial.ItemId,
+        packSizeId: rawMaterial.PackSizeId,
         quantity: rawMaterial.Quantity,
       });
     });

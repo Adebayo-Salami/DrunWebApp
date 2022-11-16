@@ -113,6 +113,24 @@
                 </div>
               </div>
               <div class="p-field p-grid">
+                <label for="rawPack23" class="p-col-12 p-mb-2 p-md-3 p-mb-md-0">
+                </label>
+                <div class="p-col-12 p-md-9">
+                  <label for="rawPack">Pack Size:</label>
+                  <p-dropdown
+                    inputId="rawPack"
+                    [options]="allPackSizes"
+                    [(ngModel)]="theRawMaterialPackSize"
+                    placeholder="--Select Pack Size--"
+                    [showClear]="true"
+                    [filter]="true"
+                    optionLabel="name"
+                    formControlName="RawMaterial"
+                  >
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="p-field p-grid">
                 <label
                   for="compAttendant"
                   class="p-col-12 p-mb-2 p-md-3 p-mb-md-0"
@@ -143,7 +161,11 @@
                       pRipple
                       type="button"
                       (click)="AddRawMaterial()"
-                      [disabled]="!theRawMaterial || !rawMaterialQuantity"
+                      [disabled]="
+                        !theRawMaterial ||
+                        !rawMaterialQuantity ||
+                        !theRawMaterialPackSize
+                      "
                       icon="pi pi-plus"
                       label="Add Raw Material"
                       class="p-button-raised p-mr-0 p-mb-2"
@@ -174,6 +196,7 @@
                           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
                         <th style="width: 10rem">Item</th>
+                        <th style="width: 10rem">Pack Size</th>
                         <th style="width: 10rem">Qty</th>
                         <th style="width: 10rem">Action</th>
                       </tr>
@@ -185,6 +208,9 @@
                         </td>
                         <td>
                           {{ GetItemName(selected.ItemId) }}
+                        </td>
+                        <td>
+                          {{ GetPackSizeCaption(selected.PackSizeId) }}
                         </td>
                         <td>
                           {{ selected.Quantity | number }}
