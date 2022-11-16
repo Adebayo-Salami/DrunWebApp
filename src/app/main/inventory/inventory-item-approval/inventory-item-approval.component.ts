@@ -3,11 +3,16 @@ import { FormBuilder } from "@angular/forms";
 import { MessageService, ConfirmationService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { InventoryItem } from "src/app/interfaces/inventory-item";
-import { InventoryItemRequest } from "src/app/interfaces/inventory-operation";
+import {
+  InventoryItemRequest,
+  InventoryItemRequestRawMaterial,
+} from "src/app/interfaces/inventory-operation";
+import { InventoryStoreItem } from "src/app/interfaces/inventory-store-item";
 import { PackSize } from "src/app/interfaces/pack-size";
 import { User } from "src/app/interfaces/user";
 import { InventoryItemService } from "src/app/services/inventory-item.service";
 import { InventoryOperationService } from "src/app/services/inventory-operation.service";
+import { InventoryStoreItemService } from "src/app/services/inventory-store-item.service";
 import { PackSizeService } from "src/app/services/pack-size.service";
 import { UserService } from "src/app/services/user.service";
 
@@ -22,18 +27,20 @@ export class InventoryItemApprovalComponent implements OnInit {
   selectedPendingRequests: InventoryItemRequest[];
   fetchingPendingRequests: boolean;
   pendingReqCols: any[];
-  requestedItemRawMaterials: any[];
-  selectedItemRawMaterials: any[];
+  selectedItemRawMaterials: InventoryItemRequestRawMaterial[];
   rawMaterialCols: any[];
   allItems: InventoryItem[];
   allPackSizes: PackSize[];
   allUsers: User[];
+  itemRequestInView: InventoryItemRequest;
+  allStoreItems: InventoryStoreItem[];
 
   constructor(
     fb: FormBuilder,
     private inventoryItemService: InventoryItemService,
     private packSizeService: PackSizeService,
     private inventoryOperationService: InventoryOperationService,
+    private inventoryStoreItemService: InventoryStoreItemService,
     private userService: UserService,
     public messageService: MessageService,
     private breadcrumbService: BreadcrumbService,
@@ -67,6 +74,7 @@ export class InventoryItemApprovalComponent implements OnInit {
     ];
 
     this.FetchAllItems();
+    this.FetchAllInventoryStoreItems();
   }
 
   FetchAllItems() {
@@ -165,7 +173,7 @@ export class InventoryItemApprovalComponent implements OnInit {
   FetchAllAwaitingApprovalItemRequest() {
     this.fetchingPendingRequests = true;
     this.inventoryOperationService
-      .GetAllPendingInventoryItemRequests()
+      .GetAllAwaitingApprovalInventoryItemRequests()
       .subscribe(
         async (data) => {
           if (!data.isSuccessful) {
@@ -197,7 +205,38 @@ export class InventoryItemApprovalComponent implements OnInit {
       );
   }
 
-  PickItemRequestToActOn(item: InventoryItemRequest) {}
+  FetchAllInventoryStoreItems() {
+    this.inventoryStoreItemService.GetAllInventoryItemsInStore().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.allStoreItems = data.object;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all store items at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
+
+  ShowItemRequestDetails(item: InventoryItemRequest) {
+    this.itemRequestInView = item;
+  }
 
   ShowDeclineItemRequested() {}
 
@@ -222,5 +261,14 @@ export class InventoryItemApprovalComponent implements OnInit {
     if (officer) return officer.lastname + " " + officer.firstname;
 
     return "N/A";
+  }
+
+  GetStoreItemQuantity(itemId: number, packSizeId: number): number {
+    let storeItem = this.allStoreItems.find(
+      (x) => x.inventoryItemId == itemId && x.packSizeId == packSizeId
+    );
+    if (storeItem) return storeItem.quantityInStore;
+
+    return 0;
   }
 }

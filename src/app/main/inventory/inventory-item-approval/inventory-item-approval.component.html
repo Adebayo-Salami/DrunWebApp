@@ -89,7 +89,7 @@
               <p-button
                 label=""
                 icon="pi pi-chevron-down"
-                (onClick)="PickItemRequestToActOn(selected)"
+                (onClick)="ShowItemRequestDetails(selected)"
               ></p-button>
             </td>
           </tr>
@@ -102,11 +102,14 @@
       </p-table>
     </ng-template>
   </div>
-  <div class="card orders-table">
-    <h5>Raw Material(s) needed for - Batch XYZ</h5>
+  <div class="card orders-table" *ngIf="itemRequestInView">
+    <h5>
+      Raw Material(s) needed for - Item Request
+      {{ itemRequestInView.requestName }}
+    </h5>
     <p-table
       #dtRawItems
-      [value]="requestedItemRawMaterials"
+      [value]="itemRequestInView.rawMaterials"
       [(selection)]="selectedItemRawMaterials"
       dataKey="id"
       styleClass="p-datatable-customers"
@@ -152,7 +155,7 @@
             Name
             <p-sortIcon field="name"></p-sortIcon>
           </th>
-          <th>Desc</th>
+          <th>Pack Size</th>
           <th pSortableColumn="quantity">
             Quantiy Needed
             <p-sortIcon field="quantity"></p-sortIcon>
@@ -165,22 +168,14 @@
           <td>
             <p-tableCheckbox [value]="selected"></p-tableCheckbox>
           </td>
-          <td>{{ selected.name }}</td>
+          <td>{{ GetItemName(selected.rawMaterialId) }}</td>
+          <td>{{ GetPackSizeCaption(selected.packSizeId) }}</td>
+          <td>{{ selected.quantity | number }}</td>
           <td>
             {{
-              selected.description.length > 50
-                ? (selected.description | slice: 0:50) + ".."
-                : selected.description
+              GetStoreItemQuantity(selected.rawMaterialId, selected.packSizeId)
+                | number
             }}
-          </td>
-          <td>{{ selected.quantity | number }}</td>
-          <td>{{ selected.quantityInStore | number }}</td>
-          <td>
-            <p-button
-              label=""
-              icon="pi pi-chevron-right"
-              (onClick)="LoadItemStockCount(selectedBatchToActOnItem)"
-            ></p-button>
           </td>
         </tr>
       </ng-template>
