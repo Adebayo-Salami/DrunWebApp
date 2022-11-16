@@ -66,7 +66,7 @@
             />
           </div>
           <div class="p-field">
-            <label for="strBatchLabel">Unit Price (Is Raw Material):</label>
+            <label for="strBatchLabel">Unit Price:</label>
             <input
               id="strBatchLabel"
               type="number"
@@ -230,11 +230,11 @@
           [paginator]="true"
           [filterDelay]="0"
           [globalFilterFields]="[
-            'name',
-            'description',
-            'requestingItem',
-            'quantiity',
-            'requestedPackize'
+            'requestName',
+            'requestDescription',
+            'requestedItemId',
+            'requestedPackSizeId',
+            'requestedQuantity'
           ]"
           [columns]="itemReqCols"
         >
@@ -287,10 +287,10 @@
                 <p-tableCheckbox [value]="selected"></p-tableCheckbox>
               </td>
               <td>
-                {{ selected.name }}
+                {{ selected.requestName }}
               </td>
-              <td>{{ selected.description }}</td>
-              <td>{{ selected.requestedItem }}</td>
+              <td>{{ selected.requestDescription }}</td>
+              <td>{{ selected.requestedItemId }}</td>
               <td>{{ selected.requestedPackize }}</td>
               <td>{{ selected.requestedQty }}</td>
               <td>
