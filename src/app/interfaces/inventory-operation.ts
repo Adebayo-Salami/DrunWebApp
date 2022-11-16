@@ -54,7 +54,7 @@ export interface ActOnInventoryItemRequestVM {
 export interface ConfirmInventoryItemRequestVM {
   itemRequestId: number;
   quantityConfirmed: number;
-  confirmationNote: number;
+  confirmationNote: string;
 }
 
 export interface InventoryLog {

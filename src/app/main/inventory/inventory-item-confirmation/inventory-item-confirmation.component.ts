@@ -3,7 +3,10 @@ import { FormBuilder } from "@angular/forms";
 import { MessageService, ConfirmationService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { InventoryItem } from "src/app/interfaces/inventory-item";
-import { InventoryItemRequest } from "src/app/interfaces/inventory-operation";
+import {
+  ConfirmInventoryItemRequestVM,
+  InventoryItemRequest,
+} from "src/app/interfaces/inventory-operation";
 import { PackSize } from "src/app/interfaces/pack-size";
 import { User } from "src/app/interfaces/user";
 import { InventoryItemService } from "src/app/services/inventory-item.service";
@@ -65,6 +68,11 @@ export class InventoryItemConfirmationComponent implements OnInit {
       { field: "itemQty", header: "Item Quantity" },
     ];
 
+    this.ResetItemConfirmationsTable();
+    this.FetchAllPackSizes();
+  }
+
+  ResetItemConfirmationsTable() {
     this.itemConfirmationsTable = [
       {
         field: "Request Name",
@@ -113,8 +121,6 @@ export class InventoryItemConfirmationComponent implements OnInit {
         isTextInput: true,
       },
     ];
-
-    this.FetchAllPackSizes();
   }
 
   FetchAllItems() {
@@ -272,7 +278,65 @@ export class InventoryItemConfirmationComponent implements OnInit {
     this.itemRequestInView = item;
   }
 
-  ConfirmRequestedItem() {}
+  ConfirmRequestedItem() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Confirming Item Request...",
+    });
+
+    const postData: ConfirmInventoryItemRequestVM = {
+      itemRequestId: this.itemRequestInView.id,
+      quantityConfirmed: this.quantityConfirmed,
+      confirmationNote: this.confirmationNote,
+    };
+
+    this.inventoryOperationService
+      .ConfirmInventoryItemRequest(postData)
+      .subscribe(
+        async (data) => {
+          if (!data.isSuccessful) {
+            this.messageService.add({
+              severity: "error",
+              summary: "Failure",
+              detail: data.message,
+            });
+            console.log("Error: " + JSON.stringify(data));
+            return;
+          }
+
+          this.messageService.add({
+            severity: "success",
+            summary: "Completed",
+            detail: "Item Request Confirmed Successfully...",
+          });
+
+          this.fetchingItemConfirmations = true;
+          this.ResetItemConfirmationsTable();
+          this.quantityConfirmed = null;
+          this.confirmationNote = null;
+          const index = this.selectedItemConfirmations.indexOf(
+            this.itemRequestInView
+          );
+          if (index > -1) {
+            this.selectedItemConfirmations.splice(index, 1);
+          }
+          this.itemRequestInView = null;
+          this.fetchingItemConfirmations = false;
+        },
+        (error) => {
+          console.log("Error: " + JSON.stringify(error));
+          this.messageService.add({
+            severity: "error",
+            summary: "Notice",
+            detail:
+              "Unable to confirm item request at the moment.. Reason: [" +
+              error.message +
+              "]",
+          });
+        }
+      );
+  }
 
   GetItemName(itemId: number): string {
     let item = this.allInventoryItems.find((x) => x.id == itemId);
