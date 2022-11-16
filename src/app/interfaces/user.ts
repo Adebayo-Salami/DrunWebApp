@@ -32,6 +32,7 @@ export interface User {
   registeredById?: number;
   address: string;
   role?: Role;
+  fullname?: string;
 }
 
 export interface CreateUserVM {

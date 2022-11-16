@@ -191,6 +191,9 @@ export class InventorySetupComponent implements OnInit {
         }
 
         this.allUsers = data.object;
+        this.allUsers.forEach(
+          (x) => (x.fullname = x.lastname + " " + x.firstname)
+        );
         this.FetchAllApprovingOfficers();
       },
       (error) => {
@@ -696,5 +699,12 @@ export class InventorySetupComponent implements OnInit {
           );
       },
     });
+  }
+
+  GetOfficerName(officerId): string {
+    let officer = this.allUsers.find((x) => x.id == officerId);
+    if (officer) return officer.lastname + " " + officer.firstname;
+
+    return "N/A";
   }
 }
