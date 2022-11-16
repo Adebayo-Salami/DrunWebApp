@@ -312,22 +312,22 @@ export class InventoryItemConfirmationComponent implements OnInit {
           });
 
           this.fetchingItemConfirmations = true;
-          this.ResetItemConfirmationsTable();
           this.quantityConfirmed = null;
           this.confirmationNote = null;
-          const index = this.selectedItemConfirmations.indexOf(
-            this.itemRequestInView
-          );
-          if (index > -1) {
-            this.selectedItemConfirmations.splice(index, 1);
-          }
           if (
             postData.quantityConfirmed ==
             this.itemRequestInView.requestedQuantity -
               this.itemRequestInView.quantityConfirmed
-          )
+          ) {
+            this.ResetItemConfirmationsTable();
             this.itemRequestInView = null;
-          else {
+            const index = this.selectedItemConfirmations.indexOf(
+              this.itemRequestInView
+            );
+            if (index > -1) {
+              this.selectedItemConfirmations.splice(index, 1);
+            }
+          } else {
             this.itemRequestInView.quantityConfirmed =
               this.itemRequestInView.quantityConfirmed +
               postData.quantityConfirmed;
