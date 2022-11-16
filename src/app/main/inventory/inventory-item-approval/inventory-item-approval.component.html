@@ -1,9 +1,10 @@
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>
 <div class="p-grid">
-  <div class="card orders-table">
+  <div class="card orders-table" style="width: 100%">
     <h5>Requests Awaiting Approval</h5>
     <div
+      style="width: 100%"
       *ngIf="fetchingPendingRequests; else tableDataPendReq"
       class="text-center"
     >

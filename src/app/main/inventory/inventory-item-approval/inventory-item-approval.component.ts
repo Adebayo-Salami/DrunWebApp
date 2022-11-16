@@ -83,6 +83,7 @@ export class InventoryItemApprovalComponent implements OnInit {
         }
 
         this.allItems = data.object;
+        this.FetchAllPackSizes();
       },
       (error) => {
         console.log("Error: " + JSON.stringify(error));
