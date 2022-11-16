@@ -14,6 +14,7 @@ export interface InventoryItemRequest {
   quantityConfirmed: number;
   isFullyConfirmed: boolean;
   rawMaterials: InventoryItemRequestRawMaterial[];
+  createdById?: number;
   dateAdded: Date;
 }
 

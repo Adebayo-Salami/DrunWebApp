@@ -216,7 +216,7 @@ export class InventoryItemRequestComponent implements OnInit {
             severity: "error",
             summary: "Notice",
             detail:
-              "Unable to get all pack sizes at the moment.. Reason: [" +
+              "Unable to get all ppending requests at the moment.. Reason: [" +
               error.message +
               "]",
           });

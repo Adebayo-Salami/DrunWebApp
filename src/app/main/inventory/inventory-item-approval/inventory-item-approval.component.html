@@ -20,7 +20,12 @@
         [rows]="5"
         [paginator]="true"
         [filterDelay]="0"
-        [globalFilterFields]="['name', 'batchNumber', 'description']"
+        [globalFilterFields]="[
+          'requestName',
+          'requestedQuantity',
+          'unitPrice',
+          'requestDescription'
+        ]"
         [columns]="pendingReqCols"
       >
         <ng-template pTemplate="caption">
@@ -59,7 +64,9 @@
             </th>
             <th>Batch Description</th>
             <th>Item Requested</th>
+            <th>Pack Size Requested</th>
             <th>Quantity Requested</th>
+            <th>Unit Price</th>
             <th>Date Requested</th>
             <th>Requested By</th>
             <th>Action</th>
@@ -67,19 +74,21 @@
         </ng-template>
         <ng-template pTemplate="body" let-selected>
           <tr class="p-selectable-row">
-            <td>{{ selected.name }}</td>
-            <td>{{ selected.description }}</td>
-            <td>{{ selected.itemRequested }}</td>
-            <td>{{ selected.quantityRequested }}</td>
+            <td>{{ selected.requestName }}</td>
+            <td>{{ selected.requestDescription }}</td>
+            <td>{{ GetItemName(selected.requestedItemId) }}</td>
+            <td>{{ GetPackSizeCaption(selected.requestedPackSizeId) }}</td>
+            <td>{{ selected.requestedQuantity | number }}</td>
+            <td>{{ "N" + (selected.unitPrice | number) }}</td>
             <td>
-              {{ selected.dateCreated | date: "yyyy-MM-dd" }}
+              {{ selected.dateAdded | date: "yyyy-MM-dd" }}
             </td>
-            <td>{{ selected.requestedBy }}</td>
+            <td>{{ GetUserName(selected.createdById) }}</td>
             <td>
               <p-button
                 label=""
                 icon="pi pi-chevron-down"
-                (onClick)="PickBatchToActOn(selectedPendingBatchRequest)"
+                (onClick)="PickItemRequestToActOn(selected)"
               ></p-button>
             </td>
           </tr>
