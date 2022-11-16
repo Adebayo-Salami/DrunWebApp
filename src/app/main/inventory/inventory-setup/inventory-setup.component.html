@@ -208,11 +208,11 @@
                           <td>{{ selected.description }}</td>
                           <td>
                             <i
-                              *ngIf="selected.isRawMaterial"
+                              *ngIf="selected.itemType == 1"
                               class="pi pi-check"
                             ></i>
                             <i
-                              *ngIf="!selected.isRawMaterial"
+                              *ngIf="selected.itemType != 1"
                               class="pi pi-times"
                             ></i>
                           </td>
