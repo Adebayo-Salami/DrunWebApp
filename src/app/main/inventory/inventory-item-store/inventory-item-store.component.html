@@ -294,42 +294,39 @@
           <ng-template pTemplate="header">
             <tr>
               <th>Status</th>
-              <th pSortableColumn="batchRequest.name">Batch Name</th>
-              <th pSortableColumn="batchRequest.batchNumber">Batch No</th>
-              <th>Qty</th>
-              <th *ngIf="isRegionBatchHistory">Unit Price</th>
-              <th pSortableColumn="batchRequest.createdAt">Date Requested</th>
+              <th>Request Name</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Requested By</th>
+              <th>Date Requested</th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-selected>
             <tr class="p-selectable-row">
               <td>
                 <i
-                  *ngIf="
-                    selected.isDispatchHistory &&
-                    selected.isDispatchHistory == true
-                  "
+                  *ngIf="selected.status == 2"
                   class="pi pi-angle-double-up"
                   style="font-size: 2rem; color: red"
                 ></i>
                 <i
-                  *ngIf="!selected.isDispatchHistory"
+                  *ngIf="selected.status == 1"
                   class="pi pi-angle-double-down"
                   style="font-size: 2rem; color: green"
                 ></i>
               </td>
-              <td>{{ selected.batchRequest.name }}</td>
+              <td>{{ selected.requestBatchName }}</td>
               <td>
-                {{ selected.batchRequest.batchNumber }}
+                {{ selected.quantity }}
               </td>
               <td>
-                {{ GetItemInBatchQty(selected.batchRequest) }}
-              </td>
-              <td *ngIf="isRegionBatchHistory">
-                {{ GetItemInBatchUnitPrice(selected.batchRequest) }}
+                {{ "N" + (selected.unitPrice | number) }}
               </td>
               <td>
-                {{ selected.batchRequest.createdAt | date: "yyyy-MM-dd" }}
+                {{ GetUserName(0) }}
+              </td>
+              <td>
+                {{ selected.dateAdded | date: "yyyy-MM-dd" }}
               </td>
             </tr>
           </ng-template>

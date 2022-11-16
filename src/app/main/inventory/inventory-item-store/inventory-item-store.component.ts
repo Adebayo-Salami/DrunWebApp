@@ -9,6 +9,8 @@ import { InventoryItem } from "src/app/interfaces/inventory-item";
 import { PackSize } from "src/app/interfaces/pack-size";
 import { InventoryItemService } from "src/app/services/inventory-item.service";
 import { PackSizeService } from "src/app/services/pack-size.service";
+import { User } from "src/app/interfaces/user";
+import { UserService } from "src/app/services/user.service";
 
 @Component({
   selector: "app-inventory-item-store",
@@ -39,12 +41,14 @@ export class InventoryItemStoreComponent implements OnInit {
   showItemsInStore: boolean;
   allItems: InventoryItem[];
   allPackSizes: PackSize[];
+  allUsers: User[];
 
   constructor(
     fb: FormBuilder,
     private inventoryStoreItemService: InventoryStoreItemService,
     private inventoryItemService: InventoryItemService,
     private packSizeService: PackSizeService,
+    private userService: UserService,
     public messageService: MessageService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService
@@ -237,6 +241,35 @@ export class InventoryItemStoreComponent implements OnInit {
     );
   }
 
+  FetchAllUsers() {
+    this.userService.GetAllUserAccounts().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.allUsers = data.object;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all users at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
+
   GetItemName(itemId: number): string {
     let item = this.allItems.find((x) => x.id == itemId);
     if (item) return item.name;
@@ -267,11 +300,60 @@ export class InventoryItemStoreComponent implements OnInit {
 
   ShowInventoryItemDetails(item: InventoryStoreItem) {
     this.inventoryItemInView = item;
+    this.openInventoryItemDetailDialogue = true;
   }
 
-  ShowInventoryItemHistory(item: InventoryStoreItem) {}
+  ShowInventoryItemHistory(item: InventoryStoreItem) {
+    this.openInventoryItemHistoryDialogue = true;
+    this.fetchingInventoryItemHistory = true;
+    this.inventoryItemHistories = [];
+    this.selectedInventoryItemHistory = [];
+    this.inventoryStoreItemService.GetInventoryStoreItemLogs(item.id).subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          this.fetchingInventoryItemHistory = false;
+          return;
+        }
 
-  HideInvetoryItemDetailDialog() {}
+        this.inventoryItemHistories = data.object;
+        this.fetchingInventoryItemHistory = false;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to store item logs at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.fetchingInventoryItemHistory = false;
+      }
+    );
+  }
 
-  HideInventoryItemHistoryDialog() {}
+  HideInvetoryItemDetailDialog() {
+    this.inventoryItemInView = null;
+    this.openInventoryItemDetailDialogue = false;
+  }
+
+  HideInventoryItemHistoryDialog() {
+    this.openInventoryItemHistoryDialogue = false;
+    this.inventoryItemHistories = [];
+    this.selectedInventoryItemHistory = [];
+  }
+
+  GetUserName(userId): string {
+    let user = this.allUsers.find((x) => x.id == userId);
+    if (user) return user.lastname + " " + user.firstname;
+
+    return "N/A";
+  }
 }
