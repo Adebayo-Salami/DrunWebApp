@@ -293,7 +293,7 @@ export class InventoryItemApprovalComponent implements OnInit {
     this.messageService.add({
       severity: "info",
       summary: "Notice",
-      detail: "Declining Item Request...",
+      detail: "Performing Action On Item Request...",
     });
 
     const postData: ActOnInventoryItemRequestVM = {
