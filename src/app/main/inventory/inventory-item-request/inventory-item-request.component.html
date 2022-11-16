@@ -184,10 +184,10 @@
                           <p-tableCheckbox [value]="selected"></p-tableCheckbox>
                         </td>
                         <td>
-                          {{ selected.name }}
+                          {{ GetItemName(selected.ItemId) }}
                         </td>
                         <td>
-                          {{ selected.qty }}
+                          {{ selected.Quantity | number }}
                         </td>
                         <td>
                           <p-button

@@ -31,7 +31,7 @@ export class InventoryItemRequestComponent implements OnInit {
   selectedRawMaterials: {
     ItemId: number;
     Quantity: number;
-  }[];
+  }[] = [];
   fetchingItemRequests: boolean;
   allItemRequested: InventoryItemRequest[];
   selectedItemRequests: any[];
@@ -262,7 +262,7 @@ export class InventoryItemRequestComponent implements OnInit {
           this.theInventoryItem = null;
           this.thePackSize = null;
           this.theSupplier = null;
-          this.selectedInventoryRawItems = [];
+          this.selectedRawMaterials = [];
           this.requestForm.reset();
           this.FetchAllPendingRequests();
         },
@@ -280,13 +280,38 @@ export class InventoryItemRequestComponent implements OnInit {
       );
   }
 
-  AddRawMaterial() {}
+  AddRawMaterial() {
+    let alreadyExists = this.selectedRawMaterials.find(
+      (x) => x.ItemId == this.theRawMaterial.id
+    );
+    if (alreadyExists) {
+      this.messageService.add({
+        severity: "error",
+        summary: "Failure",
+        detail: "Raw Material has already been added",
+      });
+      return;
+    }
 
-  RemoveRawMaterial(item: any) {}
+    this.selectedRawMaterials.push({
+      ItemId: this.theRawMaterial.id,
+      Quantity: this.rawMaterialQuantity,
+    });
 
-  EditItemRequest(item: any) {}
+    this.theRawMaterial = null;
+    this.rawMaterialQuantity = null;
+  }
 
-  DeleteItemRequest(item: any) {}
+  RemoveRawMaterial(item: { ItemId: number; Quantity: number }) {
+    const index = this.selectedRawMaterials.indexOf(item);
+    if (index > -1) {
+      this.selectedRawMaterials.splice(index, 1);
+    }
+  }
+
+  EditItemRequest(item: InventoryItemRequest) {}
+
+  DeleteItemRequest(item: InventoryItemRequest) {}
 
   GetItemName(itemId: number): string {
     let item = this.allInventoryItems.find((x) => x.id == itemId);
