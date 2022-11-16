@@ -5,6 +5,7 @@ import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { InventoryItem } from "src/app/interfaces/inventory-item";
 import { InventoryItemRequest } from "src/app/interfaces/inventory-operation";
 import { InventoryItemService } from "src/app/services/inventory-item.service";
+import { InventoryOperationService } from "src/app/services/inventory-operation.service";
 
 @Component({
   selector: "app-inventory-item-confirmation",
@@ -16,7 +17,7 @@ export class InventoryItemConfirmationComponent implements OnInit {
   allInventoryItems: InventoryItem[];
   theInventoryItem: InventoryItem;
   fetchingItemConfirmations: boolean;
-  selectedItemConfirmations: any[];
+  selectedItemConfirmations: InventoryItemRequest[];
   itemConfirmationCols: any[];
   itemConfirmationsTable: {
     field: string;
@@ -25,11 +26,13 @@ export class InventoryItemConfirmationComponent implements OnInit {
   }[];
   quantityConfirmed: number;
   confirmationNote: string;
+  showItemConfirmations: boolean;
   itemRequestInView: InventoryItemRequest;
 
   constructor(
     fb: FormBuilder,
     private inventoryItemService: InventoryItemService,
+    private inventoryOperationService: InventoryOperationService,
     public messageService: MessageService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService
@@ -55,22 +58,27 @@ export class InventoryItemConfirmationComponent implements OnInit {
 
     this.itemConfirmationsTable = [
       {
-        field: "Batch Name",
+        field: "Request Name",
         value: "Data",
         isInput: false,
       },
       {
-        field: "Batch Description",
+        field: "Request Description",
         value: "Data",
         isInput: false,
       },
       {
-        field: "Item Name",
+        field: "Requested Item",
         value: "Data",
         isInput: false,
       },
       {
-        field: "Quantity Requested",
+        field: "Requested Pack Size",
+        value: "Data",
+        isInput: false,
+      },
+      {
+        field: "Requested Quantity",
         value: "Data",
         isInput: false,
       },
@@ -138,7 +146,48 @@ export class InventoryItemConfirmationComponent implements OnInit {
     );
   }
 
-  LoadItemConfirmations() {}
+  LoadItemConfirmations() {
+    this.showItemConfirmations = true;
+    this.selectedItemConfirmations = [];
+    this.itemRequestInView = null;
+    this.fetchingItemConfirmations = true;
+    this.inventoryOperationService
+      .GetAllAwaitingApprovalInventoryItemRequests()
+      .subscribe(
+        async (data) => {
+          if (!data.isSuccessful) {
+            this.messageService.add({
+              severity: "error",
+              summary: "Failure",
+              detail: data.message,
+            });
+            this.fetchingItemConfirmations = false;
+            console.log("Error: " + JSON.stringify(data));
+            return;
+          }
+
+          this.selectedItemConfirmations = data.object;
+          this.fetchingItemConfirmations = false;
+        },
+        (error) => {
+          console.log("Error: " + JSON.stringify(error));
+          this.messageService.add({
+            severity: "error",
+            summary: "Notice",
+            detail:
+              "Unable to get all pending confirmation item requests at the moment.. Reason: [" +
+              error.message +
+              "]",
+          });
+          this.fetchingItemConfirmations = false;
+        }
+      );
+  }
+
+  LoadRequestDetails(item: InventoryItemRequest) {
+    this.itemConfirmationsTable[0].value;
+    this.itemRequestInView = item;
+  }
 
   ConfirmRequestedItem() {}
 }

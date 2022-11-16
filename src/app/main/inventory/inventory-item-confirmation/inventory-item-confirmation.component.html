@@ -27,7 +27,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="showItemConfirmations">
         <div class="col-12">
           <div class="card">
             <div
@@ -43,8 +43,8 @@
                 dataKey="id"
                 styleClass="p-datatable-customers"
                 [rowHover]="true"
-                [rows]="10"
-                [paginator]="true"
+                [rows]="11"
+                [paginator]="false"
                 [filterDelay]="0"
                 [globalFilterFields]="[
                   'batchName',
@@ -90,12 +90,11 @@
                       <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                     </th>
                     <th pSortableColumn="batchName">
-                      Batch No
+                      Request
                       <p-sortIcon field="batchName"></p-sortIcon>
                     </th>
-                    <th>No of Items</th>
-                    <th>Batch Desc</th>
-                    <th>Qty</th>
+                    <th>Description</th>
+                    <th>Qt Requested</th>
                     <th>Action</th>
                   </tr>
                 </ng-template>
@@ -104,14 +103,14 @@
                     <td>
                       <p-tableCheckbox [value]="selected"></p-tableCheckbox>
                     </td>
-                    <td>{{ selected.batchNumber }}</td>
-                    <td>{{ selected.description }}</td>
-                    <td>{{ selected.qty | number }}</td>
+                    <td>{{ selected.requestName }}</td>
+                    <td>{{ selected.requestDescription }}</td>
+                    <td>{{ selected.requestedQuantity | number }}</td>
                     <td>
                       <p-button
                         label=""
                         icon="pi pi-arrow-right"
-                        (onClick)="LoadBatchDetails(selectedApprovedBatch)"
+                        (onClick)="LoadRequestDetails(selected)"
                       ></p-button>
                     </td>
                   </tr>
