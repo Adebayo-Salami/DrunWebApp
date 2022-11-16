@@ -141,7 +141,37 @@
             <td>
               <b>{{ selected.field }}</b>
             </td>
-            <td>{{ selected.value }}</td>
+            <td *ngIf="!selected.isNumericInput && !selected.isTextInput">
+              {{ selected.value }}
+            </td>
+            <td
+              *ngIf="selected.isNumericInput && !selected.isTextInput"
+              style="width: 100%"
+            >
+              <input
+                style="width: 100%"
+                id="qtyConfirmedLabel"
+                type="number"
+                pInputText
+                [(ngModel)]="quantityConfirmed"
+                placeholder="Quantity Confirmed"
+              />
+            </td>
+            <td
+              *ngIf="!selected.isNumericInput && selected.isTextInput"
+              style="width: 100%"
+            >
+              <textarea
+                style="width: 100%"
+                type="text"
+                rows="4"
+                cols="14"
+                pInputTextarea
+                id="confNoteLabel"
+                placeholder="Confirmation Note"
+                [(ngModel)]="confirmationNote"
+              ></textarea>
+            </td>
           </tr>
         </ng-template>
       </p-table>

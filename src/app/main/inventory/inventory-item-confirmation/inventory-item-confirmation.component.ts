@@ -26,7 +26,8 @@ export class InventoryItemConfirmationComponent implements OnInit {
   itemConfirmationsTable: {
     field: string;
     value: string;
-    isInput: boolean;
+    isNumericInput?: boolean;
+    isTextInput?: boolean;
   }[];
   quantityConfirmed: number;
   confirmationNote: string;
@@ -68,57 +69,48 @@ export class InventoryItemConfirmationComponent implements OnInit {
       {
         field: "Request Name",
         value: "Data",
-        isInput: false,
       },
       {
         field: "Request Description",
         value: "Data",
-        isInput: false,
       },
       {
         field: "Requested Item",
         value: "Data",
-        isInput: false,
       },
       {
         field: "Requested Pack Size",
         value: "Data",
-        isInput: false,
       },
       {
         field: "Requested Quantity",
         value: "Data",
-        isInput: false,
       },
       {
         field: "Quantity Confirmed",
         value: "Data",
-        isInput: false,
       },
       {
         field: "Request Raised By",
         value: "Data",
-        isInput: false,
       },
       {
         field: "Date Request Raised",
         value: "Data",
-        isInput: false,
       },
       {
         field: "",
         value: "",
-        isInput: false,
       },
       {
         field: "Quantity Confirming",
         value: "0",
-        isInput: true,
+        isNumericInput: true,
       },
       {
         field: "Confirmation Note",
         value: "Data",
-        isInput: true,
+        isTextInput: true,
       },
     ];
 
@@ -275,6 +267,8 @@ export class InventoryItemConfirmationComponent implements OnInit {
     this.itemConfirmationsTable[7].value = item.dateAdded
       .toString()
       .slice(0, 10);
+    this.quantityConfirmed = null;
+    this.confirmationNote = null;
     this.itemRequestInView = item;
   }
 
