@@ -96,9 +96,7 @@ export class InventoryItemRequestComponent implements OnInit {
     ];
 
     this.FetchAllItems();
-    this.FetchAllPackSizes();
     this.FetchAllSuppliers();
-    this.FetchAllPendingRequests();
   }
 
   FetchAllItems() {
@@ -118,6 +116,7 @@ export class InventoryItemRequestComponent implements OnInit {
         this.allRawMaterials = this.allInventoryItems.filter(
           (x) => x.itemType == 1
         );
+        this.FetchAllPackSizes();
       },
       (error) => {
         console.log("Error: " + JSON.stringify(error));
@@ -147,6 +146,7 @@ export class InventoryItemRequestComponent implements OnInit {
         }
 
         this.allPackSizes = data.object;
+        this.FetchAllPendingRequests();
       },
       (error) => {
         console.log("Error: " + JSON.stringify(error));
@@ -345,6 +345,7 @@ export class InventoryItemRequestComponent implements OnInit {
     this.theRawMaterial = null;
     this.rawMaterialQuantity = null;
     this.theRawMaterialPackSize = null;
+    this.editingItemRequest = false;
     this.requestForm.reset();
   }
 
