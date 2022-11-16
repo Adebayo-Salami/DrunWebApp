@@ -2,6 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { MessageService, ConfirmationService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
+import { InventoryItem } from "src/app/interfaces/inventory-item";
+import { InventoryItemRequest } from "src/app/interfaces/inventory-operation";
+import { InventoryItemService } from "src/app/services/inventory-item.service";
 
 @Component({
   selector: "app-inventory-item-confirmation",
@@ -10,8 +13,8 @@ import { BreadcrumbService } from "src/app/breadcrumb.service";
 })
 export class InventoryItemConfirmationComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
-  allInventoryItems: any[];
-  theInventoryItem: any;
+  allInventoryItems: InventoryItem[];
+  theInventoryItem: InventoryItem;
   fetchingItemConfirmations: boolean;
   selectedItemConfirmations: any[];
   itemConfirmationCols: any[];
@@ -22,9 +25,11 @@ export class InventoryItemConfirmationComponent implements OnInit {
   }[];
   quantityConfirmed: number;
   confirmationNote: string;
+  itemRequestInView: InventoryItemRequest;
 
   constructor(
     fb: FormBuilder,
+    private inventoryItemService: InventoryItemService,
     public messageService: MessageService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService
@@ -100,6 +105,37 @@ export class InventoryItemConfirmationComponent implements OnInit {
         isInput: true,
       },
     ];
+
+    this.FetchAllItems();
+  }
+
+  FetchAllItems() {
+    this.inventoryItemService.GetAllInventoryItems().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.allInventoryItems = data.object;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all items at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
   }
 
   LoadItemConfirmations() {}

@@ -127,7 +127,7 @@
         </div>
       </div>
     </div>
-    <div class="p-col-12 p-md-6">
+    <div class="p-col-12 p-md-6" *ngIf="itemRequestInView">
       <p-table
         #dtConfirmInward
         [value]="itemConfirmationsTable"
