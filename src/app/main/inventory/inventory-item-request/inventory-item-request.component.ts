@@ -70,6 +70,7 @@ export class InventoryItemRequestComponent implements OnInit {
       Supplier: ["", Validators.required],
       BasePrice: ["", Validators.required],
       RawMaterial: [""],
+      RawMaterialPackSize: [""],
       QtyRawMaterial: [""],
     });
   }

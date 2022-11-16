@@ -124,8 +124,8 @@
                     placeholder="--Select Pack Size--"
                     [showClear]="true"
                     [filter]="true"
-                    optionLabel="name"
-                    formControlName="RawMaterial"
+                    optionLabel="caption"
+                    formControlName="RawMaterialPackSize"
                   >
                   </p-dropdown>
                 </div>
@@ -195,10 +195,10 @@
                         <th style="width: 3rem">
                           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                         </th>
-                        <th style="width: 10rem">Item</th>
-                        <th style="width: 10rem">Pack Size</th>
-                        <th style="width: 10rem">Qty</th>
-                        <th style="width: 10rem">Action</th>
+                        <th>Item</th>
+                        <th>Pack Size</th>
+                        <th>Qty</th>
+                        <th>Action</th>
                       </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-selected>
@@ -227,7 +227,7 @@
                     </ng-template>
                     <ng-template pTemplate="emptymessage">
                       <tr>
-                        <td colspan="8">No Raw Material Added Yet!</td>
+                        <td colspan="4">No Raw Material Added Yet!</td>
                       </tr>
                     </ng-template>
                   </p-table>
