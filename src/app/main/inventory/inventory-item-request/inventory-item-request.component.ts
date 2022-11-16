@@ -11,6 +11,7 @@ import { InventoryItem } from "src/app/interfaces/inventory-item";
 import {
   CreateInventoryItemRequestVM,
   InventoryItemRequest,
+  UpdateInventoryItemRequestVM,
 } from "src/app/interfaces/inventory-operation";
 import { PackSize } from "src/app/interfaces/pack-size";
 import { ProductSupplier } from "src/app/interfaces/supplier";
@@ -364,9 +365,175 @@ export class InventoryItemRequestComponent implements OnInit {
     });
   }
 
-  UpdateItemRequest() {}
+  UpdateItemRequest() {
+    this.messageService.add({
+      severity: "info",
+      summary: "Notice",
+      detail: "Updating Inventory Item Request...",
+    });
 
-  DeleteItemRequest(item: InventoryItemRequest) {}
+    const id = this.itemRequestToEdit.id;
+    const postData: UpdateInventoryItemRequestVM = {
+      requestName: this.requestForm.get("Name").value,
+      requestDescription: this.requestForm.get("Description").value,
+      requestedItemId: this.theInventoryItem.id,
+      requestedPackSizeId: this.thePackSize.id,
+      requestedQuantity: this.requestForm.get("Quantity").value,
+      unitPrice: this.requestForm.get("BasePrice").value,
+      productSupplierId: this.theSupplier.id,
+      rawMaterials: [],
+    };
+    this.selectedRawMaterials.forEach((rawMaterial) => {
+      postData.rawMaterials.push({
+        itemId: rawMaterial.ItemId,
+        quantity: rawMaterial.Quantity,
+      });
+    });
+
+    this.inventoryOperationService
+      .UpdateInventoryItemRequest(id, postData)
+      .subscribe(
+        async (data) => {
+          if (!data.isSuccessful) {
+            this.messageService.add({
+              severity: "error",
+              summary: "Failure",
+              detail: data.message,
+            });
+            console.log("Error: " + JSON.stringify(data));
+            return;
+          }
+
+          this.messageService.add({
+            severity: "success",
+            summary: "Notice",
+            detail: "Update Successful!",
+          });
+          this.CloseEditingItemRequest();
+          this.FetchAllPendingRequests();
+        },
+        (error) => {
+          console.log("Error: " + JSON.stringify(error));
+          this.messageService.add({
+            severity: "error",
+            summary: "Notice",
+            detail:
+              "Unable to update inventory item request at the moment.. Reason: [" +
+              error.message +
+              "]",
+          });
+        }
+      );
+  }
+
+  SendForApproval(item: InventoryItemRequest) {
+    this.confirmationService.confirm({
+      message:
+        "Once an item request is sent for approval, it can't be modified again.Do you still wish to proceed?",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: "Send item Request For Approval...",
+        });
+
+        this.inventoryOperationService
+          .SendInventoryItemRequestForApproval(item.id)
+          .subscribe(
+            async (data) => {
+              if (!data.isSuccessful) {
+                this.messageService.add({
+                  severity: "error",
+                  summary: "Failure",
+                  detail: data.message,
+                });
+                console.log("Error: " + JSON.stringify(data));
+                return;
+              }
+
+              this.messageService.add({
+                severity: "success",
+                summary: "Removed",
+                detail: "Successfully sent for approval",
+              });
+
+              this.fetchingItemRequests = true;
+              this.CloseEditingItemRequest();
+              const index = this.allItemRequested.indexOf(item);
+              if (index > -1) {
+                this.allItemRequested.splice(index, 1);
+              }
+              this.fetchingItemRequests = false;
+            },
+            (error) => {
+              console.log("Error: " + JSON.stringify(error));
+              this.messageService.add({
+                severity: "error",
+                summary: "Notice",
+                detail:
+                  "Unable to send item request for approval at the moment.. Reason: [" +
+                  error.message +
+                  "]",
+              });
+            }
+          );
+      },
+    });
+  }
+
+  DeleteItemRequest(item: InventoryItemRequest) {
+    this.confirmationService.confirm({
+      message: "Are you sure you want to remove item request?",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: "Removing item request...",
+        });
+
+        this.inventoryOperationService
+          .DeleteInventoryItemRequest(item.id)
+          .subscribe(
+            async (data) => {
+              if (!data.isSuccessful) {
+                this.messageService.add({
+                  severity: "error",
+                  summary: "Failure",
+                  detail: data.message,
+                });
+                console.log("Error: " + JSON.stringify(data));
+                return;
+              }
+
+              this.messageService.add({
+                severity: "success",
+                summary: "Removed",
+                detail: "Removed successfully",
+              });
+
+              this.fetchingItemRequests = true;
+              this.CloseEditingItemRequest();
+              const index = this.allItemRequested.indexOf(item);
+              if (index > -1) {
+                this.allItemRequested.splice(index, 1);
+              }
+              this.fetchingItemRequests = false;
+            },
+            (error) => {
+              console.log("Error: " + JSON.stringify(error));
+              this.messageService.add({
+                severity: "error",
+                summary: "Notice",
+                detail:
+                  "Unable to remove item request at the moment.. Reason: [" +
+                  error.message +
+                  "]",
+              });
+            }
+          );
+      },
+    });
+  }
 
   GetItemName(itemId: number): string {
     let item = this.allInventoryItems.find((x) => x.id == itemId);
