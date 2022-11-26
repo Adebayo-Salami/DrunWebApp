@@ -70,6 +70,9 @@ export interface InventoryLog {
   status: number;
   logNote: string;
   requestedById?: number;
+  createdById?: number;
+  actedOnById?: number;
+  dateBatchRequested?: Date;
   dateAdded: Date;
 }
 
