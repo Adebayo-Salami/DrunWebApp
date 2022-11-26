@@ -8,8 +8,12 @@ import {
 import { Message, ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import {
+  InventoryItem,
+  InventoryItemTypeEnum,
+} from "src/app/interfaces/inventory-item";
+import {
   CreateProductVM,
-  ProductVM,
+  Product,
   UpdateProductVM,
 } from "src/app/interfaces/product";
 import {
@@ -17,6 +21,7 @@ import {
   ProductSupplier,
   UpdateSupplierVM,
 } from "src/app/interfaces/supplier";
+import { InventoryItemService } from "src/app/services/inventory-item.service";
 import { ProductService } from "src/app/services/product.service";
 import { SupplierService } from "src/app/services/supplier.service";
 
@@ -33,20 +38,23 @@ export class ProductSetupComponent implements OnInit {
   supplierForm: FormGroup;
   editing: boolean;
   fetching: boolean;
-  allProducts: ProductVM[];
-  selectedProducts: ProductVM[];
-  productToEdit: ProductVM;
+  allProducts: Product[];
+  selectedProducts: Product[];
+  productToEdit: Product;
   editingSupplier: boolean;
   fetchingSuppliers: boolean;
   allSuppliers: ProductSupplier[];
   selectedSuppliers: ProductSupplier[];
   supplierCols: any[];
   supplierToEdit: ProductSupplier;
+  allItems: InventoryItem[];
+  theItem: InventoryItem;
 
   constructor(
     private fb: FormBuilder,
     private productService: ProductService,
     private supplierService: SupplierService,
+    private inventoryItemService: InventoryItemService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,
     public messageService: MessageService
@@ -54,6 +62,7 @@ export class ProductSetupComponent implements OnInit {
     this.productForm = fb.group({
       Name: ["", Validators.required],
       Description: ["", Validators.required],
+      InventoryItem: ["", Validators.required],
     });
 
     this.supplierForm = fb.group({
@@ -97,6 +106,7 @@ export class ProductSetupComponent implements OnInit {
     ];
 
     this.RunMessageDialogue();
+    this.FetchAllInventoryItems();
     this.FetchAllProducts();
     this.FetchAllProductSuppliers();
   }
@@ -124,7 +134,7 @@ export class ProductSetupComponent implements OnInit {
           console.log("Error: " + JSON.stringify(data));
           return;
         }
-        this.allProducts = data.object as ProductVM[];
+        this.allProducts = data.object;
         this.fetching = false;
       },
       (error) => {
@@ -176,6 +186,38 @@ export class ProductSetupComponent implements OnInit {
     );
   }
 
+  FetchAllInventoryItems() {
+    this.inventoryItemService.GetAllInventoryItems().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          this.fetching = false;
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+        this.allItems = data.object.filter(
+          (x) => x.itemType == InventoryItemTypeEnum.IsProduct
+        );
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all items at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.RunMessageDialogue();
+      }
+    );
+  }
+
   CloseEditing() {
     this.editing = false;
     this.productToEdit = null;
@@ -193,6 +235,7 @@ export class ProductSetupComponent implements OnInit {
     const postData: CreateProductVM = {
       name: this.productForm.get("Name").value,
       description: this.productForm.get("Description").value,
+      inventoryItemId: this.theItem.id,
     };
 
     this.productService.CreateProduct(postData).subscribe(
@@ -234,7 +277,7 @@ export class ProductSetupComponent implements OnInit {
     );
   }
 
-  EditProduct(item: ProductVM) {
+  EditProduct(item: Product) {
     this.editing = true;
     this.productForm.addControl(
       "ID",
@@ -306,7 +349,7 @@ export class ProductSetupComponent implements OnInit {
     );
   }
 
-  DeleteProduct(item: ProductVM) {
+  DeleteProduct(item: Product) {
     this.confirmationService.confirm({
       message: "Are you sure you want to remove product?",
       accept: () => {
@@ -559,5 +602,12 @@ export class ProductSetupComponent implements OnInit {
       block: "end",
       inline: "start",
     });
+  }
+
+  GetInventoryItemName(itemId: number): string {
+    let item = this.allItems.find((x) => x.id == itemId);
+    if (item) return item.name;
+
+    return "N/A";
   }
 }

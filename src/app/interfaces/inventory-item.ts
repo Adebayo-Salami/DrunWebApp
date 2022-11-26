@@ -1,8 +1,7 @@
-export const InventoryItemTypeEnum = {
-  IsRawMaterial: 1,
-  IsProduct: 2,
-};
-Object.freeze(InventoryItemTypeEnum);
+export enum InventoryItemTypeEnum {
+  IsRawMaterial = 1,
+  IsProduct = 2,
+}
 
 export interface CreateInventoryItemVM {
   name: string;
@@ -14,7 +13,7 @@ export interface InventoryItem {
   id: number;
   name: string;
   description: string;
-  itemType: number;
+  itemType: InventoryItemTypeEnum;
   dateAdded: Date;
 }
 

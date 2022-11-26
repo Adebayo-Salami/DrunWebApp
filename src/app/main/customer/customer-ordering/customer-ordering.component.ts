@@ -4,7 +4,7 @@ import {
   UpdateCustomerOrderVM,
 } from "./../../../interfaces/customerorder";
 import { ProductService } from "./../../../services/product.service";
-import { ProductVM } from "./../../../interfaces/product";
+import { Product } from "./../../../interfaces/product";
 import { CustomerVM } from "./../../../interfaces/customer";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
@@ -40,8 +40,8 @@ export class CustomerOrderingComponent implements OnInit {
   selectedCustomerOrders: CustomerOrderVM[];
   allCustomers: CustomerVM[];
   theCustomer: CustomerVM;
-  allProducts: ProductVM[];
-  theProduct: ProductVM;
+  allProducts: Product[];
+  theProduct: Product;
   allPackSizes: {
     key: number;
     value: string;
@@ -193,7 +193,7 @@ export class CustomerOrderingComponent implements OnInit {
           console.log("Error: " + JSON.stringify(data));
           return;
         }
-        this.allProducts = data.object as ProductVM[];
+        this.allProducts = data.object;
         this.fetching = false;
       },
       (error) => {

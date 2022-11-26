@@ -44,6 +44,26 @@
                         ></textarea>
                       </div>
                     </div>
+                    <div class="p-field p-grid">
+                      <label
+                        for="itemLabel"
+                        class="p-col-12 p-mb-2 p-md-3 p-mb-md-0"
+                        >Inventory Item:
+                      </label>
+                      <div class="p-col-12 p-md-9">
+                        <p-dropdown
+                          inputId="itemLabel"
+                          [options]="allItems"
+                          [(ngModel)]="theItem"
+                          placeholder="--Select--"
+                          [showClear]="true"
+                          [filter]="true"
+                          optionLabel="name"
+                          formControlName="InventoryItem"
+                        >
+                        </p-dropdown>
+                      </div>
+                    </div>
                   </div>
                   <div class="p-grid">
                     <div class="p-col-12 p-md-12">
@@ -161,6 +181,7 @@
                             Description
                             <p-sortIcon field="description"></p-sortIcon>
                           </th>
+                          <th>Inventory Item</th>
                           <th pSortableColumn="dateAdded">
                             Date Added
                             <p-sortIcon field="dateAdded"></p-sortIcon>
@@ -177,6 +198,9 @@
                           </td>
                           <td>{{ selected.name }}</td>
                           <td>{{ selected.description }}</td>
+                          <td>
+                            {{ GetInventoryItemName(selected.inventoryItemId) }}
+                          </td>
                           <td>{{ selected.dateAdded | date: "yyyy-MM-dd" }}</td>
                           <td>
                             <p-button

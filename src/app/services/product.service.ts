@@ -3,7 +3,11 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { ResultVM } from "../interfaces/main";
-import { CreateProductVM, UpdateProductVM } from "../interfaces/product";
+import {
+  CreateProductVM,
+  Product,
+  UpdateProductVM,
+} from "../interfaces/product";
 
 @Injectable({
   providedIn: "root",
@@ -17,8 +21,8 @@ export class ProductService {
     return this.http.post<ResultVM>(this.baseUrl + "CreateProduct", data);
   }
 
-  GetAllProducts(): Observable<ResultVM> {
-    return this.http.get<ResultVM>(this.baseUrl + "GetAllProducts");
+  GetAllProducts(): Observable<ResultVM<Product[]>> {
+    return this.http.get<ResultVM<Product[]>>(this.baseUrl + "GetAllProducts");
   }
 
   UpdateProduct(id: number, data: UpdateProductVM): Observable<ResultVM> {

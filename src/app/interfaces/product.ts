@@ -1,12 +1,14 @@
 export interface CreateProductVM {
   name: string;
   description: string;
+  inventoryItemId: number;
 }
 
-export interface ProductVM {
+export interface Product {
   id: number;
   name: string;
   description: string;
+  inventoryItemId: number;
   dateAdded: Date;
 }
 
