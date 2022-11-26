@@ -221,6 +221,7 @@ export class ProductSetupComponent implements OnInit {
   CloseEditing() {
     this.editing = false;
     this.productToEdit = null;
+    this.theItem = null;
     this.productForm.reset();
   }
 
@@ -260,6 +261,7 @@ export class ProductSetupComponent implements OnInit {
         this.RunMessageDialogue();
         this.fetching = true;
         this.productForm.reset();
+        this.theItem = null;
         this.FetchAllProducts();
       },
       (error) => {
@@ -283,6 +285,7 @@ export class ProductSetupComponent implements OnInit {
       "ID",
       new FormControl({ value: "", disabled: true }, Validators.required)
     );
+    this.theItem = this.allItems.find((x) => x.id == item.inventoryItemId);
     this.productToEdit = item;
     this.productForm.patchValue({
       ID: item.id,
@@ -309,6 +312,7 @@ export class ProductSetupComponent implements OnInit {
     const postData: UpdateProductVM = {
       name: this.productForm.get("Name").value,
       description: this.productForm.get("Description").value,
+      inventoryItemId: this.theItem.id,
     };
 
     this.productService.UpdateProduct(id, postData).subscribe(

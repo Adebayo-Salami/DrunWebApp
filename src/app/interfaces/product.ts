@@ -15,4 +15,5 @@ export interface Product {
 export interface UpdateProductVM {
   name?: string;
   description?: string;
+  inventoryItemId?: number;
 }
