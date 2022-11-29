@@ -10,6 +10,7 @@ export const PaymentModeEnum = {
   Cash: 1,
   Transfer: 2,
   Card: 3,
+  Mixture: 4,
 };
 Object.freeze(PaymentModeEnum);
 
@@ -46,7 +47,7 @@ export interface CustomerOrderVM {
   productId: number;
   productName: string;
   quantity: number;
-  packSize: number;
+  packSizeId: number;
   unitPrice: number;
   amountToBePaid: number;
   paymentMode: number;

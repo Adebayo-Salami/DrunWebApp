@@ -22,6 +22,8 @@ import {
 } from "src/app/interfaces/customerorder";
 import { CustomerOrderService } from "src/app/services/customer-order.service";
 import { CustomerService } from "src/app/services/customer.service";
+import { PackSize } from "src/app/interfaces/pack-size";
+import { PackSizeService } from "src/app/services/pack-size.service";
 
 @Component({
   selector: "app-customer-ordering",
@@ -42,14 +44,8 @@ export class CustomerOrderingComponent implements OnInit {
   theCustomer: CustomerVM;
   allProducts: Product[];
   theProduct: Product;
-  allPackSizes: {
-    key: number;
-    value: string;
-  }[];
-  thePackSize: {
-    key: number;
-    value: string;
-  };
+  allPackSizes: PackSize[];
+  thePackSize: PackSize;
   allPaymentModes: {
     key: number;
     value: string;
@@ -63,6 +59,7 @@ export class CustomerOrderingComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private packSizeService: PackSizeService,
     private customerService: CustomerService,
     private productService: ProductService,
     private customerOrderService: CustomerOrderService,
@@ -111,25 +108,6 @@ export class CustomerOrderingComponent implements OnInit {
       { field: "amountToBePaid", header: "Amount To Be Paid" },
     ];
 
-    this.allPackSizes = [
-      {
-        key: PackSizeEnum.One_Litre,
-        value: "1 Litre(s)",
-      },
-      {
-        key: PackSizeEnum.Four_Litre,
-        value: "4 Litre(s)",
-      },
-      {
-        key: PackSizeEnum.TwentyFive_Litre,
-        value: "25 Litre(s)",
-      },
-      {
-        key: PackSizeEnum.TwoHundred_Litre,
-        value: "200 Litre(s)",
-      },
-    ];
-
     this.allPaymentModes = [
       {
         key: PaymentModeEnum.Cash,
@@ -143,10 +121,15 @@ export class CustomerOrderingComponent implements OnInit {
         key: PaymentModeEnum.Card,
         value: "Card",
       },
+      {
+        key: PaymentModeEnum.Mixture,
+        value: "Mixture",
+      },
     ];
 
     this.FetchAllCustomers();
     this.FetchAllProducts();
+    this.FetchAllPackSizes();
     this.GetOngoingOrderBatch();
   }
 
@@ -163,7 +146,7 @@ export class CustomerOrderingComponent implements OnInit {
           console.log("Error: " + JSON.stringify(data));
           return;
         }
-        this.allCustomers = data.object as CustomerVM[];
+        this.allCustomers = data.object;
         this.fetching = false;
       },
       (error) => {
@@ -203,6 +186,35 @@ export class CustomerOrderingComponent implements OnInit {
           summary: "Notice",
           detail:
             "Unable to get all products at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
+
+  FetchAllPackSizes() {
+    this.packSizeService.GetAllPackSizes().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.allPackSizes = data.object;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all pack sizes at the moment.. Reason: [" +
             error.message +
             "]",
         });
@@ -255,7 +267,7 @@ export class CustomerOrderingComponent implements OnInit {
       productId: this.theProduct.id,
       productName: this.theProduct.name,
       quantity: this.customerOrderForm.get("Quantity").value,
-      packSize: this.thePackSize.key,
+      packSize: this.thePackSize.id,
       unitPrice: this.customerOrderForm.get("UnitPrice").value,
       paymentMethod: this.thePaymentModes.key,
       amountPaid: this.customerOrderForm.get("AmountPaid").value,
@@ -307,7 +319,7 @@ export class CustomerOrderingComponent implements OnInit {
     this.customerOrderToEdit = item;
     this.theCustomer = this.allCustomers.find((x) => x.id == item.customerId);
     this.theProduct = this.allProducts.find((x) => x.id == item.productId);
-    this.thePackSize = this.allPackSizes.find((x) => x.key == item.packSize);
+    this.thePackSize = this.allPackSizes.find((x) => x.id == item.packSizeId);
     this.thePaymentModes = this.allPaymentModes.find(
       (x) => x.key == item.paymentMode
     );
@@ -340,7 +352,7 @@ export class CustomerOrderingComponent implements OnInit {
       productId: this.theProduct.id,
       productName: this.theProduct.name,
       quantity: this.customerOrderForm.get("Quantity").value,
-      packSize: this.thePackSize.key,
+      packSize: this.thePackSize.id,
       unitPrice: this.customerOrderForm.get("UnitPrice").value,
       paymentMethod: this.thePaymentModes.key,
       amountPaid: this.customerOrderForm.get("AmountPaid").value,
@@ -452,6 +464,7 @@ export class CustomerOrderingComponent implements OnInit {
     if (enumValue == PaymentModeEnum.Cash) return "Cash";
     if (enumValue == PaymentModeEnum.Transfer) return "Transfer";
     if (enumValue == PaymentModeEnum.Card) return "Card";
+    if (enumValue == PaymentModeEnum.Mixture) return "Mixture";
 
     return "N/A";
   }
