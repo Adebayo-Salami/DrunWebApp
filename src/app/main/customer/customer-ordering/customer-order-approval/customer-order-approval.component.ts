@@ -8,6 +8,10 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { CustomerOrderService } from "src/app/services/customer-order.service";
+import { UserService } from "src/app/services/user.service";
+import { User } from "src/app/interfaces/user";
+import { PackSizeService } from "src/app/services/pack-size.service";
+import { PackSize } from "src/app/interfaces/pack-size";
 
 @Component({
   selector: "app-customer-order-approval",
@@ -27,9 +31,13 @@ export class CustomerOrderApprovalComponent implements OnInit {
   approvalInViewCols: any[];
   openDeclineDialogue: boolean;
   fetchingPendingApprovals: boolean;
+  allUsers: User[];
+  allPackSizes: PackSize[];
 
   constructor(
     private fb: FormBuilder,
+    private packSizeService: PackSizeService,
+    private userService: UserService,
     private customerOrderService: CustomerOrderService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,
@@ -69,6 +77,8 @@ export class CustomerOrderApprovalComponent implements OnInit {
       { field: "batchDescription", header: "Batch Desc" },
     ];
 
+    this.FetchAllPackSizes();
+    this.FetchAllUsers();
     this.GetAllBatchPendingApprovals();
   }
 
@@ -97,6 +107,64 @@ export class CustomerOrderApprovalComponent implements OnInit {
           summary: "Notice",
           detail:
             "Unable to get all pending approvals at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
+
+  FetchAllUsers() {
+    this.userService.GetAllUserAccounts().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.allUsers = data.object;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all users at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
+  }
+
+  FetchAllPackSizes() {
+    this.packSizeService.GetAllPackSizes().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.allPackSizes = data.object;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all pack sizes at the moment.. Reason: [" +
             error.message +
             "]",
         });
@@ -161,6 +229,20 @@ export class CustomerOrderApprovalComponent implements OnInit {
     if (mode == PaymentModeEnum.Card) return "Card";
     if (mode == PaymentModeEnum.Cash) return "Cash";
     if (mode == PaymentModeEnum.Transfer) return "Transfer";
+
+    return "N/A";
+  }
+
+  GetUserName(userEmail): string {
+    let user = this.allUsers.find((x) => x.email == userEmail);
+    if (user) return user.lastname + " " + user.firstname;
+
+    return "N/A";
+  }
+
+  GetPackSizeEnumString(id: number): string {
+    let packSize = this.allPackSizes.find((x) => x.id == id);
+    if (packSize) return packSize.caption;
 
     return "N/A";
   }

@@ -87,7 +87,7 @@
                   <p-tableCheckbox [value]="selected"></p-tableCheckbox>
                 </td>
                 <td>{{ selected.dateCreated | date: "yyyy-MM-dd" }}</td>
-                <td>{{ selected.CreatedBy }}</td>
+                <td>{{ GetUserName(selected.createdBy) }}</td>
                 <td>{{ selected.name }}</td>
                 <td>{{ selected.description }}</td>
                 <td>{{ GetTotalQuantity(selected.customerOrders) }}</td>
@@ -198,7 +198,7 @@
             </td>
             <td>{{ selected.customerName }}</td>
             <td>{{ selected.productName }}</td>
-            <td>{{ selected.packSize }}</td>
+            <td>{{ GetPackSizeEnumString(selected.packSizeId) }}</td>
             <td>{{ selected.quantity }}</td>
             <td>{{ "N" + (selected.unitPrice | number) }}</td>
             <td>{{ "N" + (selected.amountPaid | number) }}</td>
