@@ -451,11 +451,9 @@ export class CustomerOrderingComponent implements OnInit {
     });
   }
 
-  GetPackSizeEnumString(enumValue: number): string {
-    if (enumValue == PackSizeEnum.One_Litre) return "1 Litre(s)";
-    if (enumValue == PackSizeEnum.Four_Litre) return "4 Litre(s)";
-    if (enumValue == PackSizeEnum.TwentyFive_Litre) return "25 Litre(s)";
-    if (enumValue == PackSizeEnum.TwoHundred_Litre) return "200 Litre(s)";
+  GetPackSizeEnumString(id: number): string {
+    let packSize = this.allPackSizes.find((x) => x.id == id);
+    if (packSize) return packSize.caption;
 
     return "N/A";
   }
