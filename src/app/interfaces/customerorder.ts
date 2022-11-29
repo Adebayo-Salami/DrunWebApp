@@ -20,7 +20,7 @@ export interface CreateCustomerOrderVM {
   productId: number;
   productName: string;
   quantity: number;
-  packSize: number;
+  packSizeId: number;
   unitPrice: number;
   paymentMethod: number;
   amountPaid: number;
@@ -33,7 +33,7 @@ export interface UpdateCustomerOrderVM {
   productId?: number;
   productName?: string;
   quantity?: number;
-  packSize?: number;
+  packSizeId?: number;
   unitPrice?: number;
   paymentMethod?: number;
   amountPaid?: number;
