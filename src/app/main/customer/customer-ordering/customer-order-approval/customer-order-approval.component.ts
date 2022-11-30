@@ -248,6 +248,20 @@ export class CustomerOrderApprovalComponent implements OnInit {
       });
       return;
     }
+
+    this.confirmationService.confirm({
+      message:
+        "You are about to approve batch order " +
+        this.batchInView.name +
+        ". This is an irreversible action. Do you still wish to proceed?",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: "Approving Batch Order...",
+        });
+      },
+    });
   }
 
   GetTotalQuantity(data: CustomerOrderVM[]): number {
