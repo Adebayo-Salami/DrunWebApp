@@ -172,7 +172,55 @@ export class CustomerOrderApprovalComponent implements OnInit {
     );
   }
 
-  RemoveBatchItem(item: CustomerOrderVM) {}
+  RemoveBatchItem(item: CustomerOrderVM) {
+    this.confirmationService.confirm({
+      message:
+        "Are you sure you want to remove this batch item from this order?",
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: "Removing batch Item...",
+        });
+
+        this.customerOrderService.DeleteCustomerOrder(item.id).subscribe(
+          async (data) => {
+            if (!data.isSuccessful) {
+              this.messageService.add({
+                severity: "error",
+                summary: "Failure",
+                detail: data.message,
+              });
+              console.log("Error: " + JSON.stringify(data));
+              return;
+            }
+
+            this.messageService.add({
+              severity: "success",
+              summary: "Removed",
+              detail: "Removed successfully",
+            });
+
+            const index = this.approvalInViewDits.indexOf(item);
+            if (index > -1) {
+              this.approvalInViewDits.splice(index, 1);
+            }
+          },
+          (error) => {
+            console.log("Error: " + JSON.stringify(error));
+            this.messageService.add({
+              severity: "error",
+              summary: "Notice",
+              detail:
+                "Unable to remove batch item at the moment.. Reason: [" +
+                error.message +
+                "]",
+            });
+          }
+        );
+      },
+    });
+  }
 
   ShowDeclineBatch() {
     this.openDeclineDialogue = true;
