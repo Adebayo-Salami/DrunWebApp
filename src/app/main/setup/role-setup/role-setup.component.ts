@@ -103,6 +103,10 @@ export class RoleSetupComponent implements OnInit {
         value: "Customer Ordering (Approve Order)",
       },
       {
+        key: PagesEnum.Customer_Ordering_ConfirmOrder,
+        value: "Customer Ordering (Confirm Order)",
+      },
+      {
         key: PagesEnum.Customer_Ordering_ViewOrders,
         value: "Customer Ordering (View Orders)",
       },
@@ -252,6 +256,10 @@ export class RoleSetupComponent implements OnInit {
       return "Customer Onboarding";
     if (identifier == PagesEnum.Customer_Ordering_CreateOrder)
       return "Customer Ordering (Create Order)";
+    if (identifier == PagesEnum.Customer_Ordering_ApproveOrder)
+      return "Customer Ordering (Approve Orders)";
+    if (identifier == PagesEnum.Customer_Ordering_ConfirmOrder)
+      return "Customer Ordering (Confirm Orders)";
     if (identifier == PagesEnum.Customer_Ordering_ViewOrders)
       return "Customer Ordering (View Orders)";
     if (identifier == PagesEnum.Customer_Reporting_CustomersVolume)

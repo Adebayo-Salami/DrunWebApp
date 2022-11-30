@@ -37,6 +37,10 @@ const routes: Routes = [
         component: CustomerOrderApprovalComponent,
       },
       {
+        path: "customer/ordering/confirmation",
+        component: CustomerOrderApprovalComponent,
+      },
+      {
         path: "customer/ordering/view",
         component: CustomerOrderViewComponent,
       },

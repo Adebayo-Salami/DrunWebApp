@@ -72,21 +72,22 @@ import { KnobModule } from "primeng/knob";
 import { FullCalendarModule } from "primeng/fullcalendar";
 import { ToolbarModule } from "primeng/toolbar";
 import { DashboardComponent } from "./dashboard/dashboard.component";
-import { CustomerOnboardingComponent } from './customer/customer-onboarding/customer-onboarding.component';
-import { CustomerOrderingComponent } from './customer/customer-ordering/customer-ordering.component';
-import { CustomerReportingComponent } from './customer/customer-reporting/customer-reporting.component';
-import { ProductSetupComponent } from './setup/product-setup/product-setup.component';
-import { RoleSetupComponent } from './setup/role-setup/role-setup.component';
-import { CustomerOrderApprovalComponent } from './customer/customer-ordering/customer-order-approval/customer-order-approval.component';
-import { CustomerOrderViewComponent } from './customer/customer-ordering/customer-order-view/customer-order-view.component';
-import { UserRoleSetupComponent } from './setup/user-role-setup/user-role-setup.component';
-import { ProfileComponent } from './profile/profile.component';
-import { UserSetupComponent } from './setup/user-setup/user-setup.component';
-import { InventorySetupComponent } from './inventory/inventory-setup/inventory-setup.component';
-import { InventoryItemRequestComponent } from './inventory/inventory-item-request/inventory-item-request.component';
-import { InventoryItemApprovalComponent } from './inventory/inventory-item-approval/inventory-item-approval.component';
-import { InventoryItemStoreComponent } from './inventory/inventory-item-store/inventory-item-store.component';
-import { InventoryItemConfirmationComponent } from './inventory/inventory-item-confirmation/inventory-item-confirmation.component';
+import { CustomerOnboardingComponent } from "./customer/customer-onboarding/customer-onboarding.component";
+import { CustomerOrderingComponent } from "./customer/customer-ordering/customer-ordering.component";
+import { CustomerReportingComponent } from "./customer/customer-reporting/customer-reporting.component";
+import { ProductSetupComponent } from "./setup/product-setup/product-setup.component";
+import { RoleSetupComponent } from "./setup/role-setup/role-setup.component";
+import { CustomerOrderApprovalComponent } from "./customer/customer-ordering/customer-order-approval/customer-order-approval.component";
+import { CustomerOrderViewComponent } from "./customer/customer-ordering/customer-order-view/customer-order-view.component";
+import { UserRoleSetupComponent } from "./setup/user-role-setup/user-role-setup.component";
+import { ProfileComponent } from "./profile/profile.component";
+import { UserSetupComponent } from "./setup/user-setup/user-setup.component";
+import { InventorySetupComponent } from "./inventory/inventory-setup/inventory-setup.component";
+import { InventoryItemRequestComponent } from "./inventory/inventory-item-request/inventory-item-request.component";
+import { InventoryItemApprovalComponent } from "./inventory/inventory-item-approval/inventory-item-approval.component";
+import { InventoryItemStoreComponent } from "./inventory/inventory-item-store/inventory-item-store.component";
+import { InventoryItemConfirmationComponent } from "./inventory/inventory-item-confirmation/inventory-item-confirmation.component";
+import { CustomerOrderConfirmationComponent } from './customer/customer-ordering/customer-order-confirmation/customer-order-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,7 @@ import { InventoryItemConfirmationComponent } from './inventory/inventory-item-c
     InventoryItemApprovalComponent,
     InventoryItemStoreComponent,
     InventoryItemConfirmationComponent,
+    CustomerOrderConfirmationComponent,
   ],
   imports: [
     AvatarModule,

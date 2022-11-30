@@ -156,6 +156,14 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ["/main/customer/ordering/approval"],
               },
               {
+                label: "Confirm Order",
+                icon: "pi pi-fw pi-id-card",
+                visible: this.IsPageVisible(
+                  PagesEnum.Customer_Ordering_ConfirmOrder
+                ),
+                routerLink: ["/main/customer/ordering/confirmation"],
+              },
+              {
                 label: "View Orders",
                 icon: "pi pi-fw pi-id-card",
                 visible: this.IsPageVisible(
