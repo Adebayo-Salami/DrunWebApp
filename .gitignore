@@ -349,3 +349,4 @@ appsettings.Development.json
 /ScaffoldModels
 
 .vercel
+dist
