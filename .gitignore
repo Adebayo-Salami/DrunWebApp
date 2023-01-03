@@ -347,3 +347,5 @@ appsettings.Development.json
 .DS_Store
 /ScaffoldContext
 /ScaffoldModels
+
+.vercel
