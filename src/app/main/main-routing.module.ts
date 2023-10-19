@@ -17,6 +17,7 @@ import { InventoryItemRequestComponent } from "./inventory/inventory-item-reques
 import { InventoryItemApprovalComponent } from "./inventory/inventory-item-approval/inventory-item-approval.component";
 import { InventoryItemStoreComponent } from "./inventory/inventory-item-store/inventory-item-store.component";
 import { InventoryItemConfirmationComponent } from "./inventory/inventory-item-confirmation/inventory-item-confirmation.component";
+import { CustomerOrderConfirmationComponent } from "./customer/customer-ordering/customer-order-confirmation/customer-order-confirmation.component";
 
 const routes: Routes = [
   {
@@ -38,7 +39,7 @@ const routes: Routes = [
       },
       {
         path: "customer/ordering/confirmation",
-        component: CustomerOrderApprovalComponent,
+        component: CustomerOrderConfirmationComponent,
       },
       {
         path: "customer/ordering/view",
