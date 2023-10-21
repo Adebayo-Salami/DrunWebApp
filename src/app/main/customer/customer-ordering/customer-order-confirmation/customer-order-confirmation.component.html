@@ -69,6 +69,85 @@
           </h5>
         </div>
       </div>
+      <div class="row" style="width: 100%">
+        <p-table
+          [value]="batchOrdersPendingConfirmation"
+          dataKey="id"
+          styleClass="p-datatable-customers"
+          [rowHover]="true"
+          [rows]="5"
+          [paginator]="true"
+        >
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Customer</th>
+              <th>Product</th>
+              <th>Qty Ordered</th>
+              <th>Qty Confirmed</th>
+              <th>Payment Status</th>
+              <th></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-selected>
+            <tr class="p-selectable-row">
+              <td>{{ selected.contract.customerName }}</td>
+              <td>{{ selected.contract.productName }}</td>
+              <td>{{ selected.contract.quantity }}</td>
+              <td>{{ selected.contract.quantityConfirmed }}</td>
+              <td>
+                <p-button
+                  label="Add Payment"
+                  icon="pi pi-dollar"
+                  (onClick)="LoadClientRequest(selected)"
+                  class="p-button-raised p-mr-0 p-mb-2 p-button-warning"
+                ></p-button>
+                <p-button
+                  label="Is Fully Paid"
+                  icon="pi pi-dollar"
+                  (onClick)="LoadClientRequest(selected)"
+                  class="p-button-raised p-mr-0 p-mb-2 p-button-success"
+                ></p-button>
+              </td>
+              <td>
+                <p-button
+                  label=""
+                  icon="pi pi-arrow-down"
+                  (onClick)="LoadClientRequest(selected)"
+                ></p-button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5">No Order Pending Confirmation(s) Found</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div class="row" style="width: 100%; margin-top: 5px">
+        <div class="card widget-timeline border p-4 mb-5">
+          <div class="p-grid row">
+            <h3 style="text-align: center"><u>Customer Order Details</u></h3>
+            <p-table
+              [value]="orderDetailTable"
+              dataKey="id"
+              styleClass="p-datatable-customers"
+              [rowHover]="true"
+              [rows]="8"
+              [paginator]="false"
+            >
+              <ng-template pTemplate="body" let-selected>
+                <tr class="p-selectable-row">
+                  <td>
+                    <b>{{ selected.name }}</b>
+                  </td>
+                  <td>{{ selected.data }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

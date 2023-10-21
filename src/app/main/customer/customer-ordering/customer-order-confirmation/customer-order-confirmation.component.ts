@@ -15,6 +15,11 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   allUsers: User[];
   fetchingPendingConfirmation: boolean;
   allPendingConfirmations: any[];
+  batchOrdersPendingConfirmation: any[];
+  orderDetailTable: {
+    name: string;
+    data: string;
+  }[];
 
   constructor(
     private userService: UserService,
@@ -39,6 +44,41 @@ export class CustomerOrderConfirmationComponent implements OnInit {
         routerLink: ["/main/customer/ordering/confirmation"],
       },
     ]);
+
+    this.orderDetailTable = [
+      {
+        name: "Customer Name",
+        data: "",
+      },
+      {
+        name: "Product Name",
+        data: "",
+      },
+      {
+        name: "Quantity Ordered",
+        data: "",
+      },
+      {
+        name: "Pack Size",
+        data: "",
+      },
+      {
+        name: "Unit Price",
+        data: "",
+      },
+      {
+        name: "Amount To Be Paid",
+        data: "",
+      },
+      {
+        name: "Amount Paid",
+        data: "",
+      },
+      {
+        name: "Date Created",
+        data: "",
+      },
+    ];
   }
 
   PickBatch(item: any) {}
