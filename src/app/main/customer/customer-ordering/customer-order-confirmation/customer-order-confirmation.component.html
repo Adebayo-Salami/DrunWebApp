@@ -262,3 +262,84 @@
     </div>
   </div>
 </div>
+<p-dialog
+  [(visible)]="openPaymentDialogue"
+  [style]="{ width: '850px' }"
+  header="Order Payment View"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="card" #formWrapper>
+      <div class="row">
+        <div class="card widget-timeline border p-4 mb-5">
+          <div class="p-grid row">
+            <form [formGroup]="paymentForm" (ngSubmit)="SaveOrderPayment()">
+              <div class="p-fluid">
+                <div class="p-field">
+                  <label for="id2Label">Amount To Pay:</label>
+                  <input
+                    id="id2Label"
+                    type="text"
+                    pInputText
+                    disabled="disabled"
+                    placeholder="Contract ID"
+                    formControlName="AmountToBePaid"
+                  />
+                </div>
+                <div class="p-field">
+                  <label for="idLabel">Amount Paid:</label>
+                  <input
+                    id="idLabel"
+                    type="number"
+                    pInputText
+                    placeholder="Contract ID"
+                    formControlName="AmountPaid"
+                  />
+                </div>
+                <div class="p-field">
+                  <label for="descLabel">Comment:</label>
+                  <textarea
+                    type="text"
+                    rows="4"
+                    cols="14"
+                    pInputTextarea
+                    id="descLabel"
+                    placeholder="Comment"
+                    formControlName="Comment"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="p-grid">
+                <div class="p-col-12 p-md-12">
+                  <div class="pt-2 text-right">
+                    <button
+                      style="width: 30%"
+                      pButton
+                      pRipple
+                      type="submit"
+                      [disabled]="clientContractForm.invalid"
+                      label="Save"
+                      icon="pi pi-plus-circle"
+                      class="p-button-raised p-mr-2 p-mb-2"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="HidePaymentDialog()"
+    ></button>
+  </ng-template>
+</p-dialog>

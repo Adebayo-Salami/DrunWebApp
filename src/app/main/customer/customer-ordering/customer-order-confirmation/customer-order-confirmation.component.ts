@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import { User } from "src/app/interfaces/user";
@@ -12,6 +13,7 @@ import { UserService } from "src/app/services/user.service";
 })
 export class CustomerOrderConfirmationComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
+  paymentForm: FormGroup;
   allUsers: User[];
   fetchingPendingConfirmation: boolean;
   allPendingConfirmations: any[];
@@ -22,14 +24,22 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   }[];
   orderInViewConfirmations: any[] = [];
   confirmationCols: any[];
+  openPaymentDialogue: boolean = true;
 
   constructor(
+    private fb: FormBuilder,
     private userService: UserService,
     private customerOrderService: CustomerOrderService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,
     public messageService: MessageService
-  ) {}
+  ) {
+    this.paymentForm = fb.group({
+      AmountToBePaid: [""],
+      AmountPaid: ["", Validators.required],
+      Comment: ["", Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     this.breadcrumbService.setItems([
@@ -92,4 +102,10 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   }
 
   PickBatch(item: any) {}
+
+  HidePaymentDialog() {
+    this.openPaymentDialogue = false;
+  }
+
+  SaveOrderPayment() {}
 }
