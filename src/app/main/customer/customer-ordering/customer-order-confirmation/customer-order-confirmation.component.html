@@ -265,7 +265,7 @@
 <p-dialog
   [(visible)]="openPaymentDialogue"
   [style]="{ width: '850px' }"
-  header="Order Payment View"
+  header=" Order Payment View"
   [modal]="true"
   styleClass="p-fluid"
 >
@@ -318,7 +318,7 @@
                       pButton
                       pRipple
                       type="submit"
-                      [disabled]="clientContractForm.invalid"
+                      [disabled]="paymentForm.invalid"
                       label="Save"
                       icon="pi pi-plus-circle"
                       class="p-button-raised p-mr-2 p-mb-2"
