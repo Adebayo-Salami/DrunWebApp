@@ -4,8 +4,8 @@
 
 export const environment = {
   Production: false,
-  BaseUrl: "https://localhost:44308/api/",
-  // BaseUrl: "http://drunbackend.somee.com/api/",
+  // BaseUrl: "https://localhost:44308/api/",
+  BaseUrl: "https://drunbackend.somee.com/api/",
   CompanyId: 1,
 };
 
