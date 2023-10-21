@@ -170,6 +170,92 @@
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <h5 style="text-align: center"><u>Order Confirmations</u></h5>
+                  <p-table
+                    #dtConfirmations
+                    [value]="orderInViewConfirmations"
+                    dataKey="id"
+                    styleClass="p-datatable-customers"
+                    [rowHover]="true"
+                    [rows]="5"
+                    [paginator]="true"
+                    [filterDelay]="0"
+                    [globalFilterFields]="[
+                      'dateCreated',
+                      'quantity',
+                      'createdBy',
+                      'comment',
+                      'productName'
+                    ]"
+                    [columns]="confirmationCols"
+                  >
+                    <ng-template pTemplate="caption">
+                      <div>
+                        <button
+                          type="button"
+                          pButton
+                          pRipple
+                          icon="pi pi-file-o"
+                          (click)="dtConfirmations.exportCSV()"
+                          class="p-mr-2"
+                          pTooltip="CSV"
+                          tooltipPosition="bottom"
+                          label="export all"
+                        ></button>
+                      </div>
+                      <div class="table-header">
+                        <span class="p-input-icon-left">
+                          <i class="pi pi-search"></i>
+                          <input
+                            pInputText
+                            type="text"
+                            (input)="
+                              dtConfirmations.filterGlobal(
+                                $event.target.value,
+                                'contains'
+                              )
+                            "
+                            placeholder="Global Search"
+                          />
+                        </span>
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th style="width: 3rem">
+                          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>Date Confirmed</th>
+                        <th>Confirmed By</th>
+                        <th>Quantity Confirmed</th>
+                        <th>Product</th>
+                        <th>Comment</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-selected>
+                      <tr class="p-selectable-row">
+                        <td>
+                          <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+                        </td>
+                        <td>{{ selected.dateCreated }}</td>
+                        <td>{{ selected.quantity }}</td>
+                        <td>{{ selected.createdBy }}</td>
+                        <td>{{ selected.comment }}</td>
+                        <td>{{ selected.productName }}</td>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                      <tr>
+                        <td colspan="5">No Item found in batch.</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

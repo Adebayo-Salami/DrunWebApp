@@ -20,6 +20,8 @@ export class CustomerOrderConfirmationComponent implements OnInit {
     name: string;
     data: string;
   }[];
+  orderInViewConfirmations: any[] = [];
+  confirmationCols: any[];
 
   constructor(
     private userService: UserService,
@@ -78,6 +80,14 @@ export class CustomerOrderConfirmationComponent implements OnInit {
         name: "Date Created",
         data: "",
       },
+    ];
+
+    this.confirmationCols = [
+      { field: "dateCreated", header: "Date Confirmed" },
+      { field: "createdBy", header: "Confirmed By" },
+      { field: "quantity", header: "Quantity Confirmed" },
+      { field: "comment", header: "Comment" },
+      { field: "productName", header: "Product" },
     ];
   }
 
