@@ -1,18 +1,16 @@
-export const PackSizeEnum = {
-  One_Litre: 1,
-  Four_Litre: 2,
-  TwentyFive_Litre: 3,
-  TwoHundred_Litre: 4,
-};
-Object.freeze(PackSizeEnum);
+export enum PackSizeEnum {
+  One_Litre = 1,
+  Four_Litre = 2,
+  TwentyFive_Litre = 3,
+  TwoHundred_Litre = 4,
+}
 
-export const PaymentModeEnum = {
-  Cash: 1,
-  Transfer: 2,
-  Card: 3,
-  Mixture: 4,
-};
-Object.freeze(PaymentModeEnum);
+export enum PaymentModeEnum {
+  Cash = 1,
+  Transfer = 2,
+  Card = 3,
+  Mixture = 4,
+}
 
 export interface CreateCustomerOrderVM {
   customerId: number;
@@ -54,6 +52,8 @@ export interface CustomerOrderVM {
   amountPaid: number;
   datePaid: Date;
   customerOrderBatchId: number;
+  confirmations: CustomerOrderConfirmationVM[];
+  payments: CustomerOrderPaymentVM[];
 }
 
 export interface LogCustomerOrderBatchVM {
@@ -77,4 +77,21 @@ export interface ActOnBatchApprovalVM {
   batchId: number;
   isApproved: boolean;
   comment?: string;
+}
+
+export interface CustomerOrderConfirmationVM {
+  id: number;
+  customerOrderId?: number;
+  quantityConfirmed: number;
+  comment: string;
+  dateCreated: Date;
+}
+
+export interface CustomerOrderPaymentVM {
+  id: number;
+  customerOrderId?: number;
+  amountPaid: number;
+  paymentMode: PaymentModeEnum;
+  createdBy: string;
+  dateCreated: Date;
 }
