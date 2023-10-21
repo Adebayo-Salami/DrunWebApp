@@ -342,6 +342,8 @@ export class CustomerOrderApprovalComponent implements OnInit {
           return;
         }
 
+        this.HideDeclineBatchDialogue();
+        this.HideCautionDialog();
         this.messageService.add({
           severity: "success",
           summary: "Notice",
@@ -349,6 +351,7 @@ export class CustomerOrderApprovalComponent implements OnInit {
             ? "Batch Approved Successfully!"
             : "Batch Rejected Successfully!",
         });
+        this.batchInView = null;
         this.GetAllBatchPendingApprovals();
       },
       (error) => {
