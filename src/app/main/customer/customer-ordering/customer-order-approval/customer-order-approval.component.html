@@ -86,7 +86,7 @@
                 <td>
                   <p-tableCheckbox [value]="selected"></p-tableCheckbox>
                 </td>
-                <td>{{ selected.dateCreated | date: "yyyy-MM-dd" }}</td>
+                <td>{{ selected.dateCreated | date : "yyyy-MM-dd" }}</td>
                 <td>{{ GetUserName(selected.createdBy) }}</td>
                 <td>{{ selected.name }}</td>
                 <td>{{ selected.description }}</td>
@@ -291,4 +291,52 @@
       ></button>
     </div>
   </form>
+</p-dialog>
+<p-dialog
+  [(visible)]="openCautionDialogue"
+  [style]="{ width: '450px' }"
+  header="Caution"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="formDecline" (ngSubmit)="CautionAction()">
+      <div class="p-fluid" style="text-align: center; justify-content: center">
+        <img src="assets/caution.jpg" width="150px" height="150px" />
+      </div>
+      <div class="p-fluid" style="text-align: center; justify-content: center">
+        <label *ngIf="cautionText">{{ cautionText }}</label
+        ><br /><br />
+      </div>
+      <div class="text-right">
+        <button
+          pButton
+          pRipple
+          type="button"
+          (click)="HideCautionDialog()"
+          icon="pi pi-times-circle"
+          label="No, don't proceed"
+          class="p-button-raised p-mr-0 p-mb-2"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="submit"
+          label="Yes, proceed"
+          icon="pi pi-times-circle"
+          class="p-button-raised p-mr-2 p-mb-2 p-button-danger"
+        ></button>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="HideCautionDialog()"
+    ></button>
+  </ng-template>
 </p-dialog>

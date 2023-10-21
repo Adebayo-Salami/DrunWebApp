@@ -33,6 +33,9 @@ export class CustomerOrderApprovalComponent implements OnInit {
   fetchingPendingApprovals: boolean;
   allUsers: User[];
   allPackSizes: PackSize[];
+  openCautionDialogue: boolean;
+  cautionText: string;
+  cautionAction: number;
 
   constructor(
     private fb: FormBuilder,
@@ -173,6 +176,16 @@ export class CustomerOrderApprovalComponent implements OnInit {
   }
 
   RemoveBatchItem(item: CustomerOrderVM) {
+    if (this.approvalInViewDits.length == 1) {
+      this.messageService.add({
+        severity: "error",
+        summary:
+          "Please kindly decline batch instead, this is the only order left in the batch",
+      });
+      console.log("Error: Only one batch left");
+      return;
+    }
+
     this.confirmationService.confirm({
       message:
         "Are you sure you want to remove this batch item from this order?",
@@ -249,19 +262,12 @@ export class CustomerOrderApprovalComponent implements OnInit {
       return;
     }
 
-    this.confirmationService.confirm({
-      message:
-        "You are about to approve batch order " +
-        this.batchInView.name +
-        ". This is an irreversible action. Do you still wish to proceed?",
-      accept: () => {
-        this.messageService.add({
-          severity: "info",
-          summary: "Notice",
-          detail: "Approving Batch Order...",
-        });
-      },
-    });
+    this.cautionText =
+      "You are about to approve batch order " +
+      this.batchInView.name +
+      ". This is an irreversible action. Do you still wish to proceed?";
+    this.cautionAction = 1;
+    this.openCautionDialogue = true;
   }
 
   GetTotalQuantity(data: CustomerOrderVM[]): number {
@@ -307,5 +313,11 @@ export class CustomerOrderApprovalComponent implements OnInit {
     if (packSize) return packSize.caption;
 
     return "N/A";
+  }
+
+  HideCautionDialog() {
+    this.openCautionDialogue = false;
+    this.cautionAction = null;
+    this.cautionText = null;
   }
 }
