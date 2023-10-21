@@ -1,4 +1,5 @@
 import {
+  ActOnBatchApprovalVM,
   CreateCustomerOrderVM,
   CustomerOrderBatchVM,
   LogCustomerOrderBatchVM,
@@ -53,5 +54,9 @@ export class CustomerOrderService {
     return this.http.get<ResultVM<CustomerOrderBatchVM[]>>(
       this.baseUrl + "GetAllBatchPendingApproval"
     );
+  }
+
+  ActOnBatchApproval(data: ActOnBatchApprovalVM): Observable<ResultVM> {
+    return this.http.post<ResultVM>(this.baseUrl + "ActOnBatchApproval", data);
   }
 }

@@ -1,12 +1,13 @@
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>
-<div class="p-grid">
-  <div class="row">
-    <div class="card p-grid p-col-12 mb-3">
+<div class="p-grid" style="width: 100%">
+  <div class="row" style="width: 100%">
+    <div class="card p-grid p-col-12 mb-3" style="width: 100%">
       <p-fieldset legend="Pending Approval" toggleable="true">
         <div
           *ngIf="fetchingPendingApprovals; else tableDataPendApproval"
           class="text-center"
+          style="width: 100%; text-align: center"
         >
           <p-progressSpinner></p-progressSpinner>
         </div>
@@ -256,6 +257,12 @@
   styleClass="p-fluid"
 >
   <form [formGroup]="formDecline" (ngSubmit)="DeclineBatch()">
+    <div class="p-fluid" style="text-align: center; justify-content: center">
+      <img src="assets/caution.jpg" width="150px" height="150px" />
+    </div>
+    <div class="p-fluid" style="text-align: center; justify-content: center">
+      <label>Kindly drop a comment for rejecting this batch.</label><br /><br />
+    </div>
     <div class="p-fluid">
       <div class="p-field">
         <label for="commentLabel">Comment:</label>
@@ -300,7 +307,7 @@
   styleClass="p-fluid"
 >
   <ng-template pTemplate="content">
-    <form [formGroup]="formDecline" (ngSubmit)="CautionAction()">
+    <form [formGroup]="formCaution" (ngSubmit)="CautionAction()">
       <div class="p-fluid" style="text-align: center; justify-content: center">
         <img src="assets/caution.jpg" width="150px" height="150px" />
       </div>

@@ -1,4 +1,5 @@
 import {
+  ActOnBatchApprovalVM,
   CustomerOrderBatchVM,
   CustomerOrderVM,
   PaymentModeEnum,
@@ -20,8 +21,8 @@ import { PackSize } from "src/app/interfaces/pack-size";
 })
 export class CustomerOrderApprovalComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
-  formAccept: FormGroup;
   formDecline: FormGroup;
+  formCaution: FormGroup;
   batchInView: CustomerOrderBatchVM;
   allPendingApprovals: CustomerOrderBatchVM[];
   selectedPendingApprovals: CustomerOrderBatchVM[];
@@ -36,6 +37,7 @@ export class CustomerOrderApprovalComponent implements OnInit {
   openCautionDialogue: boolean;
   cautionText: string;
   cautionAction: number;
+  declineComment: string;
 
   constructor(
     private fb: FormBuilder,
@@ -47,9 +49,6 @@ export class CustomerOrderApprovalComponent implements OnInit {
     public messageService: MessageService
   ) {
     this.formDecline = fb.group({
-      Comment: ["", Validators.required],
-    });
-    this.formAccept = fb.group({
       Comment: ["", Validators.required],
     });
   }
@@ -249,6 +248,9 @@ export class CustomerOrderApprovalComponent implements OnInit {
       summary: "Notice",
       detail: "Declining Request " + this.batchInView.name + "...",
     });
+    this.cautionAction = 2;
+    this.declineComment = this.formDecline.get("Comment").value;
+    this.CautionAction();
   }
 
   ApproveBatch() {
@@ -319,5 +321,47 @@ export class CustomerOrderApprovalComponent implements OnInit {
     this.openCautionDialogue = false;
     this.cautionAction = null;
     this.cautionText = null;
+  }
+
+  CautionAction() {
+    const postData: ActOnBatchApprovalVM = {
+      batchId: this.batchInView.id,
+      isApproved: this.cautionAction == 1,
+      comment: this.declineComment,
+    };
+
+    this.customerOrderService.ActOnBatchApproval(postData).subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          console.log("Error: " + JSON.stringify(data));
+          return;
+        }
+
+        this.messageService.add({
+          severity: "success",
+          summary: "Notice",
+          detail: postData.isApproved
+            ? "Batch Approved Successfully!"
+            : "Batch Rejected Successfully!",
+        });
+        this.GetAllBatchPendingApprovals();
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to act on batch at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+      }
+    );
   }
 }

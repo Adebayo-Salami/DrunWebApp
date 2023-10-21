@@ -72,3 +72,9 @@ export interface CustomerOrderBatchVM {
   CreatedBy: string;
   dateCreated: Date;
 }
+
+export interface ActOnBatchApprovalVM {
+  batchId: number;
+  isApproved: boolean;
+  comment?: string;
+}
