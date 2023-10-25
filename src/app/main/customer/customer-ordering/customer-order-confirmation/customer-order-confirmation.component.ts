@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
 import {
+  AddCutomerOrderPaymentRecordVM,
   CustomerOrderBatchVM,
   CustomerOrderPaymentVM,
   CustomerOrderVM,
@@ -32,7 +33,6 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   orderInViewConfirmations: any[] = [];
   confirmationCols: any[];
   openPaymentDialogue: boolean;
-  selectedOrderPayments: CustomerOrderPaymentVM[];
   orderPaymentCols: any[];
   openConfirmationDialogue: boolean;
   batchInView: CustomerOrderBatchVM;
@@ -179,7 +179,51 @@ export class CustomerOrderConfirmationComponent implements OnInit {
         "Are you sure you want to save this payment record. This is an irreversible action, Do you still wish to proceed?",
       acceptLabel: "Yes,Proceed",
       rejectLabel: "No, Don't Proceed",
-      accept: () => {},
+      accept: () => {
+        this.messageService.add({
+          severity: "info",
+          summary: "Notice",
+          detail: "Saving Payment Record...",
+        });
+
+        const postData: AddCutomerOrderPaymentRecordVM = {
+          customerOrderId: this.orderInViewForPayment.id,
+          amountPaid: this.paymentForm.get("AmountPaid").value,
+          comment: this.paymentForm.get("Comment").value,
+        };
+
+        this.customerOrderService
+          .AddCutomerOrderPaymentRecord(postData)
+          .subscribe(
+            async (data) => {
+              if (!data.isSuccessful) {
+                this.messageService.add({
+                  severity: "error",
+                  summary: "Failure",
+                  detail: data.message,
+                });
+                return;
+              }
+
+              this.messageService.add({
+                severity: "success",
+                summary: "Removed",
+                detail: "Saved successfully",
+              });
+            },
+            (error) => {
+              console.log("Error: " + JSON.stringify(error));
+              this.messageService.add({
+                severity: "error",
+                summary: "Notice",
+                detail:
+                  "Unable to save payment record at the moment.. Reason: [" +
+                  error.message +
+                  "]",
+              });
+            }
+          );
+      },
     });
   }
 
@@ -229,12 +273,11 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   }
 
   AddOrderPayment(item: CustomerOrderVM) {
-    this.openPaymentDialogue = true;
     this.orderInViewForPayment = item;
     this.paymentForm.patchValue({
       AmountToBePaid:
         item.amountToBePaid - (item.amountPaid + item.additionalAmountPaid),
     });
-    this.selectedOrderPayments = item.payments;
+    this.openPaymentDialogue = true;
   }
 }

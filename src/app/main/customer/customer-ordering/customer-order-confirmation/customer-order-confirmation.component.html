@@ -355,7 +355,7 @@
           <h5>Payment(s) Captured For Selected Cutomer Order</h5>
           <p-table
             #dtPaymentView
-            [value]="selectedOrderPayments"
+            [value]="orderInViewForPayment.payments"
             dataKey="id"
             styleClass="p-datatable-customers"
             [rowHover]="true"
