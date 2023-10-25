@@ -172,7 +172,16 @@ export class CustomerOrderConfirmationComponent implements OnInit {
     this.orderInViewForPayment = null;
   }
 
-  SaveOrderPayment() {}
+  SaveOrderPayment() {
+    this.confirmationService.confirm({
+      header: "Confirmation",
+      message:
+        "Are you sure you want to save this payment record. This is an irreversible action, Do you still wish to proceed?",
+      acceptLabel: "Yes,Proceed",
+      rejectLabel: "No, Don't Proceed",
+      accept: () => {},
+    });
+  }
 
   GetPaymentModeLabel(mode: number): string {
     if (mode == PaymentModeEnum.Card) return "Card";
