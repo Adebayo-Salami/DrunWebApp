@@ -250,6 +250,8 @@ export class CustomerOrderConfirmationComponent implements OnInit {
                   this.authService.GetLoggedInUserProfile().othername,
                 dateCreated: null,
               });
+              this.paymentForm.reset();
+              this.thePaymentMode = null;
             },
             (error) => {
               console.log("Error: " + JSON.stringify(error));
