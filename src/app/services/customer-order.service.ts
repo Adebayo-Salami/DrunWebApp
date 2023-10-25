@@ -1,5 +1,6 @@
 import {
   ActOnBatchApprovalVM,
+  AddCutomerOrderPaymentRecordVM,
   CreateCustomerOrderVM,
   CustomerOrderBatchVM,
   LogCustomerOrderBatchVM,
@@ -65,6 +66,15 @@ export class CustomerOrderService {
   > {
     return this.http.get<ResultVM<CustomerOrderBatchVM[]>>(
       this.baseUrl + "GetAllBatchPendingConfirmation"
+    );
+  }
+
+  AddCutomerOrderPaymentRecord(
+    data: AddCutomerOrderPaymentRecordVM
+  ): Observable<ResultVM> {
+    return this.http.post<ResultVM>(
+      this.baseUrl + "AddCutomerOrderPaymentRecord",
+      data
     );
   }
 }

@@ -97,3 +97,9 @@ export interface CustomerOrderPaymentVM {
   createdBy: string;
   dateCreated: Date;
 }
+
+export interface AddCutomerOrderPaymentRecordVM {
+  customerOrderId: number;
+  amountPaid: number;
+  comment: string;
+}
