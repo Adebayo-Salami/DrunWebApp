@@ -45,11 +45,13 @@ export interface CustomerOrderVM {
   productId: number;
   productName: string;
   quantity: number;
+  quantityConfirmed: number;
   packSizeId: number;
   unitPrice: number;
   amountToBePaid: number;
   paymentMode: number;
   amountPaid: number;
+  additionalAmountPaid: number;
   datePaid: Date;
   customerOrderBatchId: number;
   confirmations: CustomerOrderConfirmationVM[];

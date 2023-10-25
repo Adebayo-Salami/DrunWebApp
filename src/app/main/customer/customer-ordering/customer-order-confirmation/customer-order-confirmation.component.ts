@@ -2,7 +2,12 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
-import { PaymentModeEnum } from "src/app/interfaces/customerorder";
+import {
+  CustomerOrderBatchVM,
+  CustomerOrderPaymentVM,
+  CustomerOrderVM,
+  PaymentModeEnum,
+} from "src/app/interfaces/customerorder";
 import { User } from "src/app/interfaces/user";
 import { CustomerOrderService } from "src/app/services/customer-order.service";
 import { UserService } from "src/app/services/user.service";
@@ -18,8 +23,7 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   confirmationForm: FormGroup;
   allUsers: User[];
   fetchingPendingConfirmation: boolean;
-  allPendingConfirmations: any[];
-  batchOrdersPendingConfirmation: any[];
+  allPendingConfirmations: CustomerOrderBatchVM[];
   orderDetailTable: {
     name: string;
     data: string;
@@ -27,9 +31,12 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   orderInViewConfirmations: any[] = [];
   confirmationCols: any[];
   openPaymentDialogue: boolean;
-  selectedOrderPayments: any[];
+  selectedOrderPayments: CustomerOrderPaymentVM[];
   orderPaymentCols: any[];
   openConfirmationDialogue: boolean;
+  batchInView: CustomerOrderBatchVM;
+  orderInViewForPayment: CustomerOrderVM;
+  orderInViewForConfirmation: CustomerOrderVM;
 
   constructor(
     private fb: FormBuilder,
@@ -118,12 +125,49 @@ export class CustomerOrderConfirmationComponent implements OnInit {
       { field: "comment", header: "Comment" },
       { field: "paymentMode", header: "Mode of Payment" },
     ];
+
+    this.FetchAllPendingConfirmation();
   }
 
-  PickBatch(item: any) {}
+  async FetchAllPendingConfirmation() {
+    this.fetchingPendingConfirmation = true;
+    this.customerOrderService.GetAllBatchPendingConfirmation().subscribe(
+      async (data) => {
+        if (!data.isSuccessful) {
+          this.messageService.add({
+            severity: "error",
+            summary: "Failure",
+            detail: data.message,
+          });
+          this.fetchingPendingConfirmation = false;
+          return;
+        }
+
+        this.allPendingConfirmations = data.object;
+        this.fetchingPendingConfirmation = false;
+      },
+      (error) => {
+        console.log("Error: " + JSON.stringify(error));
+        this.messageService.add({
+          severity: "error",
+          summary: "Notice",
+          detail:
+            "Unable to get all pending confirmation at the moment.. Reason: [" +
+            error.message +
+            "]",
+        });
+        this.fetchingPendingConfirmation = false;
+      }
+    );
+  }
+
+  PickBatch(item: CustomerOrderBatchVM) {
+    this.batchInView = item;
+  }
 
   HidePaymentDialog() {
     this.openPaymentDialogue = false;
+    this.orderInViewForPayment = null;
   }
 
   SaveOrderPayment() {}
@@ -144,5 +188,42 @@ export class CustomerOrderConfirmationComponent implements OnInit {
 
   AddNewConfirmation() {
     this.openConfirmationDialogue = true;
+  }
+
+  FormatDateString(date: Date): string {
+    let dateString = date.toString();
+
+    try {
+      // DateTimeFormatOptions
+      const date: Date = new Date(dateString);
+      const options: Intl.DateTimeFormatOptions = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      };
+      const formattedDate: string = new Intl.DateTimeFormat(
+        "en-US",
+        options
+      ).format(date);
+      dateString = formattedDate;
+    } catch (error) {
+      console.log(error);
+      console.log(date);
+      console.log(
+        "Error while converting date string " + date + " exception " + error
+      );
+    }
+
+    return dateString;
+  }
+
+  AddOrderPayment(item: CustomerOrderVM) {
+    this.openPaymentDialogue = true;
+    this.orderInViewForPayment = item;
+    this.paymentForm.patchValue({
+      AmountToBePaid:
+        item.amountToBePaid - (item.amountPaid + item.additionalAmountPaid),
+    });
+    this.selectedOrderPayments = item.payments;
   }
 }

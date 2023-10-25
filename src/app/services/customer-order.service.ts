@@ -59,4 +59,12 @@ export class CustomerOrderService {
   ActOnBatchApproval(data: ActOnBatchApprovalVM): Observable<ResultVM> {
     return this.http.post<ResultVM>(this.baseUrl + "ActOnBatchApproval", data);
   }
+
+  GetAllBatchPendingConfirmation(): Observable<
+    ResultVM<CustomerOrderBatchVM[]>
+  > {
+    return this.http.get<ResultVM<CustomerOrderBatchVM[]>>(
+      this.baseUrl + "GetAllBatchPendingConfirmation"
+    );
+  }
 }
