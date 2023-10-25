@@ -141,4 +141,8 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   }
 
   SaveOrderConfimration() {}
+
+  AddNewConfirmation() {
+    this.openConfirmationDialogue = true;
+  }
 }

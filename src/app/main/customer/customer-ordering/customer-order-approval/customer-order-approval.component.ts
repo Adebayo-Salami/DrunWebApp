@@ -51,6 +51,10 @@ export class CustomerOrderApprovalComponent implements OnInit {
     this.formDecline = fb.group({
       Comment: ["", Validators.required],
     });
+
+    this.formCaution = fb.group({
+      Comment: [""],
+    });
   }
 
   ngOnInit(): void {
