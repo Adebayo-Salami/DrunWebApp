@@ -38,6 +38,14 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   batchInView: CustomerOrderBatchVM;
   orderInViewForPayment: CustomerOrderVM;
   orderInViewForConfirmation: CustomerOrderVM;
+  allPaymentModes: {
+    key: PaymentModeEnum;
+    value: string;
+  }[];
+  thePaymentMode: {
+    key: PaymentModeEnum;
+    value: string;
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +59,7 @@ export class CustomerOrderConfirmationComponent implements OnInit {
     this.paymentForm = fb.group({
       AmountToBePaid: [""],
       AmountPaid: ["", Validators.required],
+      PaymentMode: ["", Validators.required],
       Comment: ["", Validators.required],
     });
 
@@ -109,6 +118,25 @@ export class CustomerOrderConfirmationComponent implements OnInit {
       {
         name: "Date Created",
         data: "",
+      },
+    ];
+
+    this.allPaymentModes = [
+      {
+        key: PaymentModeEnum.Cash,
+        value: "Cash",
+      },
+      {
+        key: PaymentModeEnum.Transfer,
+        value: "Transfer",
+      },
+      {
+        key: PaymentModeEnum.Card,
+        value: "Card",
+      },
+      {
+        key: PaymentModeEnum.Mixture,
+        value: "Mixture",
       },
     ];
 
@@ -190,6 +218,7 @@ export class CustomerOrderConfirmationComponent implements OnInit {
           customerOrderId: this.orderInViewForPayment.id,
           amountPaid: this.paymentForm.get("AmountPaid").value,
           comment: this.paymentForm.get("Comment").value,
+          paymentMode: this.thePaymentMode.key,
         };
 
         this.customerOrderService
@@ -209,6 +238,17 @@ export class CustomerOrderConfirmationComponent implements OnInit {
                 severity: "success",
                 summary: "Removed",
                 detail: "Saved successfully",
+              });
+              this.orderInViewForPayment.payments.push({
+                id: this.orderInViewForPayment.payments.length + 1,
+                customerOrderId: postData.customerOrderId,
+                amountPaid: postData.amountPaid,
+                paymentMode: postData.paymentMode,
+                createdBy:
+                  this.authService.GetLoggedInUserProfile().lastname +
+                  " " +
+                  this.authService.GetLoggedInUserProfile().othername,
+                dateCreated: null,
               });
             },
             (error) => {

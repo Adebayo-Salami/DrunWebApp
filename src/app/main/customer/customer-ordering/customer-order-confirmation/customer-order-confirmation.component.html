@@ -318,6 +318,19 @@
                   />
                 </div>
                 <div class="p-field">
+                  <label for="pmLabel">Mode Of Payment:</label>
+                  <p-dropdown
+                  inputId="pmLabel"
+                  [options]="allPaymentModes"
+                  [(ngModel)]="thePaymentModes"
+                  placeholder="--Select--"
+                  [showClear]="true"
+                  [filter]="true"
+                  optionLabel="value"
+                  formControlName="PaymentMode"
+                >
+                </p-dropdown>
+                <div class="p-field">
                   <label for="descLabel">Comment:</label>
                   <textarea
                     type="text"

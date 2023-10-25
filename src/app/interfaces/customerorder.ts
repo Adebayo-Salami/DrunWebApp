@@ -101,5 +101,6 @@ export interface CustomerOrderPaymentVM {
 export interface AddCutomerOrderPaymentRecordVM {
   customerOrderId: number;
   amountPaid: number;
+  paymentMode: PaymentModeEnum;
   comment: string;
 }
