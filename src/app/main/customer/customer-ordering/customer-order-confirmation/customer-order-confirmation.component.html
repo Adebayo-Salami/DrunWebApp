@@ -283,7 +283,7 @@
                     type="text"
                     pInputText
                     disabled="disabled"
-                    placeholder="Contract ID"
+                    placeholder="Amount To Pay"
                     formControlName="AmountToBePaid"
                   />
                 </div>
@@ -293,7 +293,7 @@
                     id="idLabel"
                     type="number"
                     pInputText
-                    placeholder="Contract ID"
+                    placeholder="Amount Paid"
                     formControlName="AmountPaid"
                   />
                 </div>
@@ -319,7 +319,167 @@
                       pRipple
                       type="submit"
                       [disabled]="paymentForm.invalid"
-                      label="Save"
+                      label="Save Payment"
+                      icon="pi pi-plus-circle"
+                      class="p-button-raised p-mr-2 p-mb-2"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="card p-grid p-col-12 mb-3">
+          <h5>Payment(s) Captured For Selected Cutomer Order</h5>
+          <p-table
+            #dtPaymentView
+            [value]="selectedOrderPayments"
+            dataKey="id"
+            styleClass="p-datatable-customers"
+            [rowHover]="true"
+            [rows]="5"
+            [paginator]="true"
+            [filterDelay]="0"
+            [globalFilterFields]="['amounPaid', 'comment', 'createdBy']"
+            [columns]="orderPaymentCols"
+          >
+            <ng-template pTemplate="caption">
+              <div>
+                <button
+                  type="button"
+                  pButton
+                  pRipple
+                  icon="pi pi-file-o"
+                  (click)="dtPaymentView.exportCSV()"
+                  class="p-mr-2"
+                  pTooltip="CSV"
+                  tooltipPosition="bottom"
+                  label="export all"
+                ></button>
+              </div>
+              <div class="table-header">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input
+                    pInputText
+                    type="text"
+                    (input)="
+                      dtPaymentView.filterGlobal(
+                        $event.target.value,
+                        'contains'
+                      )
+                    "
+                    placeholder="Global Search"
+                  />
+                </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3rem">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>Amount Paid</th>
+                <th>Mode Of Payment</th>
+                <th>Captured By</th>
+                <th>Comment</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-selected>
+              <tr class="p-selectable-row">
+                <td>
+                  <p-tableCheckbox [value]="selected"></p-tableCheckbox>
+                </td>
+                <td>{{ "N" + (selected.amounPaid | number) }}</td>
+                <td>{{ GetPaymentModeLabel(selected.paymentMode) }}</td>
+                <td>{{ selected.createdBy }}</td>
+                <td>{{ selected.comment }}</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="5">No Payment(s) Captured Yet!.</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="Close"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="HidePaymentDialog()"
+    ></button>
+  </ng-template>
+</p-dialog>
+<p-dialog
+  [(visible)]="openConfirmationDialogue"
+  [style]="{ width: '850px' }"
+  header=" Order Confirmation"
+  [modal]="true"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <div class="card" #formWrapper>
+      <div class="row">
+        <div class="card widget-timeline border p-4 mb-5">
+          <div class="p-grid row">
+            <form
+              [formGroup]="confirmationForm"
+              (ngSubmit)="SaveOrderConfimration()"
+            >
+              <div class="p-fluid">
+                <div class="p-field">
+                  <label for="qrrLabel">Quantity Remaining:</label>
+                  <input
+                    id="qrrLabel"
+                    type="text"
+                    pInputText
+                    disabled="disabled"
+                    placeholder="Quantity Remaining"
+                    formControlName="QuantityRemaining"
+                  />
+                </div>
+                <div class="p-field">
+                  <label for="idLabel">Quantity Confirmed:</label>
+                  <input
+                    id="idLabel"
+                    type="number"
+                    pInputText
+                    placeholder="Quantity Confirmed"
+                    formControlName="QuantityConfirmed"
+                  />
+                </div>
+                <div class="p-field">
+                  <label for="descLabel">Comment:</label>
+                  <textarea
+                    type="text"
+                    rows="4"
+                    cols="14"
+                    pInputTextarea
+                    id="descLabel"
+                    placeholder="Comment"
+                    formControlName="Comment"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="p-grid">
+                <div class="p-col-12 p-md-12">
+                  <div class="pt-2 text-right">
+                    <button
+                      style="width: 30%"
+                      pButton
+                      pRipple
+                      type="submit"
+                      [disabled]="confirmationForm.invalid"
+                      label="Save Confirmation"
                       icon="pi pi-plus-circle"
                       class="p-button-raised p-mr-2 p-mb-2"
                     ></button>
@@ -339,7 +499,7 @@
       label="Close"
       icon="pi pi-times"
       class="p-button-text"
-      (click)="HidePaymentDialog()"
+      (click)="HideConfirmationDialog()"
     ></button>
   </ng-template>
 </p-dialog>

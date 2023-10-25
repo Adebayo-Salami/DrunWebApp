@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { BreadcrumbService } from "src/app/breadcrumb.service";
+import { PaymentModeEnum } from "src/app/interfaces/customerorder";
 import { User } from "src/app/interfaces/user";
 import { CustomerOrderService } from "src/app/services/customer-order.service";
 import { UserService } from "src/app/services/user.service";
@@ -14,6 +15,7 @@ import { UserService } from "src/app/services/user.service";
 export class CustomerOrderConfirmationComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
   paymentForm: FormGroup;
+  confirmationForm: FormGroup;
   allUsers: User[];
   fetchingPendingConfirmation: boolean;
   allPendingConfirmations: any[];
@@ -24,7 +26,10 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   }[];
   orderInViewConfirmations: any[] = [];
   confirmationCols: any[];
-  openPaymentDialogue: boolean = true;
+  openPaymentDialogue: boolean;
+  selectedOrderPayments: any[];
+  orderPaymentCols: any[];
+  openConfirmationDialogue: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -37,6 +42,12 @@ export class CustomerOrderConfirmationComponent implements OnInit {
     this.paymentForm = fb.group({
       AmountToBePaid: [""],
       AmountPaid: ["", Validators.required],
+      Comment: ["", Validators.required],
+    });
+
+    this.confirmationForm = fb.group({
+      QuantityRemaining: [""],
+      QuantityConfirmed: ["", Validators.required],
       Comment: ["", Validators.required],
     });
   }
@@ -99,6 +110,14 @@ export class CustomerOrderConfirmationComponent implements OnInit {
       { field: "comment", header: "Comment" },
       { field: "productName", header: "Product" },
     ];
+
+    this.orderPaymentCols = [
+      { field: "customerOrderId", header: "OrderId" },
+      { field: "createdBy", header: "Captured By" },
+      { field: "amounPaid", header: "Amount Paid" },
+      { field: "comment", header: "Comment" },
+      { field: "paymentMode", header: "Mode of Payment" },
+    ];
   }
 
   PickBatch(item: any) {}
@@ -108,4 +127,18 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   }
 
   SaveOrderPayment() {}
+
+  GetPaymentModeLabel(mode: number): string {
+    if (mode == PaymentModeEnum.Card) return "Card";
+    if (mode == PaymentModeEnum.Cash) return "Cash";
+    if (mode == PaymentModeEnum.Transfer) return "Transfer";
+
+    return "N/A";
+  }
+
+  HideConfirmationDialog() {
+    this.openConfirmationDialogue = false;
+  }
+
+  SaveOrderConfimration() {}
 }
