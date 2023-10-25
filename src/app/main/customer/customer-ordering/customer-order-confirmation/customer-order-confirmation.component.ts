@@ -9,6 +9,7 @@ import {
   PaymentModeEnum,
 } from "src/app/interfaces/customerorder";
 import { User } from "src/app/interfaces/user";
+import { AuthService } from "src/app/services/auth.service";
 import { CustomerOrderService } from "src/app/services/customer-order.service";
 import { UserService } from "src/app/services/user.service";
 
@@ -41,6 +42,7 @@ export class CustomerOrderConfirmationComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
+    private authService: AuthService,
     private customerOrderService: CustomerOrderService,
     private breadcrumbService: BreadcrumbService,
     public confirmationService: ConfirmationService,

@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 import { AuthenticateUserVM, AuthSessionVM } from "../interfaces/auth";
 import { ResultVM } from "../interfaces/main";
+import { ProfileVM } from "../interfaces/user";
 
 @Injectable({
   providedIn: "root",
@@ -19,5 +20,9 @@ export class AuthService {
       this.baseUrl + "Authenticate",
       data
     );
+  }
+
+  GetLoggedInUserProfile(): ProfileVM {
+    return JSON.parse(sessionStorage.getItem("userProfile"));
   }
 }
