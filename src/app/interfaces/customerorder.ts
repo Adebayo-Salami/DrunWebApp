@@ -94,6 +94,7 @@ export interface CustomerOrderPaymentVM {
   customerOrderId?: number;
   amountPaid: number;
   paymentMode: PaymentModeEnum;
+  comment: string;
   createdBy: string;
   dateCreated: Date;
 }

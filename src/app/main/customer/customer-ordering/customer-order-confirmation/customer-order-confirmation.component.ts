@@ -248,6 +248,7 @@ export class CustomerOrderConfirmationComponent implements OnInit {
                   this.authService.GetLoggedInUserProfile().lastname +
                   " " +
                   this.authService.GetLoggedInUserProfile().othername,
+                comment: postData.comment,
                 dateCreated: null,
               });
               this.paymentForm.reset();
