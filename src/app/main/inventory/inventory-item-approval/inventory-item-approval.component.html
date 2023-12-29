@@ -82,7 +82,7 @@
             <td>{{ selected.requestedQuantity | number }}</td>
             <td>{{ "N" + (selected.unitPrice | number) }}</td>
             <td>
-              {{ selected.dateAdded | date: "yyyy-MM-dd" }}
+              {{ selected.dateAdded | date : "yyyy-MM-dd" }}
             </td>
             <td>{{ GetUserName(selected.createdById) }}</td>
             <td>
@@ -172,10 +172,7 @@
           <td>{{ GetPackSizeCaption(selected.packSizeId) }}</td>
           <td>{{ selected.quantity | number }}</td>
           <td>
-            {{
-              GetStoreItemQuantity(selected.rawMaterialId, selected.packSizeId)
-                | number
-            }}
+            {{ selected.quantityInStore | number }}
           </td>
         </tr>
       </ng-template>

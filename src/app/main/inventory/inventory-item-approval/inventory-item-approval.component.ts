@@ -243,12 +243,19 @@ export class InventoryItemApprovalComponent implements OnInit {
 
   ShowItemRequestDetails(item: InventoryItemRequest) {
     this.itemRequestInView = item;
+    this.itemRequestInView.rawMaterials.forEach(
+      (rawMaterial) =>
+        (rawMaterial.quantityInStore = this.GetStoreItemQuantity(
+          rawMaterial.rawMaterialId,
+          rawMaterial.packSizeId
+        ))
+    );
   }
 
   ShowDeclineItemRequested() {
     this.cautionText =
       "Are you sure you want to decline this item request. This is an irreversible action. Do you still wish to proceed?";
-    this.cautionCode = 1;
+    this.cautionCode = 0;
     this.openCautionDialogue = true;
   }
 

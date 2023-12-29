@@ -82,5 +82,6 @@ export interface InventoryItemRequestRawMaterial {
   rawMaterialId?: number;
   packSizeId?: number;
   quantity: number;
+  quantityInStore: number;
   dateAdded: Date;
 }
