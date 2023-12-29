@@ -333,6 +333,7 @@ export class InventoryItemConfirmationComponent implements OnInit {
               postData.quantityConfirmed;
           }
 
+          this.LoadItemConfirmations();
           this.fetchingItemConfirmations = false;
         },
         (error) => {
