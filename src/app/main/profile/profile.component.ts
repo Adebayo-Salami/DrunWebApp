@@ -23,6 +23,8 @@ export class ProfileComponent implements OnInit {
   file: any;
   isEditing: boolean;
   displayLoading: boolean;
+  hasPasswordSet: boolean;
+  authUser: any;
 
   constructor(
     private fb: FormBuilder,

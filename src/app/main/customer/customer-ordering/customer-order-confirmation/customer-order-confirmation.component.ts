@@ -323,4 +323,8 @@ export class CustomerOrderConfirmationComponent implements OnInit {
     });
     this.openPaymentDialogue = true;
   }
+
+  LoadClientRequest(item: any) {}
+
+  ShowBatchItems() {}
 }

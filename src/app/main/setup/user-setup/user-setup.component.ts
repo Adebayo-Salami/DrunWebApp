@@ -31,6 +31,8 @@ export class UserSetupComponent implements OnInit {
   selectedUserCreationRequests: User[];
   userRequestApprovalCols: any[];
   userToEdit: User;
+  sortOrder: number;
+  sortField: string;
 
   constructor(
     private fb: FormBuilder,
