@@ -16,8 +16,8 @@ import { UserService } from "src/app/services/user.service";
 
 @Component({
   selector: "app-customer-order-confirmation",
-  templateUrl: "./customer-order-confirmation.component.html",
-  styleUrls: ["./customer-order-confirmation.component.scss"],
+  templateUrl: "./c-o-c.component.html",
+  styleUrls: ["./c-o-c.component.scss"],
 })
 export class CustomerOrderConfirmationComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;

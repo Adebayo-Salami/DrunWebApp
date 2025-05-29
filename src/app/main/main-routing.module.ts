@@ -1,6 +1,6 @@
 import { ProfileComponent } from "./profile/profile.component";
-import { CustomerOrderViewComponent } from "./customer/customer-ordering/customer-order-view/customer-order-view.component";
-import { CustomerOrderApprovalComponent } from "./customer/customer-ordering/customer-order-approval/customer-order-approval.component";
+import { CustomerOrderViewComponent } from "./customer/customer-ordering/customer-order-view/c-o-v.component";
+import { CustomerOrderApprovalComponent } from "./customer/customer-ordering/customer-order-approval/c-o-a.component";
 import { ProductSetupComponent } from "./setup/product-setup/product-setup.component";
 import { RoleSetupComponent } from "./setup/role-setup/role-setup.component";
 import { CustomerReportingComponent } from "./customer/customer-reporting/customer-reporting.component";
@@ -17,7 +17,7 @@ import { InventoryItemRequestComponent } from "./inventory/inventory-item-reques
 import { InventoryItemApprovalComponent } from "./inventory/inventory-item-approval/inventory-item-approval.component";
 import { InventoryItemStoreComponent } from "./inventory/inventory-item-store/inventory-item-store.component";
 import { InventoryItemConfirmationComponent } from "./inventory/inventory-item-confirmation/inventory-item-confirmation.component";
-import { CustomerOrderConfirmationComponent } from "./customer/customer-ordering/customer-order-confirmation/customer-order-confirmation.component";
+import { CustomerOrderConfirmationComponent } from "./customer/customer-ordering/customer-order-confirmation/c-o-c.component";
 
 const routes: Routes = [
   {

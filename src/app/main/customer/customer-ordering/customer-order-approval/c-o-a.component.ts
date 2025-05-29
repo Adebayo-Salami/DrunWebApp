@@ -3,7 +3,7 @@ import {
   CustomerOrderBatchVM,
   CustomerOrderVM,
   PaymentModeEnum,
-} from "./../../../../interfaces/customerorder";
+} from "../../../../interfaces/customerorder";
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationService, MessageService } from "primeng/api";
@@ -16,8 +16,8 @@ import { PackSize } from "src/app/interfaces/pack-size";
 
 @Component({
   selector: "app-customer-order-approval",
-  templateUrl: "./customer-order-approval.component.html",
-  styleUrls: ["./customer-order-approval.component.scss"],
+  templateUrl: "./c-o-a.component.html",
+  styleUrls: ["./c-o-a.component.scss"],
 })
 export class CustomerOrderApprovalComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
