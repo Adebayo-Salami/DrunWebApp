@@ -1,16 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { InventoryItemConfirmationComponent } from './inventory-item-confirmation.component';
+import { InventoryItemConfirmationComponent } from "./i-i-c.component";
 
-describe('InventoryItemConfirmationComponent', () => {
+describe("InventoryItemConfirmationComponent", () => {
   let component: InventoryItemConfirmationComponent;
   let fixture: ComponentFixture<InventoryItemConfirmationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InventoryItemConfirmationComponent ]
-    })
-    .compileComponents();
+      declarations: [InventoryItemConfirmationComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('InventoryItemConfirmationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

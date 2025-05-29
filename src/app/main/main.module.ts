@@ -86,7 +86,7 @@ import { InventorySetupComponent } from "./inventory/inventory-setup/inventory-s
 import { InventoryItemRequestComponent } from "./inventory/inventory-item-request/inventory-item-request.component";
 import { InventoryItemApprovalComponent } from "./inventory/inventory-item-approval/inventory-item-approval.component";
 import { InventoryItemStoreComponent } from "./inventory/inventory-item-store/inventory-item-store.component";
-import { InventoryItemConfirmationComponent } from "./inventory/inventory-item-confirmation/inventory-item-confirmation.component";
+import { InventoryItemConfirmationComponent } from "./inventory/inventory-item-confirmation/i-i-c.component";
 import { CustomerOrderConfirmationComponent } from "./customer/customer-ordering/customer-order-confirmation/c-o-c.component";
 
 @NgModule({

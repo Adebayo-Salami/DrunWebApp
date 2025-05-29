@@ -16,8 +16,8 @@ import { UserService } from "src/app/services/user.service";
 
 @Component({
   selector: "app-inventory-item-confirmation",
-  templateUrl: "./inventory-item-confirmation.component.html",
-  styleUrls: ["./inventory-item-confirmation.component.scss"],
+  templateUrl: "./i-i-c.component.html",
+  styleUrls: ["./i-i-c.component.scss"],
 })
 export class InventoryItemConfirmationComponent implements OnInit {
   @ViewChild("formWrapper") public formWrapper: ElementRef;
